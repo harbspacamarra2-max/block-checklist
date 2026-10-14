@@ -256,6 +256,21 @@ details summary::-webkit-details-marker { display: none; }
 .tabs { display: flex; gap: 4px; padding: 4px; border-radius: 999px; border: 2.5px solid var(--edge); }
 .tabs button { flex: 1; min-height: 40px; border-radius: 999px; font-weight: 800; font-size: 14px; color: var(--sub); }
 .tabs button[aria-pressed="true"] { background: var(--ink); color: var(--card); }
+.rate { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.rate button { display: grid; justify-items: center; gap: 2px; padding: 8px 0; border-radius: 14px; border: 2px solid var(--edge); background: var(--card); font-size: 26px; line-height: 1.1; }
+.rate button small { font-size: 11px; font-weight: 700; color: var(--sub); }
+.rate button[aria-pressed="true"] { background: var(--volt); color: #1A1033; }
+.rate button[aria-pressed="true"] small { color: #1A1033; }
+.chips.wrap { flex-wrap: wrap; overflow: visible; }
+.fb-item { display: grid; gap: 8px; padding: 16px; }
+.fb-item.done { opacity: 0.55; }
+.fb-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-weight: 800; }
+.fb-msg { white-space: pre-wrap; overflow-wrap: anywhere; }
+.fb-meta { font-size: 13px; color: var(--sub); font-weight: 600; overflow-wrap: anywhere; }
+.statrow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.statrow div { padding: 12px 14px; display: grid; }
+.statrow b { font-family: var(--display); font-size: 26px; line-height: 1.1; }
+.statrow span { font-size: 13px; color: var(--sub); font-weight: 700; }
 @keyframes fade { from { opacity: 0; } }
 @keyframes up { from { transform: translateY(30px); opacity: 0; } }
 
@@ -322,7 +337,9 @@ const store = {
 const params = new URLSearchParams(location.search);
 const cid = params.get('c');
 const goHome = params.has('home');
-if (!cid && !goHome && store.get('lastChecklist')) location.replace('?c=' + store.get('lastChecklist'));
+const inbox = params.has('inbox');
+const DEV_EMAIL = 'harbs.pacamarra2@gmail.com';
+if (!cid && !goHome && !inbox && store.get('lastChecklist')) location.replace('?c=' + store.get('lastChecklist'));
 
 const DEVICE = (() => {
   let d = store.get('deviceId');
@@ -619,6 +636,41 @@ const TX = {
       '<b>Aa</b> for bigger text, high contrast and Tagalog',
       '🏅 Medals for the first families to finish and a progress chart',
     ],
+    fbLink: '💬 Send feedback',
+    fbH: 'Tell us what you think 💭',
+    fbP: 'Something broken, confusing, or an idea to make Ka-Block better? We read everything and use it to decide what to fix next.',
+    fbRates: [['😫', 'Hate it'], ['🙁', 'Meh'], ['😐', 'Okay'], ['🙂', 'Good'], ['😍', 'Love it']],
+    fbAbout: 'What’s it about?',
+    fbKinds: [['bug', '🐞 Something’s broken'], ['idea', '💡 An idea'], ['confusing', '😕 Confusing'], ['love', '💚 I love it']],
+    fbMsgPh: 'Type here. Taglish is okay!',
+    fbContactPh: 'Email or number (optional, so we can reply)',
+    fbPrivacy: 'We only get what you type here. Nobody else in the block can see it.',
+    fbSend: 'Send feedback',
+    fbSending: 'Sending…',
+    fbNeedMsg: 'Please type your message first. 🙂',
+    fbThanksH: 'Salamat! 💌',
+    fbThanksP: 'Got your message. Every bit of feedback helps make Ka-Block better for everyone.',
+    fbThanksOffline: 'You’re offline, so it’s saved on this phone and will send once you’re back online.',
+    fbFail: 'Couldn’t send it. Check your internet and try again. 📶',
+    inboxH: 'Feedback inbox',
+    inboxSignIn: 'Sign in with the developer’s Google account to read feedback.',
+    inboxNotDev: 'This inbox is only for the developer account.',
+    inboxEmpty: 'Nothing here yet. New feedback will show up live.',
+    inboxTotal: 'messages',
+    inboxOpen: 'to work on',
+    inboxAvg: 'avg rating',
+    inboxTodo: 'To do',
+    inboxDone: 'Done',
+    inboxAll: 'All',
+    markDone: '✓ Mark done',
+    reopen: '↩️ Reopen',
+    fbDeleted: 'Deleted',
+    fbMarked: 'Marked as done ✓',
+    fbReopened: 'Moved back to To do',
+    inboxLink: '📥 Feedback inbox',
+    roleOrg: 'organizer',
+    roleFam: 'neighbor',
+    openList: 'Open checklist',
     newMore: 'Tap ❓ Help anytime for the full guide.',
     seeGuide: 'See the full guide',
     defTitle: 'Block Requirements',
@@ -903,6 +955,41 @@ const TX = {
       '<b>Aa</b> para sa mas malaking text, high contrast at English',
       '🏅 Medals sa mga unang natapos at progress chart',
     ],
+    fbLink: '💬 Magbigay ng feedback',
+    fbH: 'Ano sa tingin mo? 💭',
+    fbP: 'May sira, nakakalito, o may idea para gumanda ang Ka-Block? Binabasa namin lahat at ginagamit para malaman ang aayusin.',
+    fbRates: [['😫', 'Ayaw ko'], ['🙁', 'Meh'], ['😐', 'Okay lang'], ['🙂', 'Maganda'], ['😍', 'Love it']],
+    fbAbout: 'Tungkol saan?',
+    fbKinds: [['bug', '🐞 May sira'], ['idea', '💡 May idea ako'], ['confusing', '😕 Nakakalito'], ['love', '💚 Love ko ’to']],
+    fbMsgPh: 'I-type dito. Okay ang Taglish!',
+    fbContactPh: 'Email o number (optional, para makasagot kami)',
+    fbPrivacy: 'Ang tina-type mo lang ang makukuha namin. Hindi ’to makikita ng ibang ka-block.',
+    fbSend: 'Ipadala',
+    fbSending: 'Pinapadala…',
+    fbNeedMsg: 'I-type muna ang message mo. 🙂',
+    fbThanksH: 'Salamat! 💌',
+    fbThanksP: 'Natanggap na namin. Malaking tulong ’to para gumanda pa ang Ka-Block.',
+    fbThanksOffline: 'Offline ka, kaya naka-save muna sa phone mo at ipapadala pag may internet na.',
+    fbFail: 'Hindi naipadala. Check ang internet, tapos try ulit. 📶',
+    inboxH: 'Feedback inbox',
+    inboxSignIn: 'Mag-sign in gamit ang Google account ng developer para mabasa ang feedback.',
+    inboxNotDev: 'Para lang sa developer account ang inbox na ’to.',
+    inboxEmpty: 'Wala pa dito. Lalabas agad ang bagong feedback.',
+    inboxTotal: 'messages',
+    inboxOpen: 'aayusin pa',
+    inboxAvg: 'avg rating',
+    inboxTodo: 'Aayusin',
+    inboxDone: 'Tapos na',
+    inboxAll: 'Lahat',
+    markDone: '✓ Tapos na',
+    reopen: '↩️ Ibalik',
+    fbDeleted: 'Na-delete',
+    fbMarked: 'Tapos na ✓',
+    fbReopened: 'Ibinalik sa Aayusin',
+    inboxLink: '📥 Feedback inbox',
+    roleOrg: 'organizer',
+    roleFam: 'ka-block',
+    openList: 'Buksan ang checklist',
     newMore: 'I-tap ang ❓ Tulong kahit kailan para sa buong guide.',
     seeGuide: 'Tingnan ang buong guide',
     defTitle: 'Block Requirements',
@@ -1162,7 +1249,8 @@ function renderLanding() {
       <button class="btn" data-act="create">${u ? t('createBtn') : t('signStart')}</button>
       ${u ? `<p class="sub small">${esc(t('signedInAs', u.email || ''))} <button class="linkbtn" data-act="signOut">${t('signOut')}</button></p>` : ''}
     </section>
-    <p class="sub small" style="text-align:center">${t('haveLink')}</p>`;
+    <p class="sub small" style="text-align:center">${t('haveLink')}</p>
+    <p style="text-align:center"><button class="linkbtn" data-act="feedback">${t('fbLink')}</button></p>`;
   document.getElementById('fabSlot').innerHTML = '';
 }
 
@@ -1263,6 +1351,7 @@ function render(force) {
     $app.innerHTML = `${topBar()}<div class="sticker empty"><div class="icon">📶</div><h2>${esc(t(state.error))}</h2></div>`;
     return;
   }
+  if (inbox) { renderInbox(); return; }
   if (!cid || !state.list) { renderLanding(); return; }
   const L = state.list;
   const R = reqs();
@@ -1368,6 +1457,7 @@ function render(force) {
 
     <footer class="foot">
       <span class="live"><i></i>${t('live')}</span>
+      <button class="linkbtn" data-act="feedback">${t('fbLink')}</button>
       ${state.admin ? `<button class="linkbtn" data-act="adminToggle">${state.adminOpen ? t('closeOrg') : t('orgTools')}</button>` : `<button class="linkbtn" data-act="orgSignIn">${state.user ? t('signOut') : t('orgSignIn')}</button>`}
     </footer>`;
 
@@ -1506,7 +1596,7 @@ function adminHtml() {
       <div class="admin-sec">
         <h3>🗂️ ${t('secLists')}</h3>
         ${tip(t('tipLists'))}
-        <div class="row"><a class="btn small alt" href="?home=1">${t('listsBtn')}</a></div>
+        <div class="row"><a class="btn small alt" href="?home=1">${t('listsBtn')}</a>${isDev() ? `<a class="btn small alt" href="?inbox=1">${t('inboxLink')}</a>` : ''}</div>
       </div>
 
       <div class="row" style="justify-content:flex-end"><button class="btn small alt" data-act="signOut">${t('signOut')}</button></div>
@@ -1651,6 +1741,99 @@ function posterHtml() {
   </div>`;
 }
 
+const isDev = () => !!(state.user && String(state.user.email || '').toLowerCase() === DEV_EMAIL);
+const fbForm = { rating: 0, kind: '' };
+
+function openFeedback() {
+  fbForm.rating = 0;
+  fbForm.kind = '';
+  const D = TX[prefs.lang];
+  openSheet(`<h2>${t('fbH')}</h2>
+    <p class="sub">${t('fbP')}</p>
+    <div class="rate" role="group">${D.fbRates.map(([e, label], i) => `<button type="button" data-act="fbRate" data-v="${i + 1}" aria-pressed="false" aria-label="${esc(label)}">${e}<small>${esc(label)}</small></button>`).join('')}</div>
+    <h3>${t('fbAbout')}</h3>
+    <div class="chips wrap" role="group">${D.fbKinds.map(([k, label]) => `<button type="button" data-act="fbKind" data-v="${k}" aria-pressed="false">${esc(label)}</button>`).join('')}</div>
+    <textarea id="fbMsg" class="field" maxlength="2000" placeholder="${esc(t('fbMsgPh'))}" aria-label="${esc(t('fbMsgPh'))}" style="min-height:120px"></textarea>
+    <input id="fbContact" class="field" maxlength="120" placeholder="${esc(t('fbContactPh'))}" aria-label="${esc(t('fbContactPh'))}" value="${esc((state.user && state.user.email) || '')}">
+    <p class="sub small">${t('fbPrivacy')}</p>
+    <button class="btn" data-act="fbSend">${t('fbSend')}</button>`);
+}
+
+async function sendFeedback(btn) {
+  const msgEl = document.getElementById('fbMsg');
+  const message = msgEl.value.trim().slice(0, 2000);
+  if (!message) { msgEl.focus(); toast(t('fbNeedMsg')); return; }
+  btn.disabled = true;
+  btn.textContent = t('fbSending');
+  const entry = {
+    rating: fbForm.rating,
+    kind: fbForm.kind || 'idea',
+    message,
+    contact: document.getElementById('fbContact').value.trim().slice(0, 120),
+    cid: cid || '',
+    lang: prefs.lang,
+    role: state.admin ? 'organizer' : 'neighbor',
+    ua: navigator.userAgent.slice(0, 160),
+    createdAt: serverTimestamp(),
+  };
+  const offline = !navigator.onLine;
+  const sending = addDoc(collection(db, 'feedback'), entry);
+  try {
+    await Promise.race([sending, new Promise((res) => setTimeout(res, 5000))]);
+  } catch {
+    btn.disabled = false;
+    btn.textContent = t('fbSend');
+    toast(t('fbFail'));
+    return;
+  }
+  sending.catch(() => toast(t('fbFail')));
+  openSheet(`<div class="big-msg">${t('fbThanksH')}</div><p style="text-align:center">${t('fbThanksP')}</p>${offline ? `<p class="sub small" style="text-align:center">${t('fbThanksOffline')}</p>` : ''}<button class="btn" data-act="closeSheet">${t('gotIt')}</button>`);
+  const r = btn.getBoundingClientRect();
+  confetti(window.innerWidth / 2, Math.max(120, r.top - 200), 24);
+}
+
+const inboxState = { items: null, filter: 'open', sub: null, err: false };
+function renderInbox() {
+  document.getElementById('fabSlot').innerHTML = '';
+  document.title = t('inboxH') + ' | Ka-Block';
+  const head = `${topBar()}<section class="sticker hero"><div><h1>${t('inboxH')}</h1></div></section>`;
+  if (!state.user || !isDev()) {
+    $app.innerHTML = `${head}<section class="sticker" style="display:grid;gap:14px;padding:20px">
+      <p>${state.user ? t('inboxNotDev') : t('inboxSignIn')}</p>
+      ${state.user ? `<p class="sub small">${esc(t('signedInAs', state.user.email || ''))}</p><button class="btn alt" data-act="signOut">${t('signOut')}</button>` : `<button class="btn" data-act="inboxSignIn">${t('signStart').replace(/ to start| para magsimula/, '')}</button>`}
+    </section>`;
+    return;
+  }
+  if (!inboxState.sub) {
+    inboxState.sub = onSnapshot(query(collection(db, 'feedback'), orderBy('createdAt', 'desc'), limit(300)), (s) => {
+      inboxState.items = s.docs.map((d) => ({ id: d.id, ...d.data() }));
+      inboxState.err = false;
+      render();
+    }, () => { inboxState.err = true; inboxState.items = []; render(); });
+  }
+  const all = inboxState.items;
+  if (all === null) { $app.innerHTML = `${head}<p class="sub" style="text-align:center">…</p>`; return; }
+  const D = TX[prefs.lang];
+  const rated = all.filter((f) => f.rating);
+  const avg = rated.length ? (rated.reduce((a, f) => a + f.rating, 0) / rated.length).toFixed(1) : '–';
+  const shown = all.filter((f) => (inboxState.filter === 'all' ? true : inboxState.filter === 'done' ? f.status === 'done' : f.status !== 'done'));
+  const kindLabel = (k) => (D.fbKinds.find((x) => x[0] === k) || D.fbKinds[1])[1];
+  $app.innerHTML = `${head}
+    <div class="statrow"><div class="sticker"><b>${all.length}</b><span>${t('inboxTotal')}</span></div><div class="sticker"><b>${all.filter((f) => f.status !== 'done').length}</b><span>${t('inboxOpen')}</span></div><div class="sticker"><b>${avg}</b><span>${t('inboxAvg')}</span></div></div>
+    <div class="chips" role="group">${[['open', t('inboxTodo')], ['done', t('inboxDone')], ['all', t('inboxAll')]].map(([v, l]) => `<button data-act="inboxFilter" data-v="${v}" aria-pressed="${inboxState.filter === v}">${l}</button>`).join('')}</div>
+    ${inboxState.err ? `<div class="offline">${t('notSaved')}</div>` : ''}
+    <section class="list">${shown.map((f) => `<article class="sticker fb-item ${f.status === 'done' ? 'done' : ''}">
+      <div class="fb-top"><span>${esc(kindLabel(f.kind))}</span><span style="font-size:22px">${f.rating ? D.fbRates[f.rating - 1][0] : ''}</span></div>
+      <div class="fb-msg">${esc(f.message)}</div>
+      <div class="fb-meta">${esc([millis(f.createdAt) ? new Date(millis(f.createdAt)).toLocaleString('en-PH') : t('justNow'), f.role === 'organizer' ? t('roleOrg') : t('roleFam'), f.lang === 'tl' ? 'Tagalog' : 'English', f.contact].filter(Boolean).join(', '))}</div>
+      <div class="row">
+        <button class="btn small ${f.status === 'done' ? 'alt' : ''}" data-act="fbDone" data-v="${f.id}">${f.status === 'done' ? t('reopen') : t('markDone')}</button>
+        ${f.cid ? `<a class="btn small alt" href="?c=${encodeURIComponent(f.cid)}">${t('openList')}</a>` : ''}
+        <button class="iconbtn del" data-act="fbDel" data-v="${f.id}" aria-label="${esc(t('del'))}">${I.trash}</button>
+      </div>
+    </article>`).join('') || `<div class="sticker empty"><div class="icon">📭</div><h2>${t('inboxEmpty')}</h2></div>`}</section>`;
+}
+
 function openGuide(tab) {
   const D = TX[prefs.lang];
   const body = tab === 'fam'
@@ -1659,6 +1842,7 @@ function openGuide(tab) {
   openSheet(`<h2>${t('guideH')}</h2>
     <div class="tabs" role="group"><button data-act="guideTab" data-v="fam" aria-pressed="${tab === 'fam'}">${t('tabFam')}</button><button data-act="guideTab" data-v="org" aria-pressed="${tab === 'org'}">${t('tabOrg')}</button></div>
     ${body}
+    <button class="btn alt" data-act="feedback">${t('fbLink')}</button>
     <button class="btn" data-act="closeSheet">${t('gotIt')}</button>`);
   store.set('seenGuide', '1');
   store.set('seenNew2', '1');
@@ -1687,6 +1871,19 @@ const blurAll = () => { if (document.activeElement && document.activeElement.blu
 const safe = (fn) => async (el, e) => { try { await fn(el, e); } catch { toast(t('notSaved')); } };
 
 const ACTIONS = {
+  feedback: () => openFeedback(),
+  fbRate: (el) => { fbForm.rating = Number(el.dataset.v); el.parentElement.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === el))); },
+  fbKind: (el) => { fbForm.kind = fbForm.kind === el.dataset.v ? '' : el.dataset.v; el.parentElement.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === fbForm.kind))); },
+  fbSend: (el) => sendFeedback(el),
+  inboxSignIn: () => signIn(),
+  inboxFilter: (el) => { inboxState.filter = el.dataset.v; render(true); },
+  fbDone: safe(async (el) => {
+    const f = (inboxState.items || []).find((x) => x.id === el.dataset.v);
+    if (!f) return;
+    await updateDoc(doc(db, 'feedback', f.id), { status: f.status === 'done' ? '' : 'done' });
+    toast(f.status === 'done' ? t('fbReopened') : t('fbMarked'));
+  }),
+  fbDel: safe(async (el) => { await deleteDoc(doc(db, 'feedback', el.dataset.v)); toast(t('fbDeleted')); }),
   closeSheet: (el, e) => { if (el.classList.contains('sheet-bg') && e.target !== el) return; closeSheet(); },
   help: () => openGuide(state.admin || !cid || !state.list ? 'org' : 'fam'),
   guideTab: (el) => openGuide(el.dataset.v),
@@ -1963,6 +2160,7 @@ const firstLook = setInterval(() => {
   clearInterval(firstLook);
   setTimeout(() => {
     if (sheetOpen()) return;
+    if (inbox) return;
     if (!store.get('seenGuide')) openGuide(cid && state.list && !state.admin ? 'fam' : 'org');
     else if (!store.get('seenNew2')) openWhatsNew();
   }, 700);

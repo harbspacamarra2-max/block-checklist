@@ -47,5 +47,16 @@ service cloud.firestore {
         allow read, write: if isAdmin(listOf(cid));
       }
     }
+
+    match /feedback/{id} {
+      allow create: if request.resource.data.keys().hasOnly(['rating', 'kind', 'message', 'contact', 'cid', 'lang', 'role', 'ua', 'createdAt'])
+        && request.resource.data.message is string
+        && request.resource.data.message.size() > 0
+        && request.resource.data.message.size() <= 2000
+        && request.resource.data.createdAt == request.time;
+      allow read, update, delete: if signedIn()
+        && request.auth.token.email == 'harbs.pacamarra2@gmail.com'
+        && request.auth.token.email_verified == true;
+    }
   }
 }
