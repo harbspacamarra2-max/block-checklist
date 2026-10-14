@@ -1,4 +1,4 @@
-const CACHE = 'ka-block-v8';
+const CACHE = 'ka-block-v9';
 const SHELL = ['./', './config.js', './qrcode.js', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', (e) => {

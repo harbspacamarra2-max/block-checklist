@@ -238,6 +238,21 @@ html.big .hero-top { grid-template-columns: minmax(0, 1fr); }
 .mtabs button { min-height: 40px; padding: 0 14px; border-radius: 999px; border: 2px solid var(--edge); background: var(--card); font-weight: 700; font-size: 14px; }
 .mtabs button[aria-pressed="true"] { background: var(--ink); color: var(--card); }
 .cta { display: grid; gap: 10px; padding: 18px; }
+.tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.tile { display: grid; gap: 4px; justify-items: start; text-align: left; padding: 16px; border-radius: 18px; border: 2.5px solid var(--edge); background: var(--card); box-shadow: 3px 3px 0 var(--drop); min-height: 112px; transition: transform 0.08s, box-shadow 0.08s; }
+.tile:active { transform: translate(3px, 3px); box-shadow: none; }
+.tile .ti { font-size: 28px; line-height: 1; }
+.tile b { font-family: var(--display); font-size: 17px; line-height: 1.15; }
+.tile small { color: var(--sub); font-weight: 600; font-size: 13px; line-height: 1.3; }
+.back { justify-self: start; display: inline-flex; align-items: center; gap: 6px; min-height: 42px; padding: 0 16px 0 12px; border-radius: 999px; border: 2px solid var(--edge); background: var(--soft); font-weight: 800; }
+.rowbtn { width: 100%; display: flex; align-items: center; gap: 10px; text-align: left; padding: 12px 14px; border-radius: var(--r-md); border: 2px solid var(--edge); background: var(--card); min-height: 56px; }
+.rowbtn .grow { display: grid; gap: 2px; }
+.rowbtn .chev { font-size: 18px; color: var(--sub); flex: none; }
+.rowbtn small { color: var(--sub); font-weight: 600; font-size: 13px; overflow-wrap: anywhere; }
+.rowopen { display: grid; gap: 10px; padding: 12px; border-radius: var(--r-md); border: 2.5px solid var(--grape); background: var(--soft); }
+.acts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.acts .btn { min-height: 46px; padding: 0 10px; font-size: 14px; }
+.stack { display: grid; gap: 8px; }
 .fab { position: fixed; right: max(16px, env(safe-area-inset-right)); bottom: max(18px, env(safe-area-inset-bottom)); z-index: 15; display: inline-flex; align-items: center; gap: 8px; min-height: 56px; padding: 0 20px 0 16px; border-radius: 999px; background: var(--grape); color: var(--on-grape); border: 2.5px solid var(--edge); box-shadow: 4px 4px 0 var(--drop); font-weight: 800; font-size: 16px; transition: transform 0.08s, box-shadow 0.08s; }
 .fab svg { width: 22px; height: 22px; }
 .fab:active { transform: translate(3px, 3px); box-shadow: none; }
@@ -542,13 +557,13 @@ const TX = {
     secName: 'Checklist name',
     tipName: 'This is the big title at the top of the page. Change it, then tap “Save”.',
     secReqs: (n) => `Requirements (${n})`,
-    tipReqs: 'These are what families tick. Tap a name to rename it. Add “How to get it” so people know what to do. Use ▲▼ to change the order.',
+    tipReqs: 'These are what families tick. Tap one to rename it, add “How to get it” notes, move it or delete it.',
     notePh: 'How to get it (optional), e.g. Bring 2 valid IDs to the barangay hall',
     reqPh: 'e.g. Water connection',
     moveUp: 'Move up',
     moveDown: 'Move down',
     secFams: (n) => `Families (${n})`,
-    tipFams: 'Type the family name, then tap “Add”. ▲▼ to reorder, ✏️ to edit, 📱 to save their number, 🗑️ to delete.',
+    tipFams: 'Type a family name and tap “Add”. Tap a family in the list for their index card, number, edit, move or delete.',
     famPh: 'Family name, e.g. Dela Cruz',
     lotPh: 'Lot or house no. (optional)',
     groupPh: 'Street or phase (optional)',
@@ -790,6 +805,31 @@ const TX = {
     mReports: '🖨️ Print & Excel',
     mTeam: '👥 Team',
     mLists: '🗂️ Checklists',
+    tReqs: 'Requirements',
+    tFams: 'Families',
+    tShare: 'Share',
+    tShareSub: 'Link and QR poster',
+    tMsgs: 'Messages',
+    tMsgsSub: 'Ready-made GC messages',
+    tNotice: 'Name & notice',
+    tNoticeSub: 'Title, deadline, announcement',
+    tLog: 'History',
+    tLogSub: 'Every tick and untick',
+    tReports: 'Print & Excel',
+    tReportsSub: 'For meetings and records',
+    tTeam: 'Team',
+    tTeamSub: (n) => n ? `${n} co-organizer${n === 1 ? '' : 's'}` : 'Add a co-organizer',
+    tLists: 'Checklists',
+    tListsSub: 'See all or make a new one',
+    backTools: 'Back to tools',
+    reqName: 'Requirement name',
+    reqHowLabel: 'How to get it (optional)',
+    reqDelAsk: 'Delete this requirement? Its ticks will be removed too.',
+    famDelAsk: (n) => `Delete ${n}? Their ticks and index card link will be removed.`,
+    editBtn: 'Edit name',
+    addFamH: 'Add a family',
+    famListH: (n) => `All families (${n}). Tap one for more options.`,
+    numberBtn: 'Number',
     newMore: 'Tap ❓ Help anytime for the full guide.',
     seeGuide: 'See the full guide',
     defTitle: 'Block Requirements',
@@ -950,13 +990,13 @@ const TX = {
     secName: 'Pangalan ng checklist',
     tipName: 'Ito ang malaking title sa taas ng page. Palitan, tapos tap “I-save”.',
     secReqs: (n) => `Requirements (${n})`,
-    tipReqs: 'Ito ang mga ita-tick ng families. I-tap ang pangalan para i-rename. Lagyan ng “Paano makuha” para alam nila ang gagawin. ▲▼ para ayusin ang order.',
+    tipReqs: 'Ito ang mga ita-tick ng families. I-tap ang isa para i-rename, lagyan ng “Paano makuha”, ilipat o i-delete.',
     notePh: 'Paano makuha (optional), e.g. Magdala ng 2 valid ID sa barangay hall',
     reqPh: 'e.g. Water connection',
     moveUp: 'Itaas',
     moveDown: 'Ibaba',
     secFams: (n) => `Families (${n})`,
-    tipFams: 'I-type ang family name, tap “I-add”. ▲▼ para ayusin ang order, ✏️ para i-edit, 📱 para i-save ang number, 🗑️ para i-delete.',
+    tipFams: 'I-type ang family name at tap “I-add”. I-tap ang family sa listahan para sa index card, number, edit, ilipat o i-delete.',
     famPh: 'Family name, e.g. Dela Cruz',
     lotPh: 'Lot o house no. (optional)',
     groupPh: 'Street o phase (optional)',
@@ -1198,6 +1238,31 @@ const TX = {
     mReports: '🖨️ Print at Excel',
     mTeam: '👥 Team',
     mLists: '🗂️ Mga checklist',
+    tReqs: 'Requirements',
+    tFams: 'Families',
+    tShare: 'I-share',
+    tShareSub: 'Link at QR poster',
+    tMsgs: 'Messages',
+    tMsgsSub: 'Ready-made na message sa GC',
+    tNotice: 'Pangalan at paalala',
+    tNoticeSub: 'Title, deadline, paalala',
+    tLog: 'History',
+    tLogSub: 'Lahat ng tick at untick',
+    tReports: 'Print at Excel',
+    tReportsSub: 'Para sa meeting at records',
+    tTeam: 'Team',
+    tTeamSub: (n) => n ? `${n} co-organizer` : 'Mag-add ng co-organizer',
+    tLists: 'Mga checklist',
+    tListsSub: 'Tingnan lahat o gumawa ng bago',
+    backTools: 'Bumalik sa tools',
+    reqName: 'Pangalan ng requirement',
+    reqHowLabel: 'Paano makuha (optional)',
+    reqDelAsk: 'I-delete ang requirement na ’to? Mawawala rin ang ticks nito.',
+    famDelAsk: (n) => `I-delete ang ${n}? Mawawala rin ang ticks nila.`,
+    editBtn: 'I-edit',
+    addFamH: 'Mag-add ng family',
+    famListH: (n) => `Lahat ng families (${n}). I-tap ang isa para sa iba pang options.`,
+    numberBtn: 'Number',
     newMore: 'I-tap ang ❓ Tulong kahit kailan para sa buong guide.',
     seeGuide: 'Tingnan ang buong guide',
     defTitle: 'Block Requirements',
@@ -1211,7 +1276,7 @@ function t(k, ...a) {
 }
 const M = () => TX[prefs.lang].msg;
 
-const state = { list: null, families: [], contacts: {}, records: {}, cardOpen: null, mtab: 'reqs', log: [], user: null, admin: false, owner: false, adminOpen: false, filter: null, view: 'all', group: '', q: '', confirm: null, editing: null, contactEdit: null, error: null, loaded: false, bulkOpen: false, online: navigator.onLine, myLists: null, myListsFor: null };
+const state = { list: null, families: [], contacts: {}, records: {}, cardOpen: null, mtab: '', openRow: null, log: [], user: null, admin: false, owner: false, adminOpen: false, filter: null, view: 'all', group: '', q: '', confirm: null, editing: null, contactEdit: null, error: null, loaded: false, bulkOpen: false, online: navigator.onLine, myLists: null, myListsFor: null };
 let myFam = cid ? store.get('myFam:' + cid) : null;
 const $app = document.getElementById('app');
 const I = {
@@ -1736,12 +1801,15 @@ function adminHtml() {
         <div class="row"><button class="btn small" data-act="saveContact" data-fam="${f.id}">${t('save')}</button>${phone ? `<a class="btn small alt" href="sms:${esc(phone.replace(/[^\d+]/g, ''))}?&body=${encodeURIComponent(body)}">💬 ${t('textBtn')}</a>` : ''}<button class="btn small alt" data-act="cancelEdit">${t('cancel')}</button></div>
       </div>`;
     }
-    return `<div class="item">
-      <div class="grow"><b>${esc(f.name)}</b>${f.lot || f.group ? ` <span class="sub small">${esc([f.lot, f.group].filter(Boolean).join(', '))}</span>` : ''}${state.contacts[f.id] ? ' <span class="small" aria-hidden="true">📱</span>' : ''}</div>
-      ${c === 'f:' + f.id
-        ? `<button class="btn small danger" data-act="delFam" data-fam="${f.id}">${t('del')}</button><button class="btn small alt" data-act="cancel">${t('keep')}</button>`
-        : `<button class="iconbtn" data-act="famMove" data-fam="${f.id}" data-dir="-1" aria-label="${esc(t('moveUp'))}" ${i === 0 ? 'disabled' : ''}>▲</button><button class="iconbtn" data-act="famMove" data-fam="${f.id}" data-dir="1" aria-label="${esc(t('moveDown'))}" ${i === F.length - 1 ? 'disabled' : ''}>▼</button><button class="iconbtn" data-act="card" data-fam="${f.id}" aria-label="📇 ${esc(f.name)}">📇</button><button class="iconbtn" data-act="editFam" data-fam="${f.id}" aria-label="✏️ ${esc(f.name)}">${I.edit}</button><button class="iconbtn" data-act="contact" data-fam="${f.id}" aria-label="📱 ${esc(f.name)}">📱</button><button class="iconbtn del" data-act="askFam" data-fam="${f.id}" aria-label="${esc(t('del'))} ${esc(f.name)}">${I.trash}</button>`}
-    </div>`;
+    if (state.openRow === 'f:' + f.id) {
+      return `<div class="rowopen">
+        <div><b>${esc(f.name)}</b>${f.lot || f.group ? ` <span class="sub small">${esc([f.lot, f.group].filter(Boolean).join(', '))}</span>` : ''}</div>
+        ${c === 'f:' + f.id
+          ? `<p class="sub small">${t('famDelAsk', f.name)}</p><div class="acts"><button class="btn small danger" data-act="delFam" data-fam="${f.id}">${t('del')}</button><button class="btn small alt" data-act="cancel">${t('keep')}</button></div>`
+          : `<div class="acts"><button class="btn small" data-act="card" data-fam="${f.id}">📇 ${t('icTitle')}</button><button class="btn small alt" data-act="editFam" data-fam="${f.id}">${I.edit}${t('editBtn')}</button><button class="btn small alt" data-act="contact" data-fam="${f.id}">📱 ${t('numberBtn')}</button><button class="btn small alt" data-act="famMove" data-fam="${f.id}" data-dir="-1" ${i === 0 ? 'disabled' : ''}>▲ ${t('moveUp')}</button><button class="btn small alt" data-act="famMove" data-fam="${f.id}" data-dir="1" ${i === F.length - 1 ? 'disabled' : ''}>▼ ${t('moveDown')}</button><button class="btn small danger" data-act="askFam" data-fam="${f.id}">${I.trash}${t('del')}</button></div><button class="btn small alt" data-act="closeRow">✓ ${t('done')}</button>`}
+      </div>`;
+    }
+    return `<button class="rowbtn" data-act="openRow" data-v="f:${f.id}"><span class="grow"><b>${esc(f.name)}</b>${f.lot || f.group || state.contacts[f.id] ? `<small>${esc([f.lot, f.group].filter(Boolean).join(', '))}${state.contacts[f.id] ? ' 📱' : ''}</small>` : ''}</span><span class="chev" aria-hidden="true">⋯</span></button>`;
   };
   const groups = [...new Set(F.map((f) => String(f.group || '').trim()).filter(Boolean))];
   const S = {};
@@ -1781,34 +1849,38 @@ function adminHtml() {
   S.reqs = `<div class="admin-sec">
         <h3>${t('secReqs', R.length)}</h3>
         ${tip(t('tipReqs'))}
-        ${R.map((r, i) => `<div class="item col">
-          <div class="row">
-            <input class="field grow" data-rename="${r.id}" value="${esc(r.name)}" maxlength="40" aria-label="${esc(r.name)}">
-            ${c === 'r:' + r.id
-              ? `<button class="btn small danger" data-act="delReq" data-req="${r.id}">${t('del')}</button><button class="btn small alt" data-act="cancel">${t('keep')}</button>`
-              : `<button class="iconbtn" data-act="reqMove" data-req="${r.id}" data-dir="-1" aria-label="${esc(t('moveUp'))}" ${i === 0 ? 'disabled' : ''}>▲</button><button class="iconbtn" data-act="reqMove" data-req="${r.id}" data-dir="1" aria-label="${esc(t('moveDown'))}" ${i === R.length - 1 ? 'disabled' : ''}>▼</button><button class="iconbtn del" data-act="askReq" data-req="${r.id}" aria-label="${esc(t('del'))} ${esc(r.name)}">${I.trash}</button>`}
-          </div>
-          <input class="field" data-note="${r.id}" value="${esc(r.note || '')}" maxlength="160" placeholder="${esc(t('notePh'))}" aria-label="${esc(t('notePh'))}">
-        </div>`).join('')}
+        <div class="stack">${R.map((r, i) => state.openRow === 'r:' + r.id ? `<div class="rowopen">
+          <label class="ic-label" for="rn-${r.id}">${t('reqName')}</label>
+          <input class="field" id="rn-${r.id}" data-rename="${r.id}" value="${esc(r.name)}" maxlength="40">
+          <label class="ic-label" for="rnote-${r.id}">${t('reqHowLabel')}</label>
+          <input class="field" id="rnote-${r.id}" data-note="${r.id}" value="${esc(r.note || '')}" maxlength="160" placeholder="${esc(t('notePh'))}">
+          ${c === 'r:' + r.id
+            ? `<p class="sub small">${t('reqDelAsk')}</p><div class="acts"><button class="btn small danger" data-act="delReq" data-req="${r.id}">${t('del')}</button><button class="btn small alt" data-act="cancel">${t('keep')}</button></div>`
+            : `<div class="acts"><button class="btn small alt" data-act="reqMove" data-req="${r.id}" data-dir="-1" ${i === 0 ? 'disabled' : ''}>▲ ${t('moveUp')}</button><button class="btn small alt" data-act="reqMove" data-req="${r.id}" data-dir="1" ${i === R.length - 1 ? 'disabled' : ''}>▼ ${t('moveDown')}</button><button class="btn small danger" data-act="askReq" data-req="${r.id}">${I.trash}${t('del')}</button><button class="btn small" data-act="closeRow">✓ ${t('done')}</button></div>`}
+        </div>` : `<button class="rowbtn" data-act="openRow" data-v="r:${r.id}"><span class="grow"><b>${esc(r.name)}</b>${r.note ? `<small>ⓘ ${esc(r.note)}</small>` : ''}</span><span class="chev" aria-hidden="true">✏️</span></button>`).join('')}</div>
         <div class="row"><input id="newReq" class="field grow" placeholder="${esc(t('reqPh'))}" maxlength="40" aria-label="${esc(t('reqPh'))}" data-enter="addReq"><button class="btn small" data-act="addReq">${I.plus}${t('add')}</button></div>
         ${(() => { const have = R.map((r) => norm(r.name)); const left = TX[prefs.lang].certs.filter(([, n]) => !have.includes(norm(n))); return left.length ? `<p class="ic-label">${t('quickAdd')}</p><div class="chips wrap">${left.map(([e, n]) => `<button type="button" data-act="quickReq" data-v="${esc(n)}">${e} ${esc(n)}</button>`).join('')}</div>` : ''; })()}
       </div>`;
   S.fams = `<div class="admin-sec">
         <h3>${t('secFams', F.length)}</h3>
         ${tip(t('tipFams'))}
-        ${F.map(famItem).join('') || `<p class="sub small">${t('noFamsAdmin')}</p>`}
-        <datalist id="groupList">${groups.map((g) => `<option value="${esc(g)}">`).join('')}</datalist>
-        <input id="famName" class="field" placeholder="${esc(t('famPh'))}" maxlength="50" aria-label="${esc(t('famPh'))}" data-enter="addFam">
-        <div class="row"><input id="famLot" class="field grow" placeholder="${esc(t('lotPh'))}" maxlength="20" aria-label="${esc(t('lotPh'))}" data-enter="addFam"><input id="famGroup" class="field grow" placeholder="${esc(t('groupPh'))}" maxlength="30" aria-label="${esc(t('groupPh'))}" list="groupList" data-enter="addFam"></div>
-        <div class="row"><button class="btn small" data-act="addFam">${I.plus}${t('add')}</button></div>
-        <details id="bulkBox" ${state.bulkOpen ? 'open' : ''}>
-          <summary class="linkbtn" style="cursor:pointer;display:inline-block">${t('bulkSum')}</summary>
-          <div style="display:grid;gap:8px;margin-top:8px">
-            <p class="sub small">${t('bulkHint')}</p>
-            <textarea id="bulk" class="field" placeholder="Dela Cruz, Lot 5, Rose St.&#10;Santos, Lot 6, Rose St.&#10;Reyes, Lot 7, Ilang-Ilang St." aria-label="${esc(t('bulkSum'))}"></textarea>
-            <button class="btn small" data-act="bulk">${t('bulkBtn')}</button>
-          </div>
-        </details>
+        <div class="rowopen" style="border-color:var(--edge);background:var(--card)">
+          <b>➕ ${t('addFamH')}</b>
+          <datalist id="groupList">${groups.map((g) => `<option value="${esc(g)}">`).join('')}</datalist>
+          <input id="famName" class="field" placeholder="${esc(t('famPh'))}" maxlength="50" aria-label="${esc(t('famPh'))}" data-enter="addFam">
+          <div class="row"><input id="famLot" class="field grow" placeholder="${esc(t('lotPh'))}" maxlength="20" aria-label="${esc(t('lotPh'))}" data-enter="addFam"><input id="famGroup" class="field grow" placeholder="${esc(t('groupPh'))}" maxlength="30" aria-label="${esc(t('groupPh'))}" list="groupList" data-enter="addFam"></div>
+          <div class="row"><button class="btn small" data-act="addFam">${I.plus}${t('add')}</button></div>
+          <details id="bulkBox" ${state.bulkOpen ? 'open' : ''}>
+            <summary class="linkbtn" style="cursor:pointer;display:inline-block">${t('bulkSum')}</summary>
+            <div style="display:grid;gap:8px;margin-top:8px">
+              <p class="sub small">${t('bulkHint')}</p>
+              <textarea id="bulk" class="field" placeholder="Dela Cruz, Lot 5, Rose St.&#10;Santos, Lot 6, Rose St.&#10;Reyes, Lot 7, Ilang-Ilang St." aria-label="${esc(t('bulkSum'))}"></textarea>
+              <button class="btn small" data-act="bulk">${t('bulkBtn')}</button>
+            </div>
+          </details>
+        </div>
+        <p class="ic-label">${t('famListH', F.length)}</p>
+        <div class="stack">${F.map(famItem).join('') || `<p class="sub small">${t('noFamsAdmin')}</p>`}</div>
       </div>`;
   S.log = `<div class="admin-sec">
         <h3>🕑 ${t('secLog')}</h3>
@@ -1832,14 +1904,22 @@ function adminHtml() {
         <div class="row"><a class="btn small alt" href="?home=1">${t('listsBtn')}</a>${isDev() ? `<a class="btn small alt" href="?inbox=1">${t('inboxLink')}</a>` : ''}</div>
       </div>`;
   S.notice = S.name + S.notice;
-  S.fams = tip(t('tipCards')) + S.fams;
-  const tabs = [['reqs', t('mReqs')], ['fams', t('mFams')], ['share', t('mShare')], ['msgs', t('mMsgs')], ['notice', t('mNotice')], ['log', t('mLog')], ['reports', t('mReports')], ['team', t('mTeam')], ['lists', t('mLists')]];
-  const m = tabs.some(([k]) => k === state.mtab) ? state.mtab : 'reqs';
+  const tabs = [
+    ['reqs', '📋', t('tReqs'), t('requirements', R.length)],
+    ['fams', '🏠', t('tFams'), t('families', F.length)],
+    ['share', '📤', t('tShare'), t('tShareSub')],
+    ['msgs', '📣', t('tMsgs'), t('tMsgsSub')],
+    ['notice', '⏰', t('tNotice'), t('tNoticeSub')],
+    ['log', '🕑', t('tLog'), t('tLogSub')],
+    ['reports', '🖨️', t('tReports'), t('tReportsSub')],
+    ['team', '👥', t('tTeam'), t('tTeamSub', editors.length)],
+    ['lists', '🗂️', t('tLists'), t('tListsSub')],
+  ];
+  const m = tabs.some(([k]) => k === state.mtab) ? state.mtab : '';
   return `<section class="sticker admin" aria-label="${esc(t('adminH'))}">
     <div class="admin-h"><h2>⚙️ ${t('adminH')}</h2><p>${esc(t('adminSub', state.user.email || ''))}</p></div>
     <div class="admin-body">
-      <div class="mtabs" role="group" aria-label="${esc(t('adminH'))}">${tabs.map(([k, label]) => `<button data-act="mtab" data-v="${k}" aria-pressed="${m === k}">${label}</button>`).join('')}</div>
-      ${S[m]}
+      ${m ? `<button class="back" data-act="mtab" data-v="">← ${t('backTools')}</button>${S[m]}` : `${!R.length || !F.length ? tip(t('orgHomeStart').replace('⚙️ Manage', t('tReqs') + ' & ' + t('tFams'))) : ''}<div class="tiles">${tabs.map(([k, ic, label, sub]) => `<button class="tile" data-act="mtab" data-v="${k}"><span class="ti" aria-hidden="true">${ic}</span><b>${esc(label)}</b><small>${esc(sub)}</small></button>`).join('')}</div>`}
       <div class="row" style="justify-content:flex-end"><button class="btn small alt" data-act="signOut">${t('signOut')}</button></div>
     </div>
   </section>`;
@@ -2265,7 +2345,9 @@ const safe = (fn) => async (el, e) => { try { await fn(el, e); } catch { toast(t
 
 const ACTIONS = {
   tab: (el) => goTab(el.dataset.v),
-  mtab: (el) => { state.mtab = el.dataset.v; state.confirm = null; state.editing = null; state.contactEdit = null; render(true); },
+  mtab: (el) => { state.mtab = el.dataset.v; state.confirm = null; state.editing = null; state.contactEdit = null; state.openRow = null; render(true); window.scrollTo({ top: 0 }); },
+  openRow: (el) => { state.openRow = el.dataset.v; state.confirm = null; state.editing = null; state.contactEdit = null; render(true); },
+  closeRow: () => { state.openRow = null; state.confirm = null; blurAll(); render(true); },
   card: (el) => openCard(el.dataset.fam),
   cardCancel: () => { state.confirm = null; refreshCard(); },
   quickReq: safe(async (el) => {
@@ -2498,7 +2580,7 @@ const ACTIONS = {
   }),
   editFam: (el) => { state.editing = el.dataset.fam; state.contactEdit = null; render(true); const n = document.getElementById('ef-name'); if (n) n.focus(); },
   contact: (el) => { state.contactEdit = el.dataset.fam; state.editing = null; render(true); const n = document.getElementById('ec-phone'); if (n) n.focus(); },
-  cancelEdit: () => { state.editing = null; state.contactEdit = null; blurAll(); render(true); },
+  cancelEdit: () => { state.editing = null; state.contactEdit = null; state.openRow = null; blurAll(); render(true); },
   saveFam: safe(async (el) => {
     const id = el.dataset.fam;
     const name = val('ef-name');
