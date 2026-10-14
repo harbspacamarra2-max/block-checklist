@@ -1,4 +1,4 @@
-const CACHE = 'block-checklist-v1';
+const CACHE = 'ka-block-v1';
 const SHELL = ['./', './config.js', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', (e) => {

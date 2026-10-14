@@ -1,6 +1,6 @@
 {
-  "name": "Block Checklist",
-  "short_name": "Checklist",
+  "name": "Ka-Block",
+  "short_name": "Ka-Block",
   "description": "See which families already have each requirement for the block.",
   "start_url": "./",
   "scope": "./",

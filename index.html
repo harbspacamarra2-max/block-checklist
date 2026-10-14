@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Block Checklist</title>
+<title>Ka-Block</title>
 <meta name="description" content="See which families already have each requirement for the block.">
 <meta name="theme-color" content="#FFF8F1" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#17120F" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Checklist">
+<meta name="apple-mobile-web-app-title" content="Ka-Block">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="favicon.png">
@@ -299,7 +299,7 @@ if (cid) {
   onSnapshot(doc(db, 'checklists', cid), (snap) => {
     state.loaded = true;
     state.list = snap.exists() ? { id: snap.id, ...snap.data() } : null;
-    if (state.list) { store.set('lastChecklist', cid); document.title = state.list.title || 'Block Checklist'; }
+    if (state.list) { store.set('lastChecklist', cid); document.title = (state.list.title ? state.list.title + ' · ' : '') + 'Ka-Block'; }
     else if (store.get('lastChecklist') === cid) store.set('lastChecklist', '');
     checkAdmin();
     render();
@@ -349,7 +349,7 @@ const isComplete = (f, R) => R.length > 0 && R.every((r) => has(f, r));
 
 function topBar() {
   return `<header class="top">
-    <span class="brand"><img src="icon-192.png" alt="">Block Checklist</span>
+    <span class="brand"><img src="icon-192.png" alt="">Ka-Block</span>
     ${canOfferInstall() ? `<button class="pill-btn" id="installBtn">${I.down}Add to Home Screen</button>` : ''}
   </header>`;
 }
