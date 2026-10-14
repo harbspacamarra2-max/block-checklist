@@ -49,6 +49,13 @@
     color-scheme: dark;
   }
 }
+html.hc {
+  --bg: #FFFFFF; --card: #FFFFFF; --soft: #EDEDED; --ink: #000000; --edge: #000000; --drop: #000000; --sub: #111111; --faint: #333333;
+  --grape: #4B1FD1; --on-grape: #FFFFFF; --pink: #FF5FA2; --pink-ink: #8A0036; --danger: #B00020; --danger-soft: #FFE5EA;
+  color-scheme: light;
+}
+html.hc body { background-image: none; }
+html.big { zoom: 1.18; }
 * { box-sizing: border-box; }
 html, body { margin: 0; }
 body {
@@ -56,12 +63,12 @@ body {
   background-image: radial-gradient(var(--soft) 1.4px, transparent 1.6px);
   background-size: 22px 22px;
   color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.5; min-height: 100vh;
-  padding: max(14px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(44px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  padding: max(14px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(110px, calc(env(safe-area-inset-bottom) + 96px)) max(16px, env(safe-area-inset-left));
   -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased;
 }
-.wrap { max-width: 720px; margin: 0 auto; display: grid; gap: 20px; }
+.wrap { max-width: 720px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; }
 h1, h2, h3 { font-family: var(--display); margin: 0; letter-spacing: -0.02em; }
-h1 { font-size: clamp(28px, 7.4vw, 46px); line-height: 1.04; font-weight: 800; text-wrap: balance; overflow-wrap: break-word; hyphens: manual; }
+h1 { font-size: clamp(28px, 7.4vw, 46px); line-height: 1.04; font-weight: 800; text-wrap: balance; overflow-wrap: break-word; }
 h2 { font-size: 22px; font-weight: 800; line-height: 1.15; }
 h3 { font-size: 17px; font-weight: 700; }
 p { margin: 0; }
@@ -72,7 +79,7 @@ button { cursor: pointer; border: 0; background: none; }
 :focus-visible { outline: 3px solid var(--pink); outline-offset: 3px; }
 
 .sticker { background: var(--card); border: 2.5px solid var(--edge); border-radius: var(--r-lg); box-shadow: 5px 5px 0 var(--drop); }
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; padding: 0 22px; border-radius: 999px; font-weight: 800; background: var(--grape); color: var(--on-grape); border: 2.5px solid var(--edge); box-shadow: 3px 3px 0 var(--drop); white-space: nowrap; transition: transform 0.08s ease, box-shadow 0.08s ease; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; padding: 0 22px; border-radius: 999px; font-weight: 800; background: var(--grape); color: var(--on-grape); border: 2.5px solid var(--edge); box-shadow: 3px 3px 0 var(--drop); white-space: nowrap; text-decoration: none; transition: transform 0.08s ease, box-shadow 0.08s ease; }
 .btn:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--drop); }
 .btn.alt { background: var(--card); color: var(--ink); }
 .btn.danger { background: var(--danger-soft); color: var(--danger); }
@@ -83,41 +90,40 @@ button { cursor: pointer; border: 0; background: none; }
 .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 .grow { flex: 1 1 180px; min-width: 0; }
 
-.top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.top { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
 .logo { display: inline-flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 800; font-size: 22px; letter-spacing: -0.03em; }
 .logo img { width: 36px; height: 36px; border-radius: 11px; border: 2.5px solid var(--edge); box-shadow: 2px 2px 0 var(--drop); transform: rotate(-6deg); }
-.install { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 14px; border-radius: 999px; background: var(--sun); color: #1A1033; border: 2.5px solid var(--edge); box-shadow: 3px 3px 0 var(--drop); font-weight: 800; font-size: 14px; transition: transform 0.08s, box-shadow 0.08s; }
-.install:active { transform: translate(3px, 3px); box-shadow: none; }
-.install svg { width: 16px; height: 16px; }
 .top-actions { display: flex; gap: 8px; align-items: center; }
-.install.help { background: var(--card); color: var(--ink); }
-.steps { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; counter-reset: st; }
-.steps li { position: relative; padding: 2px 0 2px 44px; min-height: 32px; counter-increment: st; }
-.steps li::before { content: counter(st); position: absolute; left: 0; top: 0; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--sun); color: #1A1033; border: 2px solid var(--edge); font-family: var(--display); font-weight: 800; }
-.steps li.done::before { content: "✓"; background: var(--volt); }
-.steps li.done { color: var(--sub); }
-.steps b { font-weight: 800; }
-.tip { display: flex; gap: 8px; align-items: flex-start; font-size: 14px; color: var(--sub); font-weight: 600; background: var(--soft); border-radius: 12px; padding: 8px 12px; }
-.tabs { display: flex; gap: 4px; padding: 4px; border-radius: 999px; border: 2.5px solid var(--edge); }
-.tabs button { flex: 1; min-height: 40px; border-radius: 999px; font-weight: 800; font-size: 14px; color: var(--sub); }
-.tabs button[aria-pressed="true"] { background: var(--ink); color: var(--card); }
+.pill { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 42px; min-width: 42px; padding: 0 14px; border-radius: 999px; background: var(--card); color: var(--ink); border: 2.5px solid var(--edge); box-shadow: 3px 3px 0 var(--drop); font-weight: 800; font-size: 14px; transition: transform 0.08s, box-shadow 0.08s; }
+.pill.icon { padding: 0; font-family: var(--display); font-size: 16px; }
+.pill.sun { background: var(--sun); color: #1A1033; }
+.pill:active { transform: translate(3px, 3px); box-shadow: none; }
+.pill svg { width: 18px; height: 18px; }
+
+.offline { padding: 12px 16px; border-radius: var(--r-md); background: var(--ink); color: var(--card); font-weight: 700; font-size: 14px; }
 
 .hero { position: relative; padding: 22px 20px 20px; display: grid; gap: 16px; overflow: hidden; }
-.hero-top { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: start; }
+.hero-top { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: start; }
 .art { width: 86px; height: auto; margin: -4px -6px 0 0; cursor: pointer; }
+html.big .art { display: none; }
+html.big .hero-top { grid-template-columns: minmax(0, 1fr); }
 @media (min-width: 560px) { .art { width: 170px; } .hero { padding: 26px 26px 22px; } }
+.quip { margin-top: 8px; font-weight: 600; }
 .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
 .tag { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; border: 2px solid var(--edge); font-size: 14px; font-weight: 700; background: var(--soft); }
 .tag.y { background: var(--sun); color: #1A1033; }
+.tag.dl { background: var(--pink); color: #1A1033; }
 
 .battery { display: flex; align-items: center; }
 .cell { position: relative; flex: 1; height: 54px; border: 2.5px solid var(--edge); border-radius: 16px; background: var(--card); overflow: hidden; padding: 4px; }
-.fill { display: block; height: 100%; border-radius: 10px; background: repeating-linear-gradient(-45deg, var(--volt) 0 14px, #C3F02C 14px 28px); border: 2px solid #1A1033; min-width: 0; transition: width 0.9s cubic-bezier(.2,.8,.2,1); }
+.fill { display: block; height: 100%; border-radius: 10px; background: repeating-linear-gradient(-45deg, var(--volt) 0 14px, #C3F02C 14px 28px); border: 2px solid #1A1033; transition: width 0.9s cubic-bezier(.2,.8,.2,1); }
 .fill.zero { border: 0; }
-.blabel { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 800; font-size: 17px; color: var(--ink); }
+.blabel { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 800; font-size: 17px; }
 .blabel b { background: var(--card); color: var(--ink); padding: 2px 12px; border-radius: 999px; border: 2px solid var(--edge); }
 .nub { width: 9px; height: 22px; background: var(--edge); border-radius: 0 6px 6px 0; }
 
+.notice { display: grid; gap: 4px; padding: 14px 16px; border-radius: var(--r-md); background: var(--sun); color: #1A1033; border: 2.5px solid var(--edge); font-weight: 600; overflow-wrap: anywhere; }
+.notice b { font-family: var(--display); font-size: 17px; }
 .how { display: flex; gap: 12px; align-items: center; padding: 14px 16px; border-radius: var(--r-md); background: var(--volt); color: #1A1033; border: 2.5px solid var(--edge); font-weight: 600; }
 .how .em { font-size: 26px; line-height: 1; flex: none; }
 
@@ -125,48 +131,73 @@ button { cursor: pointer; border: 0; background: none; }
 .sec span { font-size: 14px; color: var(--sub); font-weight: 600; }
 
 .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
-.stat { text-align: left; display: grid; gap: 10px; padding: 16px; transition: transform 0.08s, box-shadow 0.08s; }
-.stat:active { transform: translate(3px, 3px); box-shadow: 2px 2px 0 var(--drop); }
-.stat[aria-pressed="true"] { background: var(--pink); color: #1A1033; }
-.stat[aria-pressed="true"] .hint, .stat[aria-pressed="true"] .count small { color: #1A1033; }
+.stat-wrap { display: grid; overflow: hidden; align-content: start; }
+.stat-wrap.on { background: var(--pink); color: #1A1033; }
+.stat { text-align: left; display: grid; gap: 10px; padding: 16px; width: 100%; }
 .stat .name { font-weight: 800; font-size: 16px; overflow-wrap: anywhere; }
 .count { font-family: var(--display); font-weight: 800; font-size: 30px; line-height: 1; font-variant-numeric: tabular-nums; }
 .count small { font-size: 16px; color: var(--sub); font-weight: 700; }
+.stat-wrap.on .count small, .stat-wrap.on .hint { color: #1A1033; }
 .bar { height: 14px; border-radius: 999px; border: 2px solid var(--edge); background: var(--soft); overflow: hidden; }
 .bar > span { display: block; height: 100%; background: var(--volt); border-right: 2px solid var(--edge); transition: width 0.6s ease; }
 .bar > span.zero { border: 0; }
 .hint { font-size: 14px; font-weight: 700; color: var(--pink-ink); }
 .hint.ok { color: var(--sub); }
+.info { text-align: left; padding: 10px 16px; border-top: 2px dashed var(--edge); font-weight: 800; font-size: 14px; color: var(--grape); }
+.stat-wrap.on .info { color: #1A1033; }
 
-.tools { display: grid; gap: 12px; scroll-margin-top: 14px; }
-.search { position: relative; display: block; }
-.search input { padding-left: 48px; }
+.search { position: sticky; top: 10px; z-index: 6; display: block; }
+.search input { padding-left: 48px; box-shadow: 4px 4px 0 var(--drop); }
 .search svg { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; color: var(--sub); }
+.tools { display: grid; gap: 12px; scroll-margin-top: 14px; }
 .seg { display: flex; gap: 4px; padding: 4px; border-radius: 999px; border: 2.5px solid var(--edge); background: var(--card); overflow-x: auto; scrollbar-width: none; }
 .seg::-webkit-scrollbar { display: none; }
 .seg button { flex: 1 0 auto; min-height: 40px; padding: 0 14px; border-radius: 999px; font-weight: 700; font-size: 14px; color: var(--sub); white-space: nowrap; }
 .seg button[aria-pressed="true"] { background: var(--ink); color: var(--card); }
+.chips { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px 2px 4px; }
+.chips::-webkit-scrollbar { display: none; }
+.chips button { flex: none; min-height: 38px; padding: 0 14px; border-radius: 999px; border: 2px solid var(--edge); background: var(--card); font-weight: 700; font-size: 14px; }
+.chips button[aria-pressed="true"] { background: var(--ink); color: var(--card); }
 .filterbar { display: flex; gap: 10px; align-items: center; padding: 8px 8px 8px 16px; border-radius: var(--r-md); background: var(--pink); color: #1A1033; border: 2.5px solid var(--edge); font-weight: 800; }
 
-.list { display: grid; gap: 16px; }
+.list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
 .fam { position: relative; display: grid; gap: 14px; padding: 16px; }
-.fam.complete { background: linear-gradient(var(--card), var(--card)) padding-box; }
-.fam-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
-.who { display: flex; gap: 12px; align-items: center; min-width: 0; }
+.fam.mine { border-color: var(--grape); box-shadow: 5px 5px 0 var(--grape); }
+.fam-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.who { display: flex; gap: 12px; align-items: center; min-width: 0; flex: 1 1 170px; }
 .avatar { width: 46px; height: 46px; border-radius: 14px; border: 2.5px solid var(--edge); display: grid; place-items: center; font-family: var(--display); font-weight: 800; font-size: 18px; flex: none; color: #1A1033; }
 .fam-name { font-family: var(--display); font-size: 21px; font-weight: 800; line-height: 1.1; overflow-wrap: anywhere; letter-spacing: -0.02em; }
 .fam-lot { color: var(--sub); font-size: 14px; font-weight: 600; }
 .score { font-weight: 800; font-size: 14px; padding: 6px 12px; border-radius: 999px; border: 2px solid var(--edge); background: var(--soft); white-space: nowrap; font-variant-numeric: tabular-nums; }
 .done-sticker { font-family: var(--display); font-weight: 800; font-size: 15px; padding: 6px 12px; border-radius: 12px; background: var(--sun); color: #1A1033; border: 2.5px solid var(--edge); box-shadow: 2px 2px 0 var(--drop); transform: rotate(4deg); white-space: nowrap; }
+.fam-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.badge { font-size: 13px; font-weight: 800; padding: 4px 10px; border-radius: 999px; border: 2px solid var(--edge); background: var(--soft); }
+.badge.gold { background: var(--sun); color: #1A1033; }
 .ticks { display: flex; flex-wrap: wrap; gap: 10px; }
-.tick { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 18px 0 8px; border-radius: 999px; border: 2.5px solid var(--edge); background: var(--card); font-weight: 700; font-size: 15px; box-shadow: 3px 3px 0 var(--drop); transition: transform 0.08s, box-shadow 0.08s, background 0.15s; text-align: left; }
+.tick { display: inline-flex; align-items: center; gap: 10px; max-width: 100%; min-height: 48px; padding: 0 18px 0 8px; border-radius: 999px; border: 2.5px solid var(--edge); background: var(--card); font-weight: 700; font-size: 15px; box-shadow: 3px 3px 0 var(--drop); transition: transform 0.08s, box-shadow 0.08s, background 0.15s; text-align: left; }
 .tick:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--drop); }
 .tick .box { width: 30px; height: 30px; border-radius: 50%; border: 2.5px solid var(--edge); display: grid; place-items: center; flex: none; background: var(--card); }
 .tick .box svg { width: 17px; height: 17px; opacity: 0; transform: scale(0.3) rotate(-20deg); transition: opacity 0.15s, transform 0.3s cubic-bezier(0.3, 1.8, 0.5, 1); }
 .tick[aria-pressed="true"] { background: var(--volt); color: #1A1033; border-color: #1A1033; }
 .tick[aria-pressed="true"] .box { background: #1A1033; border-color: #1A1033; color: var(--volt); }
 .tick[aria-pressed="true"] .box svg { opacity: 1; transform: none; }
+.tick.held { cursor: not-allowed; }
+.vtag { font-size: 11px; font-weight: 800; padding: 2px 7px; border-radius: 999px; background: #1A1033; color: var(--volt); }
 .updated { font-size: 13px; color: var(--faint); font-weight: 600; }
+.thisus { justify-self: start; font-size: 14px; font-weight: 800; color: var(--grape); text-decoration: underline; text-underline-offset: 3px; padding: 4px 0; }
+.org-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding-top: 12px; border-top: 2px dashed var(--edge); }
+.org-row .lbl { font-size: 13px; font-weight: 800; color: var(--sub); margin-right: 2px; }
+.mini { min-height: 36px; padding: 0 12px; border-radius: 999px; border: 2px solid var(--edge); background: var(--card); font-size: 13px; font-weight: 800; }
+.mini.on { background: var(--volt); color: #1A1033; }
+.need-h { font-weight: 800; }
+.need { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.need li { padding: 10px 12px; border-radius: 12px; background: var(--soft); border: 2px solid var(--edge); display: grid; gap: 2px; }
+.need li span { color: var(--sub); font-size: 14px; font-weight: 600; }
+.allset { padding: 12px; border-radius: 12px; background: var(--volt); color: #1A1033; font-weight: 800; border: 2px solid var(--edge); }
+
+.chart { padding: 16px; display: grid; gap: 10px; }
+.chart svg { width: 100%; height: auto; display: block; }
+.axis { display: flex; justify-content: space-between; font-size: 12px; color: var(--sub); font-weight: 700; }
 
 .empty { text-align: center; padding: 32px 18px; display: grid; gap: 8px; justify-items: center; }
 .empty .icon { font-size: 44px; }
@@ -177,53 +208,110 @@ button { cursor: pointer; border: 0; background: none; }
 @keyframes blink { 50% { opacity: 0.35; } }
 .linkbtn { color: var(--ink); font-weight: 800; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; padding: 8px 0; }
 
+.fab { position: fixed; right: max(16px, env(safe-area-inset-right)); bottom: max(18px, env(safe-area-inset-bottom)); z-index: 15; display: inline-flex; align-items: center; gap: 8px; min-height: 56px; padding: 0 20px 0 16px; border-radius: 999px; background: var(--grape); color: var(--on-grape); border: 2.5px solid var(--edge); box-shadow: 4px 4px 0 var(--drop); font-weight: 800; font-size: 16px; transition: transform 0.08s, box-shadow 0.08s; }
+.fab svg { width: 22px; height: 22px; }
+.fab:active { transform: translate(3px, 3px); box-shadow: none; }
+
 .admin { display: grid; gap: 18px; padding: 0; overflow: hidden; scroll-margin-top: 14px; }
 .admin-h { background: var(--grape); color: var(--on-grape); padding: 16px 18px; border-bottom: 2.5px solid var(--edge); display: grid; gap: 2px; }
-.admin-h p { font-size: 14px; opacity: 0.9; font-weight: 600; }
-.admin-body { display: grid; gap: 22px; padding: 0 18px 18px; }
+.admin-h p { font-size: 14px; opacity: 0.9; font-weight: 600; overflow-wrap: anywhere; }
+.admin-body { display: grid; gap: 26px; padding: 0 18px 18px; }
 .admin-sec { display: grid; gap: 10px; }
 .item { display: flex; align-items: center; gap: 8px; padding: 6px 6px 6px 14px; border-radius: var(--r-md); background: var(--soft); border: 2px solid var(--edge); flex-wrap: wrap; }
 .item .grow { overflow-wrap: anywhere; }
 .item input.field { min-height: 42px; border-width: 2px; }
-.iconbtn { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: var(--card); border: 2px solid var(--edge); flex: none; }
+.item.col { display: grid; padding: 10px; }
+.iconbtn { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: var(--card); border: 2px solid var(--edge); flex: none; font-size: 15px; text-decoration: none; color: var(--ink); }
 .iconbtn svg { width: 18px; height: 18px; }
 .iconbtn.del { color: var(--danger); }
-textarea.field { min-height: 120px; padding: 12px 16px; resize: vertical; line-height: 1.5; }
+.iconbtn:disabled { opacity: 0.35; cursor: default; }
+textarea.field { min-height: 110px; padding: 12px 16px; resize: vertical; line-height: 1.5; }
 .link-box { overflow-wrap: anywhere; background: var(--soft); padding: 12px 14px; border-radius: var(--r-md); border: 2px dashed var(--edge); font-size: 14px; font-weight: 600; }
+.tip { display: flex; gap: 8px; align-items: flex-start; font-size: 14px; color: var(--sub); font-weight: 600; background: var(--soft); border-radius: 12px; padding: 8px 12px; }
+.log { display: grid; gap: 6px; max-height: 340px; overflow-y: auto; }
+.log-item { display: grid; gap: 2px; padding: 8px 12px; border-radius: 12px; background: var(--soft); font-size: 14px; overflow-wrap: anywhere; }
+.log-item small { color: var(--sub); font-weight: 600; }
+.lists { display: grid; gap: 10px; }
+.list-link { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 14px 16px; border-radius: var(--r-md); border: 2.5px solid var(--edge); background: var(--card); color: var(--ink); text-decoration: none; font-weight: 800; box-shadow: 3px 3px 0 var(--drop); }
+.list-link small { color: var(--sub); font-weight: 600; }
 details summary { list-style: none; }
 details summary::-webkit-details-marker { display: none; }
 
 .sheet-bg { position: fixed; inset: 0; background: rgba(20, 11, 42, 0.5); display: grid; align-items: end; justify-items: center; z-index: 20; padding: 16px; animation: fade 0.2s ease; }
 .sheet { width: 100%; max-width: 480px; max-height: 88vh; overflow-y: auto; padding: 22px; display: grid; gap: 14px; animation: up 0.25s ease; margin-bottom: env(safe-area-inset-bottom); }
 .sheet > .btn:last-child { position: sticky; bottom: 0; box-shadow: 3px 3px 0 var(--drop), 0 -14px 14px var(--card); }
-.sheet ol { margin: 0; padding-left: 22px; display: grid; gap: 10px; }
 .sheet .ico { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 8px; background: var(--soft); border: 2px solid var(--edge); vertical-align: middle; margin: 0 2px; }
 .sheet .ico svg { width: 16px; height: 16px; }
+.opt { display: grid; gap: 8px; }
+.qr-prev { display: grid; justify-items: center; gap: 8px; padding: 14px; border-radius: var(--r-md); background: #FFFFFF; border: 2.5px solid var(--edge); color: #1A1033; text-align: center; font-weight: 700; }
+.qr-prev svg { width: 200px; height: 200px; }
+.big-msg { font-family: var(--display); font-size: 30px; font-weight: 800; line-height: 1.1; text-align: center; }
+.steps { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; counter-reset: st; }
+.steps li { position: relative; padding: 2px 0 2px 44px; min-height: 32px; counter-increment: st; }
+.steps li::before { content: counter(st); position: absolute; left: 0; top: 0; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--sun); color: #1A1033; border: 2px solid var(--edge); font-family: var(--display); font-weight: 800; }
+.steps li.done::before { content: "✓"; background: var(--volt); }
+.steps li.done { color: var(--sub); }
+.extras { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.extras li { padding: 10px 12px; border-radius: 12px; background: var(--soft); border: 2px solid var(--edge); }
+.tabs { display: flex; gap: 4px; padding: 4px; border-radius: 999px; border: 2.5px solid var(--edge); }
+.tabs button { flex: 1; min-height: 40px; border-radius: 999px; font-weight: 800; font-size: 14px; color: var(--sub); }
+.tabs button[aria-pressed="true"] { background: var(--ink); color: var(--card); }
 @keyframes fade { from { opacity: 0; } }
 @keyframes up { from { transform: translateY(30px); opacity: 0; } }
 
-.toast { position: fixed; left: 50%; bottom: max(20px, env(safe-area-inset-bottom)); transform: translateX(-50%) translateY(180%); background: var(--ink); color: var(--card); padding: 12px 20px; border-radius: 999px; font-weight: 800; border: 2.5px solid var(--edge); box-shadow: 4px 4px 0 var(--pink); transition: transform 0.25s cubic-bezier(.2,1.4,.4,1), visibility 0.25s; visibility: hidden; z-index: 30; max-width: calc(100% - 32px); text-align: center; }
+.toast { position: fixed; left: 50%; bottom: calc(max(18px, env(safe-area-inset-bottom)) + 70px); transform: translateX(-50%) translateY(260%); display: flex; align-items: center; gap: 14px; background: var(--ink); color: var(--card); padding: 12px 20px; border-radius: 999px; font-weight: 800; border: 2.5px solid var(--edge); box-shadow: 4px 4px 0 var(--pink); transition: transform 0.25s cubic-bezier(.2,1.4,.4,1), visibility 0.25s; visibility: hidden; z-index: 30; max-width: calc(100% - 32px); width: max-content; }
 .toast.show { transform: translateX(-50%) translateY(0); visibility: visible; }
+.toast .undo { color: var(--volt); font-weight: 800; text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; padding: 4px 0; }
+html.hc .toast .undo { color: #FFFFFF; }
 .loading { display: grid; gap: 16px; }
 .skel { height: 120px; border-radius: var(--r-lg); border: 2.5px solid var(--soft); background: var(--card); animation: blink 1.2s infinite; }
 .confetti { position: fixed; width: 10px; height: 14px; border-radius: 3px; border: 1.5px solid #1A1033; pointer-events: none; z-index: 40; }
+
+#print { display: none; }
+.pr h1 { font-family: var(--display); font-size: 26px; margin: 0 0 4px; }
+.pr p { margin: 0 0 12px; }
+.pr table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.pr th, .pr td { border: 1px solid #000; padding: 5px 6px; text-align: left; vertical-align: top; }
+.pr th { background: #EEEEEE; }
+.pr td.c { text-align: center; font-weight: 800; }
+.poster { text-align: center; display: grid; gap: 16px; justify-items: center; padding-top: 6mm; }
+.poster h1 { font-size: 42px; line-height: 1.05; }
+.poster .lead { font-size: 22px; font-weight: 700; }
+.poster .qr svg { width: 95mm; height: 95mm; }
+.poster ol { text-align: left; font-size: 19px; display: grid; gap: 6px; }
+.poster .url { font-size: 13px; word-break: break-all; }
+@media print {
+  html.big { zoom: 1; }
+  body { background: #FFFFFF !important; padding: 0 !important; color: #000; }
+  body > :not(#print) { display: none !important; }
+  #print { display: block !important; color: #000; }
+  @page { margin: 14mm; }
+}
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 </style>
+<script src="qrcode.js"></script>
 </head>
 <body>
 <main class="wrap" id="app"><div class="loading" aria-label="Loading"><div class="skel" style="height:190px"></div><div class="skel"></div><div class="skel"></div></div></main>
+<div id="fabSlot"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div id="sheet"></div>
+<div id="print"></div>
 
 <script type="module">
 import { firebaseConfig } from './config.js';
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-import { getFirestore, doc, collection, onSnapshot, setDoc, addDoc, updateDoc, deleteDoc, serverTimestamp, writeBatch, deleteField } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager, doc, collection, query, where, orderBy, limit, onSnapshot, getDocs, setDoc, addDoc, updateDoc, deleteDoc, serverTimestamp, writeBatch, deleteField } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
 const fb = initializeApp(firebaseConfig);
 const auth = getAuth(fb);
-const db = getFirestore(fb);
+let db;
+try {
+  db = initializeFirestore(fb, { localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }) });
+} catch {
+  db = initializeFirestore(fb, {});
+}
 getRedirectResult(auth).catch(() => {});
 
 const store = {
@@ -231,10 +319,605 @@ const store = {
   set(k, v) { try { v ? localStorage.setItem(k, v) : localStorage.removeItem(k); } catch {} },
 };
 
-const cid = new URLSearchParams(location.search).get('c');
-if (!cid && store.get('lastChecklist')) location.replace('?c=' + store.get('lastChecklist'));
+const params = new URLSearchParams(location.search);
+const cid = params.get('c');
+const goHome = params.has('home');
+if (!cid && !goHome && store.get('lastChecklist')) location.replace('?c=' + store.get('lastChecklist'));
 
-const state = { list: null, families: [], user: null, admin: false, adminOpen: false, filter: null, view: 'all', q: '', confirm: null, error: null, loaded: false, bulkOpen: false };
+const DEVICE = (() => {
+  let d = store.get('deviceId');
+  if (!d) { d = Math.random().toString(36).slice(2, 6); store.set('deviceId', d); }
+  return d;
+})();
+
+const prefs = { lang: store.get('lang') === 'tl' ? 'tl' : 'en', big: store.get('big') === '1', hc: store.get('hc') === '1' };
+function applyPrefs() {
+  const h = document.documentElement;
+  h.lang = prefs.lang === 'tl' ? 'fil' : 'en';
+  h.classList.toggle('big', prefs.big);
+  h.classList.toggle('hc', prefs.hc);
+}
+applyPrefs();
+
+const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
+const TX = {
+  en: {
+    help: '❓ Help',
+    display: 'Text size, contrast and language',
+    addHome: 'Add to Home Screen',
+    gotIt: 'Got it! 👍',
+    done: 'Done',
+    keep: 'Keep it',
+    del: 'Delete',
+    save: 'Save',
+    add: 'Add',
+    cancel: 'Cancel',
+    signOut: 'Sign out',
+    signedOut: 'Signed out. Come back soon! 👋',
+    notSaved: 'Not saved. Check your internet and try again. 📶',
+    signInFail: 'Sign-in didn’t work. Please try again. 🙏',
+    loadFail: 'Couldn’t load the checklist. Check your internet, then refresh. 📶',
+    offline: '📶 You’re offline. Ticks will save on this phone and sync when you’re back online.',
+    savedOffline: 'Saved on this phone. It will sync when you’re online. 📶',
+    installed: 'Ka-Block is on your home screen! 📱',
+    iosTitle: 'Add Ka-Block to your Home Screen',
+    ios1: (ico) => `Tap the Share button ${ico} in Safari.`,
+    ios2: 'Scroll down and tap <b>Add to Home Screen</b>.',
+    ios3: 'Tap <b>Add</b>. Now it opens just like an app! 📱',
+    installOther: 'Open your browser menu (⋮ or ⋯) and tap <b>Add to Home screen</b> or <b>Install app</b>.',
+    dispTitle: 'Make it easier to read',
+    langLabel: 'Language',
+    textSize: 'Text size',
+    normal: 'Normal',
+    bigger: 'Bigger',
+    contrast: 'High contrast',
+    on: 'On',
+    off: 'Off',
+    quips: ['Nobody gets left behind on this block. 🤝', 'Bayanihan, now in digital. 📱', 'Faster than the latest chismis on the street. 🏃‍♀️', 'No lines, no paperwork, no stress. ✌️', 'Just a few more ticks, neighbors! 💪', 'Manifesting a complete block. 🙏'],
+    quipNone: 'Waiting for the neighbors to arrive! 👀',
+    quipAll: 'Everyone is complete! Great job, neighbors! 🎉',
+    quipZero: 'Let’s go, neighbors! Time to start ticking. 💪',
+    quipHalf: 'We’re past halfway! Keep it going. 🔥',
+    zaps: ['Bzzzt! ⚡ Everyone deserves their own poste.', 'Don’t touch the wires! ⚡😅', 'Poste: present! 🙋', 'More power to you! 💡'],
+    notFoundH: 'Oops, this checklist isn’t here 😅',
+    landingH: 'One link for the whole block',
+    notFoundP: 'The link might be cut off. Ask your organizer to send it again.',
+    landingP: 'Each family ticks what they already have, and everyone sees who still needs what. No lines, no paperwork!',
+    startH: 'Let’s make a checklist',
+    startP: 'For the organizer. Add the requirements and the families, then share the link in the group chat.',
+    step1: (ok) => `<b>Sign in with Google.</b> Use your own Google account. Only you (and co-organizers you add) can edit your checklist.${ok ? ' Done! ✨' : ''}`,
+    step2: '<b>Give it a name,</b> e.g. Block 5 Requirements.',
+    step3: '<b>Tap “Create it!”</b> Then you’ll add the requirements and families.',
+    namePh: 'Name it, e.g. Block 5 Requirements',
+    createBtn: 'Create it! ✨',
+    signStart: 'Sign in with Google to start',
+    signedInAs: (e) => `Signed in as ${e}.`,
+    createFail: 'Couldn’t create it. Check your internet and try again. 📶',
+    haveLink: 'Got a link from your organizer? Just open it. No sign-in needed, promise! 🤞',
+    myListsH: 'Your checklists',
+    coOrg: 'Co-organizer',
+    mainOrg: 'Organizer',
+    loadingLists: 'Loading your checklists…',
+    noLists: 'You don’t have any checklists yet. Make your first one below!',
+    families: (n) => plural(n, 'family', 'families'),
+    requirements: (n) => plural(n, 'requirement', 'requirements'),
+    battery: (c, n) => `${c} of ${n} families done`,
+    how: 'Find your family, then tap what you already have. It saves by itself and everyone sees it right away!',
+    dlPassed: 'Deadline passed',
+    dlToday: 'Deadline is today!',
+    dlLeft: (d, date) => d === 1 ? `Due ${date}, 1 day left` : `Due ${date}, ${d} days left`,
+    annLabel: '📢 Announcement',
+    statsH: 'Who has what',
+    statsSub: 'Tap one to see who still needs it',
+    haveIt: (n) => ` of ${n} have it`,
+    missingHint: (m) => `${plural(m, 'family', 'families')} still without. Tap to see who. 👀`,
+    allHave: 'Everyone has this! 🎉',
+    noFamsYet: 'No families yet',
+    howToGet: 'ⓘ How to get it',
+    noNote: 'No extra details yet.',
+    famsH: 'Families',
+    showing: (a, b) => `Showing ${a} of ${b}`,
+    searchPh: 'Search your family name, lot or street',
+    findBtn: 'Find my family',
+    vAll: (n) => `All (${n})`,
+    vTodo: (n) => `Not done yet (${n})`,
+    vDone: (n) => `All done (${n})`,
+    allGroups: 'Everyone',
+    stillWithout: (name) => `Still without: ${name}`,
+    showAll: 'Show all',
+    doneSticker: 'All done! ✨',
+    updated: (a) => `Updated ${a}`,
+    justNow: 'just now',
+    minAgo: (n) => `${n} min ago`,
+    hrAgo: (n) => `${n} hr ago`,
+    yesterday: 'yesterday',
+    emptyNone: 'No families here yet',
+    emptyNoneSub: 'The organizer will add them soon. Stay tuned! 👀',
+    emptySearch: 'No family by that name. Maybe a typo? 🤔',
+    emptySearchSub: 'Not on the list? Ask the organizer to add your family.',
+    emptyFilter: 'Everyone already has this! 🎉',
+    emptyTodo: 'Every family is done! Party time! 🥳',
+    emptyDone: 'Nobody’s done yet. Will your family be first? 👀',
+    live: 'Live for everyone',
+    orgSignIn: 'Organizer sign-in',
+    orgTools: 'Organizer tools',
+    closeOrg: 'Close organizer tools',
+    notOrganizer: 'Looks like you’re not an organizer of this one. 😅',
+    yourFamily: '⭐ Your family',
+    thisIsUs: '⭐ This is my family',
+    notMine: 'Not your family? Change',
+    stillNeeded: 'Still needed:',
+    allSetMine: 'You have everything! 🎉 Thank you!',
+    pinned: (name) => `Saved! ${name} is now pinned at the top for you. ⭐`,
+    unpinned: 'Okay! Tap “This is my family” on your family’s card.',
+    lockedBadge: '🔒 Checked by organizer',
+    lockedToast: 'The organizer already checked this family. Ask them if something needs changing.',
+    verifiedTag: 'Verified',
+    verifiedToast: 'The organizer already verified this one. Ask them if it needs changing.',
+    medals: ['🥇 First to finish!', '🥈 2nd to finish', '🥉 3rd to finish'],
+    tickOn: ['Saved! Nice one ✓', 'Got it, saved ✓', 'Noted! ✓', 'Done and saved ✓', 'Check! ✅'],
+    tickOff: ['Unticked', 'Okay, we took that one back'],
+    completeMsgs: (n) => [`${n} is all done! 🎉`, `Woohoo! ${n} completed everything! 🎉`, `Look at ${n} go! All done! 🥳`],
+    undo: 'Undo',
+    undone: 'Undone ↩️',
+    ms50: 'Halfway there! 🎉',
+    ms50p: 'Half the block is already done. Keep it going, neighbors!',
+    ms100: 'The whole block is done! 🏆',
+    ms100p: 'Every family has everything. Amazing teamwork!',
+    yay: 'Yay! 🎉',
+    chartH: 'Progress over time',
+    chartSub: (c, n) => `${c} of ${n} families done so far`,
+    chartEmpty: 'The bars grow as families finish.',
+    today: 'Today',
+    adminH: 'Organizer tools',
+    adminSub: (e) => `Only organizers can see this. Signed in as ${e}`,
+    secShare: 'Share with the block',
+    tipShare: 'Copy the link and paste it in the group chat. Print the QR poster and post it at the gate or guardhouse so people can scan it.',
+    copyLink: 'Copy link',
+    share: 'Share',
+    qrBtn: 'QR poster',
+    linkCopied: 'Link copied! Paste it in the group chat. 📋',
+    shareText: 'Please tick the requirements your family already has:',
+    secMsgs: 'Ready-made messages',
+    tipMsgs: 'Tap one to copy it, then paste it in the group chat. The names of who’s missing what are filled in for you.',
+    msgUpdate: '📊 Progress update',
+    msgRemind: '🙏 Friendly reminder',
+    msgDeadline: '⏰ Deadline reminder',
+    msgThanks: '🎉 Thank-you',
+    msgCopied: 'Message copied! Paste it in the group chat. 📣',
+    needDeadline: 'Set a deadline first (in “Deadline and announcement”).',
+    secNotice: 'Deadline and announcement',
+    tipNotice: 'Both show at the top for everyone. The deadline shows a countdown.',
+    deadlineLabel: 'Deadline (optional)',
+    annPh: 'Announcement, e.g. Bring your papers to the HOA office on Saturday',
+    clearDeadline: 'Remove deadline',
+    noticeSaved: 'Saved ✓',
+    secName: 'Checklist name',
+    tipName: 'This is the big title at the top of the page. Change it, then tap “Save”.',
+    secReqs: (n) => `Requirements (${n})`,
+    tipReqs: 'These are what families tick. Tap a name to rename it. Add “How to get it” so people know what to do. Use ▲▼ to change the order.',
+    notePh: 'How to get it (optional), e.g. Bring 2 valid IDs to the barangay hall',
+    reqPh: 'e.g. Water connection',
+    moveUp: 'Move up',
+    moveDown: 'Move down',
+    secFams: (n) => `Families (${n})`,
+    tipFams: 'Type the family name, then tap “Add”. ▲▼ to reorder, ✏️ to edit, 📱 to save their number, 🗑️ to delete.',
+    famPh: 'Family name, e.g. Dela Cruz',
+    lotPh: 'Lot or house no. (optional)',
+    groupPh: 'Street or phase (optional)',
+    bulkSum: 'Add many families at once',
+    bulkHint: 'One family per line: name, lot, street. Lot and street are optional, e.g. <b>Santos, Lot 6, Rose St.</b>',
+    bulkBtn: 'Add them all',
+    noFamsAdmin: 'No families yet. Add them below. 👇',
+    famAdded: (n) => `Welcome to the block, ${n}! 👋`,
+    bulkAdded: (n) => `${plural(n, 'family', 'families')} added. What a crowd! 🏘️`,
+    phonePh: 'Mobile number, e.g. 0917 123 4567',
+    phoneNote: 'Only organizers can see this number.',
+    textBtn: 'Text them',
+    phoneSaved: 'Number saved ✓',
+    famText: (n, miss, url) => `Hi ${n} family! 👋 Friendly reminder from the block organizer: you still need ${miss}. Please tick what you have here: ${url} Thank you! 🙏`,
+    famTextDone: (n) => `Hi ${n} family! 🎉 Thank you for completing all the requirements!`,
+    renamed: 'Renamed ✓',
+    reqAdded: 'Requirement added ✓',
+    reqDeleted: 'Requirement deleted',
+    famDeleted: 'Family deleted',
+    famSaved: 'Saved ✓',
+    nameSaved: 'Name saved ✓',
+    orgLabel: 'Organizer:',
+    verifyBtn: (r) => `Verify ${r}`,
+    lockBtn: '🔒 Lock',
+    unlockBtn: '🔓 Unlock',
+    locked: 'Family locked 🔒',
+    unlocked: 'Family unlocked',
+    verified: 'Verified ✓',
+    unverified: 'Verification removed',
+    tipCards: 'While these tools are open, each family card below has organizer buttons. Verify a requirement after seeing the actual papers, or lock a family so nobody else can change it.',
+    secLog: 'Recent changes',
+    tipLog: 'Every tick and untick, newest first. If something looks wrong, untick it on the family’s card or lock that family.',
+    logEmpty: 'No changes yet.',
+    logTicked: 'ticked',
+    logUnticked: 'unticked',
+    logPhone: (d) => `phone #${d}`,
+    secReports: 'Print and export',
+    tipReports: 'Print the full list or save it as a PDF for meetings. The Excel file opens in Excel or Google Sheets.',
+    printBtn: 'Print / Save as PDF',
+    csvBtn: 'Download Excel file',
+    rpPrinted: (d, c, n) => `Printed ${d}. ${c} of ${n} families done.`,
+    rpFamily: 'Family',
+    rpLot: 'Lot',
+    rpStreet: 'Street',
+    rpDone: 'All done',
+    yes: 'Yes',
+    secTeam: 'Co-organizers',
+    tipTeam: 'Add someone’s Google email so they can help you manage this checklist. They sign in with that Google account.',
+    teamOwnerOnly: 'Only the main organizer can add or remove co-organizers.',
+    emailPh: 'Their Google email',
+    teamAdded: 'Co-organizer added ✓',
+    teamRemoved: 'Co-organizer removed',
+    badEmail: 'That doesn’t look like an email address.',
+    noTeam: 'No co-organizers yet.',
+    secLists: 'All your checklists',
+    tipLists: 'Make a separate checklist for other projects, like the water line, fence or monthly dues.',
+    listsBtn: 'See all or make a new one',
+    posterTitle: 'QR poster',
+    posterLead: 'Scan to tick what your family already has',
+    posterSteps: ['Open your phone camera.', 'Point it at the code.', 'Tap the link, find your family and tap what you have!'],
+    posterPrint: 'Print poster',
+    posterNote: 'Prints on one page. Post it at the gate, guardhouse or a lamp post.',
+    msg: {
+      update: (title, date, lines, url) => `📋 ${title} (as of ${date})\n\n${lines}\n\nPlease tick what your family already has here 👇\n${url}\n\nThank you, neighbors! 🙏`,
+      line: (ok, r, c, n) => `${ok ? '✅' : '⏳'} ${r}: ${c} of ${n} done`,
+      still: (names) => `   Still without: ${names}`,
+      remind: (title, lines, url) => `Hi neighbors! 👋 Friendly reminder about ${title}. A few families still need these:\n\n${lines}\n\nIf you already have them, please tick here 👇\n${url}\n\nThank you so much! 🙏`,
+      remindLine: (r, names) => `• ${r}: ${names}`,
+      deadline: (title, date, left, names, url) => `⏰ Reminder: the deadline for ${title} is ${date} (${left}).\n\nNot done yet: ${names}\n\nPlease tick what you have here 👇\n${url}`,
+      thanks: (title, c, n, all) => `🎉 Thank you, neighbors! ${c} of ${n} families are complete for ${title}. ${all ? 'Everyone is done. Amazing teamwork! 🏆' : `Almost there, just ${n - c} more to go! 💪`}`,
+      daysLeft: (d) => d < 0 ? 'already passed' : d === 0 ? 'today' : d === 1 ? '1 day left' : `${d} days left`,
+    },
+    guideH: 'How does this work? 🤔',
+    tabFam: 'Neighbors',
+    tabOrg: 'Organizer',
+    famGuideH: 'For neighbors',
+    famSteps: [
+      '<b>Tap 🔍 Find my family</b> (bottom right) and type your family name or lot.',
+      '<b>Tap each requirement you already have.</b> It turns green ✅ and saves by itself. There’s no “Submit” button, promise!',
+      '<b>Tapped the wrong one?</b> Tap <b>Undo</b> on the message at the bottom, or just tap it again.',
+      '<b>Your family is remembered.</b> Next time it’s pinned at the top with a list of what you still need.',
+      '<b>Not sure how to get a requirement?</b> Tap <b>ⓘ How to get it</b> under it in “Who has what”.',
+      '<b>Hard to read?</b> Tap <b>Aa</b> at the top for bigger text, high contrast, or Tagalog.',
+      '<b>Open it like an app:</b> tap <b>Aa → Add to Home Screen</b>.',
+    ],
+    famTip: 'You don’t need to sign in to tick. If a requirement says “Verified” or the family shows 🔒, only the organizer can change it.',
+    orgGuideH: 'For the organizer',
+    orgStartH: 'Getting started',
+    orgSteps: [
+      '<b>Sign in with Google</b> using your own account.',
+      '<b>Create a checklist</b> and give it a name.',
+      '<b>Add the requirements</b> in Organizer tools. Add “How to get it” notes so people know what to do.',
+      '<b>Add the families,</b> one at a time or many at once. Add a street or phase so people can find their group.',
+      '<b>Share it:</b> copy the link to the group chat, or print the QR poster for the gate.',
+      '<b>Set a deadline and announcement</b> so they show at the top for everyone.',
+    ],
+    orgExtrasH: 'Extra tools',
+    orgExtras: [
+      '📣 <b>Ready-made messages:</b> progress updates, reminders, deadline and thank-you. Tap, copy, paste.',
+      '📱 <b>Text a family:</b> save their number, then tap “Text them” to send a reminder from your own phone.',
+      '✅ <b>Verify and 🔒 lock:</b> buttons on each family card while Organizer tools are open.',
+      '🕑 <b>Recent changes:</b> see every tick, so mistakes are easy to spot.',
+      '🖨️ <b>Print or Excel:</b> a clean list for HOA or barangay meetings.',
+      '👥 <b>Co-organizers:</b> add helpers by their Google email.',
+      '🗂️ <b>More checklists:</b> make separate ones for other projects.',
+    ],
+    orgTip: 'On another phone or laptop, just sign in again with the same Google account. To find Organizer tools, scroll to the very bottom.',
+    newH: 'New in Ka-Block ✨',
+    newList: [
+      '🔍 A <b>Find my family</b> button, always at the bottom right',
+      '⭐ Your family is pinned at the top with what you still need',
+      '↩️ <b>Undo</b> after every tap',
+      'ⓘ <b>How to get it</b> notes for each requirement',
+      '⏰ Deadline countdown and announcements',
+      '<b>Aa</b> for bigger text, high contrast and Tagalog',
+      '🏅 Medals for the first families to finish and a progress chart',
+    ],
+    newMore: 'Tap ❓ Help anytime for the full guide.',
+    seeGuide: 'See the full guide',
+    defTitle: 'Block Requirements',
+    defReq1: 'Meralco on own poste',
+    defReq2: 'Barangay permit',
+  },
+  tl: {
+    help: '❓ Tulong',
+    display: 'Laki ng text, contrast at wika',
+    addHome: 'I-add sa Home Screen',
+    gotIt: 'Gets ko na! 👍',
+    done: 'Tapos na',
+    keep: 'Huwag pala',
+    del: 'I-delete',
+    save: 'I-save',
+    add: 'I-add',
+    cancel: 'Cancel',
+    signOut: 'Sign out',
+    signedOut: 'Signed out. Balik ka ha? 👋',
+    notSaved: 'Hindi na-save. Check ang internet mo, tapos try ulit. 📶',
+    signInFail: 'Hindi gumana ang sign-in. Try ulit. 🙏',
+    loadFail: 'Hindi ma-load ang checklist. Check ang internet, tapos i-refresh. 📶',
+    offline: '📶 Offline ka. Mase-save muna sa phone mo ang ticks, tapos magsi-sync pag may internet na.',
+    savedOffline: 'Naka-save sa phone. Magsi-sync pag online na. 📶',
+    installed: 'Nasa home screen mo na ang Ka-Block! 📱',
+    iosTitle: 'I-add ang Ka-Block sa Home Screen',
+    ios1: (ico) => `I-tap ang Share button ${ico} sa Safari.`,
+    ios2: 'Mag-scroll pababa, tapos tap ang <b>Add to Home Screen</b>.',
+    ios3: 'Tap <b>Add</b>. Ayan, parang app na siya! 📱',
+    installOther: 'Buksan ang menu ng browser (⋮ o ⋯), tapos tap ang <b>Add to Home screen</b> o <b>Install app</b>.',
+    dispTitle: 'Gawing mas madaling basahin',
+    langLabel: 'Wika',
+    textSize: 'Laki ng text',
+    normal: 'Normal',
+    bigger: 'Mas malaki',
+    contrast: 'High contrast',
+    on: 'On',
+    off: 'Off',
+    quips: ['Walang iwanan sa block na ’to. 🤝', 'Bayanihan, pero digital na. 📱', 'Mas mabilis pa ’to sa chismis sa kanto. 🏃‍♀️', 'Walang pila, walang papel, walang stress. ✌️', 'Konting tick na lang, mga ka-block! 💪', 'Sana all complete na. 🙏'],
+    quipNone: 'Abangan ang mga ka-block! 👀',
+    quipAll: 'Complete na lahat! Ang galing natin, mga ka-block! 🎉',
+    quipZero: 'Tara na, mga ka-block! Simulan na ang pag-tick. 💪',
+    quipHalf: 'Lagpas kalahati na tayo! Kaya pa ’yan. 🔥',
+    zaps: ['Bzzzt! ⚡ Sana lahat may sariling poste.', 'Huwag hawakan ang wire! ⚡😅', 'Poste: present! 🙋', 'Meralco pa more! 💡'],
+    notFoundH: 'Hala, wala dito ’yung checklist 😅',
+    landingH: 'Isang link lang para sa buong block',
+    notFoundP: 'Baka naputol ang link. Pakisend ulit kay organizer.',
+    landingP: 'Tick lang ng bawat family kung ano’ng meron na sila. Kita agad kung sino pa ang kulang. Walang pila, walang papel!',
+    startH: 'Gawa tayo ng checklist',
+    startP: 'Para sa organizer. Ilagay ang requirements at ang families, tapos i-share ang link sa GC.',
+    step1: (ok) => `<b>Mag-sign in with Google.</b> Gamitin ang sarili mong Google account. Ikaw lang (at ang mga co-organizer mo) ang makaka-edit.${ok ? ' Done na ’to! ✨' : ''}`,
+    step2: '<b>Lagyan ng pangalan</b> ang checklist, e.g. Block 5 Requirements.',
+    step3: '<b>I-tap ang “Gawin na!”</b> Tapos, ilalagay mo na ang requirements at families.',
+    namePh: 'Pangalan, e.g. Block 5 Requirements',
+    createBtn: 'Gawin na! ✨',
+    signStart: 'Sign in with Google para magsimula',
+    signedInAs: (e) => `Signed in as ${e}.`,
+    createFail: 'Hindi nagawa. Check ang internet, tapos try ulit. 📶',
+    haveLink: 'May link ka galing kay organizer? Buksan mo lang. Walang sign-in, promise! 🤞',
+    myListsH: 'Mga checklist mo',
+    coOrg: 'Co-organizer',
+    mainOrg: 'Organizer',
+    loadingLists: 'Nilo-load ang mga checklist mo…',
+    noLists: 'Wala ka pang checklist. Gumawa ng una sa baba!',
+    families: (n) => plural(n, 'family', 'families'),
+    requirements: (n) => plural(n, 'requirement', 'requirements'),
+    battery: (c, n) => `${c} of ${n} complete na`,
+    how: 'Hanapin ang family mo, tapos i-tap lang ang meron na kayo. Auto-save, kita agad ng lahat!',
+    dlPassed: 'Lagpas na sa deadline',
+    dlToday: 'Deadline na ngayon!',
+    dlLeft: (d, date) => d === 1 ? `Hanggang ${date}, 1 araw na lang` : `Hanggang ${date}, ${d} araw pa`,
+    annLabel: '📢 Paalala',
+    statsH: 'Sino na ang meron?',
+    statsSub: 'Tap para makita kung sino pa ang wala',
+    haveIt: (n) => ` of ${n} meron na`,
+    missingHint: (m) => `${plural(m, 'family', 'families')} pa ang wala. Tap para makita kung sino. 👀`,
+    allHave: 'Lahat meron na! 🎉',
+    noFamsYet: 'Wala pang families',
+    howToGet: 'ⓘ Paano makuha',
+    noNote: 'Wala pang dagdag na details.',
+    famsH: 'Mga ka-block',
+    showing: (a, b) => `${a} of ${b} ang nakikita`,
+    searchPh: 'Hanapin ang family name, lot o street',
+    findBtn: 'Hanapin ako',
+    vAll: (n) => `Lahat (${n})`,
+    vTodo: (n) => `Kulang pa (${n})`,
+    vDone: (n) => `Complete na (${n})`,
+    allGroups: 'Lahat',
+    stillWithout: (name) => `Wala pang: ${name}`,
+    showAll: 'Ipakita lahat',
+    doneSticker: 'Complete na! ✨',
+    updated: (a) => `Na-update ${a}`,
+    justNow: 'kanina lang',
+    minAgo: (n) => `${n} min ago`,
+    hrAgo: (n) => `${n} hr ago`,
+    yesterday: 'kahapon',
+    emptyNone: 'Wala pang families dito',
+    emptyNoneSub: 'Ilalagay pa ni organizer. Abangan! 👀',
+    emptySearch: 'Walang ganyang pangalan. Baka typo? 🤔',
+    emptySearchSub: 'Wala sa listahan? Sabihan ang organizer na i-add kayo.',
+    emptyFilter: 'Lahat meron na nito! 🎉',
+    emptyTodo: 'Complete na lahat! Party party! 🥳',
+    emptyDone: 'Wala pang complete. Kayo na kaya ang una? 👀',
+    live: 'Live ’to, kita ng lahat',
+    orgSignIn: 'Organizer sign-in',
+    orgTools: 'Organizer tools',
+    closeOrg: 'Isara ang organizer tools',
+    notOrganizer: 'Hindi ka organizer nito, ka-block. 😅',
+    yourFamily: '⭐ Family mo',
+    thisIsUs: '⭐ Family ko ’to',
+    notMine: 'Hindi ’to family mo? Palitan',
+    stillNeeded: 'Kulang pa:',
+    allSetMine: 'Kumpleto na kayo! 🎉 Salamat!',
+    pinned: (name) => `Sige! Naka-pin na sa taas ang ${name}. ⭐`,
+    unpinned: 'Okay! I-tap ang “Family ko ’to” sa card ng family mo.',
+    lockedBadge: '🔒 Na-check na ng organizer',
+    lockedToast: 'Na-check na ng organizer ang family na ’to. Sabihan sila kung may babaguhin.',
+    verifiedTag: 'Verified',
+    verifiedToast: 'Verified na ’to ng organizer. Sabihan sila kung may babaguhin.',
+    medals: ['🥇 Unang natapos!', '🥈 Pangalawang natapos', '🥉 Pangatlong natapos'],
+    tickOn: ['Saved! Galing! ✓', 'Ayan, naka-save na ✓', 'Noted! ✓', 'G! Na-save na ✓', 'Check! ✅'],
+    tickOff: ['Na-untick na', 'Okay, binawi na natin ’yan'],
+    completeMsgs: (n) => [`${n}, complete na! Sana all! 🎉`, `Petmalu! Complete na ang ${n}! 🎉`, `${n}, ang galing! Complete na! 🥳`],
+    undo: 'Ibalik',
+    undone: 'Naibalik na ↩️',
+    ms50: 'Kalahati na! 🎉',
+    ms50p: 'Kalahati ng block, complete na. Tuloy lang, mga ka-block!',
+    ms100: 'Complete na ang buong block! 🏆',
+    ms100p: 'Lahat ng family, kumpleto na. Ang galing ng teamwork!',
+    yay: 'Yehey! 🎉',
+    chartH: 'Progress sa bawat araw',
+    chartSub: (c, n) => `${c} of ${n} families ang complete na`,
+    chartEmpty: 'Tataas ang bars habang may natatapos na families.',
+    today: 'Ngayon',
+    adminH: 'Organizer tools',
+    adminSub: (e) => `Organizers lang ang nakakakita nito. Signed in as ${e}`,
+    secShare: 'I-share sa block',
+    tipShare: 'I-copy ang link at i-paste sa GC. I-print ang QR poster at idikit sa gate o guardhouse para ma-scan ng lahat.',
+    copyLink: 'Copy link',
+    share: 'Share',
+    qrBtn: 'QR poster',
+    linkCopied: 'Link copied! I-paste mo na sa GC. 📋',
+    shareText: 'Paki-tick kung ano’ng meron na ang family niyo:',
+    secMsgs: 'Mga ready-made na message',
+    tipMsgs: 'I-tap para ma-copy, tapos i-paste sa GC. Nakalagay na ang mga pangalan ng kulang pa.',
+    msgUpdate: '📊 Progress update',
+    msgRemind: '🙏 Paalala',
+    msgDeadline: '⏰ Paalala sa deadline',
+    msgThanks: '🎉 Pasasalamat',
+    msgCopied: 'Copied! I-paste na sa GC. 📣',
+    needDeadline: 'Maglagay muna ng deadline (sa “Deadline at paalala”).',
+    secNotice: 'Deadline at paalala',
+    tipNotice: 'Pareho silang makikita sa taas ng lahat. May countdown ang deadline.',
+    deadlineLabel: 'Deadline (optional)',
+    annPh: 'Paalala, e.g. Dalhin ang papers sa HOA office sa Sabado',
+    clearDeadline: 'Alisin ang deadline',
+    noticeSaved: 'Na-save ✓',
+    secName: 'Pangalan ng checklist',
+    tipName: 'Ito ang malaking title sa taas ng page. Palitan, tapos tap “I-save”.',
+    secReqs: (n) => `Requirements (${n})`,
+    tipReqs: 'Ito ang mga ita-tick ng families. I-tap ang pangalan para i-rename. Lagyan ng “Paano makuha” para alam nila ang gagawin. ▲▼ para ayusin ang order.',
+    notePh: 'Paano makuha (optional), e.g. Magdala ng 2 valid ID sa barangay hall',
+    reqPh: 'e.g. Water connection',
+    moveUp: 'Itaas',
+    moveDown: 'Ibaba',
+    secFams: (n) => `Families (${n})`,
+    tipFams: 'I-type ang family name, tap “I-add”. ▲▼ para ayusin ang order, ✏️ para i-edit, 📱 para i-save ang number, 🗑️ para i-delete.',
+    famPh: 'Family name, e.g. Dela Cruz',
+    lotPh: 'Lot o house no. (optional)',
+    groupPh: 'Street o phase (optional)',
+    bulkSum: 'Mag-add ng maraming families sabay-sabay',
+    bulkHint: 'Isang family kada line: pangalan, lot, street. Optional ang lot at street, e.g. <b>Santos, Lot 6, Rose St.</b>',
+    bulkBtn: 'I-add lahat',
+    noFamsAdmin: 'Wala pang families. I-add sila sa baba. 👇',
+    famAdded: (n) => `Welcome sa block, ${n}! 👋`,
+    bulkAdded: (n) => `${plural(n, 'family', 'families')} added. Ang dami! 🏘️`,
+    phonePh: 'Mobile number, e.g. 0917 123 4567',
+    phoneNote: 'Organizers lang ang makakakita ng number.',
+    textBtn: 'I-text',
+    phoneSaved: 'Na-save ang number ✓',
+    famText: (n, miss, url) => `Hi ${n} family! 👋 Paalala lang po mula sa organizer ng block: kulang pa po kayo ng ${miss}. Paki-tick po dito kung meron na: ${url} Salamat po! 🙏`,
+    famTextDone: (n) => `Hi ${n} family! 🎉 Salamat po sa pagkumpleto ng lahat ng requirements!`,
+    renamed: 'Na-rename na ✓',
+    reqAdded: 'Requirement added ✓',
+    reqDeleted: 'Na-delete ang requirement',
+    famDeleted: 'Na-delete ang family',
+    famSaved: 'Na-save ✓',
+    nameSaved: 'Na-save ang pangalan ✓',
+    orgLabel: 'Organizer:',
+    verifyBtn: (r) => `I-verify ang ${r}`,
+    lockBtn: '🔒 I-lock',
+    unlockBtn: '🔓 I-unlock',
+    locked: 'Na-lock na 🔒',
+    unlocked: 'Na-unlock na',
+    verified: 'Verified ✓',
+    unverified: 'Inalis ang verification',
+    tipCards: 'Habang bukas ang tools na ’to, may organizer buttons ang bawat family card sa baba. I-verify ang requirement pag nakita mo na ang mismong papers, o i-lock ang family para walang makapagbago.',
+    secLog: 'Mga bagong pagbabago',
+    tipLog: 'Lahat ng tick at untick, pinakabago sa taas. Kung may mali, i-untick sa card ng family o i-lock ang family.',
+    logEmpty: 'Wala pang pagbabago.',
+    logTicked: 'nag-tick ng',
+    logUnticked: 'nag-untick ng',
+    logPhone: (d) => `phone #${d}`,
+    secReports: 'I-print at i-export',
+    tipReports: 'I-print ang buong listahan o i-save as PDF para sa meeting. Bumubukas ang Excel file sa Excel o Google Sheets.',
+    printBtn: 'I-print / I-save as PDF',
+    csvBtn: 'I-download ang Excel file',
+    rpPrinted: (d, c, n) => `Na-print noong ${d}. ${c} of ${n} families ang complete na.`,
+    rpFamily: 'Family',
+    rpLot: 'Lot',
+    rpStreet: 'Street',
+    rpDone: 'Complete',
+    yes: 'Oo',
+    secTeam: 'Mga co-organizer',
+    tipTeam: 'I-add ang Google email ng tutulong sa ’yo sa checklist na ’to. Magsa-sign in sila gamit ang Google account na ’yon.',
+    teamOwnerOnly: 'Ang main organizer lang ang puwedeng mag-add o mag-alis ng co-organizers.',
+    emailPh: 'Google email nila',
+    teamAdded: 'Na-add ang co-organizer ✓',
+    teamRemoved: 'Inalis ang co-organizer',
+    badEmail: 'Mukhang hindi email address ’yan.',
+    noTeam: 'Wala pang co-organizers.',
+    secLists: 'Lahat ng checklist mo',
+    tipLists: 'Gumawa ng hiwalay na checklist para sa ibang project, gaya ng tubig, bakod o monthly dues.',
+    listsBtn: 'Tingnan lahat o gumawa ng bago',
+    posterTitle: 'QR poster',
+    posterLead: 'I-scan para i-tick ang meron na ang family niyo',
+    posterSteps: ['Buksan ang camera ng phone mo.', 'Itapat sa code.', 'I-tap ang link, hanapin ang family mo at i-tap ang meron na kayo!'],
+    posterPrint: 'I-print ang poster',
+    posterNote: 'Isang page lang. Idikit sa gate, guardhouse o poste.',
+    msg: {
+      update: (title, date, lines, url) => `📋 ${title} (as of ${date})\n\n${lines}\n\nPaki-tick na lang dito kung ano’ng meron na kayo 👇\n${url}\n\nSalamat, mga ka-block! 🙏`,
+      line: (ok, r, c, n) => `${ok ? '✅' : '⏳'} ${r}: ${c} of ${n} meron na`,
+      still: (names) => `   Wala pa: ${names}`,
+      remind: (title, lines, url) => `Hi mga ka-block! 👋 Paalala lang po tungkol sa ${title}. Kulang pa po ang ilang families:\n\n${lines}\n\nKung meron na po kayo, paki-tick dito 👇\n${url}\n\nMaraming salamat po! 🙏`,
+      remindLine: (r, names) => `• ${r}: ${names}`,
+      deadline: (title, date, left, names, url) => `⏰ Paalala: ang deadline ng ${title} ay sa ${date} (${left}).\n\nHindi pa complete: ${names}\n\nPaki-tick po dito ang meron na 👇\n${url}`,
+      thanks: (title, c, n, all) => `🎉 Salamat, mga ka-block! ${c} of ${n} families ang complete na sa ${title}. ${all ? 'Kumpleto na ang lahat. Ang galing ng teamwork! 🏆' : `Konti na lang, ${n - c} na lang ang kulang! 💪`}`,
+      daysLeft: (d) => d < 0 ? 'lagpas na' : d === 0 ? 'ngayon na' : d === 1 ? '1 araw na lang' : `${d} araw pa`,
+    },
+    guideH: 'Paano gamitin? 🤔',
+    tabFam: 'Ka-block',
+    tabOrg: 'Organizer',
+    famGuideH: 'Para sa ka-block',
+    famSteps: [
+      '<b>I-tap ang 🔍 Hanapin ako</b> (sa baba, kanan) at i-type ang family name o lot.',
+      '<b>I-tap ang requirement na meron na kayo.</b> Magiging green ✅ at auto-save na. Walang “Submit” button, promise!',
+      '<b>Nagkamali ng tap?</b> I-tap ang <b>Ibalik</b> sa message sa baba, o i-tap lang ulit.',
+      '<b>Tatandaan ang family mo.</b> Sa susunod, naka-pin na sa taas kasama ang listahan ng kulang pa.',
+      '<b>Hindi alam paano makuha ang requirement?</b> I-tap ang <b>ⓘ Paano makuha</b> sa “Sino na ang meron?”',
+      '<b>Mahirap basahin?</b> I-tap ang <b>Aa</b> sa taas para sa mas malaking text, high contrast o English.',
+      '<b>Gawing parang app:</b> i-tap ang <b>Aa → I-add sa Home Screen</b>.',
+    ],
+    famTip: 'Hindi kailangan mag-sign in para mag-tick. Kung may “Verified” ang requirement o may 🔒 ang family, organizer lang ang makakapagbago.',
+    orgGuideH: 'Para sa organizer',
+    orgStartH: 'Pagsisimula',
+    orgSteps: [
+      '<b>Mag-sign in with Google</b> gamit ang sarili mong account.',
+      '<b>Gumawa ng checklist</b> at lagyan ng pangalan.',
+      '<b>I-add ang requirements</b> sa Organizer tools. Lagyan ng “Paano makuha” para alam ng lahat ang gagawin.',
+      '<b>I-add ang families,</b> isa-isa o sabay-sabay. Lagyan ng street o phase para madaling mahanap.',
+      '<b>I-share:</b> i-copy ang link sa GC, o i-print ang QR poster para sa gate.',
+      '<b>Maglagay ng deadline at paalala</b> para makita ng lahat sa taas.',
+    ],
+    orgExtrasH: 'Iba pang tools',
+    orgExtras: [
+      '📣 <b>Ready-made messages:</b> progress update, paalala, deadline at pasasalamat. Tap, copy, paste.',
+      '📱 <b>I-text ang family:</b> i-save ang number nila, tapos tap “I-text” para magpadala ng paalala gamit ang sarili mong phone.',
+      '✅ <b>I-verify at 🔒 i-lock:</b> nasa bawat family card habang bukas ang Organizer tools.',
+      '🕑 <b>Mga bagong pagbabago:</b> kita lahat ng tick para madaling makita ang mali.',
+      '🖨️ <b>Print o Excel:</b> malinis na listahan para sa HOA o barangay meeting.',
+      '👥 <b>Co-organizers:</b> mag-add ng katulong gamit ang Google email nila.',
+      '🗂️ <b>Iba pang checklist:</b> gumawa ng hiwalay para sa ibang project.',
+    ],
+    orgTip: 'Sa ibang phone o laptop, mag-sign in lang ulit gamit ang parehong Google account. Nasa pinakababa ang Organizer tools.',
+    newH: 'Bago sa Ka-Block ✨',
+    newList: [
+      '🔍 May <b>Hanapin ako</b> button na, laging nasa baba sa kanan',
+      '⭐ Naka-pin sa taas ang family mo kasama ang kulang pa',
+      '↩️ May <b>Ibalik</b> pagkatapos ng bawat tap',
+      'ⓘ May <b>Paano makuha</b> notes ang bawat requirement',
+      '⏰ Deadline countdown at mga paalala',
+      '<b>Aa</b> para sa mas malaking text, high contrast at English',
+      '🏅 Medals sa mga unang natapos at progress chart',
+    ],
+    newMore: 'I-tap ang ❓ Tulong kahit kailan para sa buong guide.',
+    seeGuide: 'Tingnan ang buong guide',
+    defTitle: 'Block Requirements',
+    defReq1: 'Meralco on own poste',
+    defReq2: 'Barangay permit',
+  },
+};
+function t(k, ...a) {
+  const v = TX[prefs.lang][k] ?? TX.en[k];
+  return typeof v === 'function' ? v(...a) : v;
+}
+const M = () => TX[prefs.lang].msg;
+
+const state = { list: null, families: [], contacts: {}, log: [], user: null, admin: false, owner: false, adminOpen: false, filter: null, view: 'all', group: '', q: '', confirm: null, editing: null, contactEdit: null, error: null, loaded: false, bulkOpen: false, online: navigator.onLine, myLists: null, myListsFor: null };
+let myFam = cid ? store.get('myFam:' + cid) : null;
 const $app = document.getElementById('app');
 const I = {
   check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
@@ -244,10 +927,10 @@ const I = {
   down: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>',
   share: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></svg>',
   copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 00-2-2H6a2 2 0 00-2 2v8a2 2 0 002 2h2"/></svg>',
-  chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4V5z"/></svg>',
   plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+  qr: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><rect x="4" y="4" width="6" height="6"/><rect x="14" y="4" width="6" height="6"/><rect x="4" y="14" width="6" height="6"/><path d="M14 14h2v2h-2zM18 18h2v2h-2zM14 18h2M18 14h2"/></svg>',
 };
-const ART = `<svg class="art" viewBox="0 0 170 140" aria-hidden="true">
+const ART = `<svg class="art" data-act="zap" viewBox="0 0 170 140" aria-hidden="true">
   <path d="M0 46 Q 52 70 104 30" fill="none" stroke="var(--edge)" stroke-width="3" stroke-linecap="round"/>
   <path d="M0 58 Q 50 84 104 42" fill="none" stroke="var(--edge)" stroke-width="3" stroke-linecap="round"/>
   <path d="M146 30 Q 158 40 170 38" fill="none" stroke="var(--edge)" stroke-width="3" stroke-linecap="round"/>
@@ -263,52 +946,42 @@ const ART = `<svg class="art" viewBox="0 0 170 140" aria-hidden="true">
 const COLORS = ['#FFC93C', '#D4FF3A', '#FF8FC1', '#A98BFF', '#6EE7F9', '#FFA36B', '#8EF0B4', '#FDE68A'];
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const rid = () => Math.random().toString(36).slice(2, 9);
+const pick = (a) => a[Math.floor(Math.random() * a.length)];
 const colorFor = (s) => COLORS[[...String(s)].reduce((a, c) => a + c.charCodeAt(0), 0) % COLORS.length];
 const initials = (s) => String(s).trim().split(/\s+/).filter((w) => !/^(the|fam|family|pamilya)$/i.test(w)).slice(0, 2).map((w) => w[0]).join('').toUpperCase() || '•';
-const millis = (t) => (t && t.toMillis ? t.toMillis() : typeof t === 'number' ? t : null);
-const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
-const pick = (a) => a[Math.floor(Math.random() * a.length)];
-const QUIPS = [
-  'Nobody gets left behind on this block. 🤝',
-  'Bayanihan, now in digital. 📱',
-  'Faster than the latest chismis on the street. 🏃‍♀️',
-  'No lines, no paperwork, no stress. ✌️',
-  'Just a few more ticks, neighbors! 💪',
-  'Manifesting a complete block. 🙏',
-];
-const quipSeed = Math.floor(Math.random() * QUIPS.length);
-function quip(done, total) {
-  if (!total) return 'Waiting for the neighbors to arrive! 👀';
-  if (done === total) return 'Everyone is complete! Great job, neighbors! 🎉';
-  if (done === 0) return 'Let’s go, neighbors! Time to start ticking. 💪';
-  if (done / total >= 0.5) return 'We’re past halfway! Keep it going. 🔥';
-  return QUIPS[quipSeed];
-}
-const ZAPS = ['Bzzzt! ⚡ Everyone deserves their own poste.', 'Don’t touch the wires! ⚡😅', 'Poste: present! 🙋', 'More power to you! 💡'];
-function ago(t) {
-  const m = millis(t);
-  if (!m) return 'just now';
+const millis = (v) => (v && v.toMillis ? v.toMillis() : typeof v === 'number' ? v : null);
+const norm = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+const quipSeed = Math.floor(Math.random() * 6);
+const DAY = 86400000;
+const startOfDay = (ms) => { const d = new Date(ms); d.setHours(0, 0, 0, 0); return d.getTime(); };
+const fmtDate = (ms, long) => new Date(ms).toLocaleDateString('en-PH', long ? { month: 'long', day: 'numeric', year: 'numeric' } : { month: 'long', day: 'numeric' });
+const isoToMs = (iso) => { const [y, m, d] = String(iso).split('-').map(Number); return new Date(y, m - 1, d).getTime(); };
+const daysLeft = (iso) => Math.round((isoToMs(iso) - startOfDay(Date.now())) / DAY);
+function ago(v) {
+  const m = millis(v);
+  if (!m) return t('justNow');
   const s = Math.max(0, (Date.now() - m) / 1000);
-  if (s < 60) return 'just now';
-  if (s < 3600) return Math.floor(s / 60) + ' min ago';
-  if (s < 86400) return Math.floor(s / 3600) + ' hr ago';
-  if (s < 172800) return 'yesterday';
-  return new Date(m).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+  if (s < 60) return t('justNow');
+  if (s < 3600) return t('minAgo', Math.floor(s / 60));
+  if (s < 86400) return t('hrAgo', Math.floor(s / 3600));
+  if (s < 172800) return t('yesterday');
+  return new Date(m).toLocaleDateString('en-PH', { month: 'short', day: 'numeric' });
 }
 
 let toastTimer;
-function toast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
+function toast(msg, action) {
+  const el = document.getElementById('toast');
+  el.innerHTML = `<span>${esc(msg)}</span>${action ? `<button class="undo" type="button">${esc(action.label)}</button>` : ''}`;
+  if (action) el.querySelector('.undo').onclick = () => { el.classList.remove('show'); action.fn(); };
+  el.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
+  toastTimer = setTimeout(() => el.classList.remove('show'), action ? 5000 : 2600);
 }
 
-function confetti(x, y) {
+function confetti(x, y, amount = 30) {
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const colors = ['#D4FF3A', '#FFC93C', '#FF5FA2', '#7C4DFF', '#6EE7F9'];
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < amount; i++) {
     const el = document.createElement('div');
     el.className = 'confetti';
     el.style.left = x + 'px';
@@ -316,12 +989,12 @@ function confetti(x, y) {
     el.style.background = colors[i % colors.length];
     document.body.appendChild(el);
     const a = Math.random() * Math.PI * 2;
-    const d = 70 + Math.random() * 120;
+    const d = 70 + Math.random() * 140;
     el.animate([
       { transform: 'translate(-50%, -50%) rotate(0deg)', opacity: 1 },
       { transform: `translate(${Math.cos(a) * d}px, ${Math.sin(a) * d - 50}px) rotate(${Math.random() * 720}deg)`, opacity: 1, offset: 0.6 },
       { transform: `translate(${Math.cos(a) * d}px, ${Math.sin(a) * d + 90}px) rotate(${Math.random() * 900}deg)`, opacity: 0 },
-    ], { duration: 1200 + Math.random() * 400, easing: 'cubic-bezier(.2,.7,.4,1)' }).onfinish = () => el.remove();
+    ], { duration: 1200 + Math.random() * 500, easing: 'cubic-bezier(.2,.7,.4,1)' }).onfinish = () => el.remove();
   }
 }
 
@@ -335,18 +1008,49 @@ async function signIn() {
     if (code === 'auth/popup-blocked' || code === 'auth/operation-not-supported-in-this-environment' || code === 'auth/web-storage-unsupported') {
       await signInWithRedirect(auth, provider);
     } else if (code !== 'auth/popup-closed-by-user' && code !== 'auth/cancelled-popup-request') {
-      toast('Sign-in didn’t work. Please try again. 🙏');
+      toast(t('signInFail'));
     }
   }
 }
 
+const subs = {};
+function syncSubs() {
+  const want = !!(state.admin && cid);
+  if (want && !subs.contacts) {
+    subs.contacts = onSnapshot(collection(db, 'checklists', cid, 'contacts'), (s) => {
+      state.contacts = {};
+      s.docs.forEach((d) => { state.contacts[d.id] = d.data().phone || ''; });
+      render();
+    }, () => {});
+    subs.log = onSnapshot(query(collection(db, 'checklists', cid, 'log'), orderBy('at', 'desc'), limit(40)), (s) => {
+      state.log = s.docs.map((d) => ({ id: d.id, ...d.data() }));
+      render();
+    }, () => {});
+  }
+  if (!want && subs.contacts) {
+    subs.contacts();
+    subs.log();
+    delete subs.contacts;
+    delete subs.log;
+    state.contacts = {};
+    state.log = [];
+  }
+}
+
 function checkAdmin() {
-  state.admin = !!(state.user && state.list && state.list.ownerUid === state.user.uid);
+  const u = state.user;
+  const l = state.list;
+  const email = String((u && u.email) || '').toLowerCase();
+  state.owner = !!(u && l && l.ownerUid === u.uid);
+  state.admin = state.owner || !!(u && l && email && (l.editors || []).includes(email));
   if (state.admin && store.get('openAdmin')) { state.adminOpen = true; store.set('openAdmin', ''); }
+  if (!state.admin) state.adminOpen = false;
+  syncSubs();
 }
 
 onAuthStateChanged(auth, (u) => {
   state.user = u;
+  if (!u) { state.myLists = null; state.myListsFor = null; }
   checkAdmin();
   render();
 });
@@ -354,148 +1058,133 @@ onAuthStateChanged(auth, (u) => {
 if (cid) {
   onSnapshot(doc(db, 'checklists', cid), (snap) => {
     state.loaded = true;
+    state.error = null;
     state.list = snap.exists() ? { id: snap.id, ...snap.data() } : null;
     if (state.list) { store.set('lastChecklist', cid); document.title = (state.list.title ? state.list.title + ' | ' : '') + 'Ka-Block'; }
     else if (store.get('lastChecklist') === cid) store.set('lastChecklist', '');
     checkAdmin();
     render();
-  }, () => { state.loaded = true; state.error = 'Couldn’t load the checklist. Check your internet, then refresh. 📶'; render(); });
+    checkMilestone();
+  }, () => { state.loaded = true; state.error = 'loadFail'; render(); });
   onSnapshot(collection(db, 'checklists', cid, 'families'), (snap) => {
     state.families = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
     state.families.sort((a, b) => (a.order ?? 0) - (b.order ?? 0) || String(a.name).localeCompare(String(b.name)));
+    if (myFam && snap.docs.length && !state.families.some((f) => f.id === myFam)) { myFam = null; store.set('myFam:' + cid, ''); }
     render();
+    checkMilestone();
   }, () => {});
 } else {
   state.loaded = true;
 }
 
+window.addEventListener('online', () => { state.online = true; render(); });
+window.addEventListener('offline', () => { state.online = false; render(); });
+
 let deferredInstall = null;
 const isStandalone = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
 const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredInstall = e; render(); });
-window.addEventListener('appinstalled', () => { deferredInstall = null; toast('Ka-Block is on your home screen! 📱'); render(); });
-const canOfferInstall = () => !isStandalone() && (deferredInstall || isIOS());
+window.addEventListener('appinstalled', () => { deferredInstall = null; toast(t('installed')); render(); });
 
 async function install() {
   if (deferredInstall) {
     deferredInstall.prompt();
     await deferredInstall.userChoice.catch(() => {});
     deferredInstall = null;
+    closeSheet();
     render();
     return;
   }
-  openSheet(`<h2>Add Ka-Block to your Home Screen</h2>
-    <ol>
-      <li>Tap the Share button <span class="ico">${I.share}</span> in Safari.</li>
-      <li>Scroll down and tap <b>Add to Home Screen</b>.</li>
-      <li>Tap <b>Add</b>. Now it opens just like an app! 📱</li>
-    </ol>
-    <button class="btn" data-close="1">Got it!</button>`);
+  if (isIOS()) {
+    openSheet(`<h2>${t('iosTitle')}</h2>
+      <ol class="steps"><li>${t('ios1', `<span class="ico">${I.share}</span>`)}</li><li>${t('ios2')}</li><li>${t('ios3')}</li></ol>
+      <button class="btn" data-act="closeSheet">${t('gotIt')}</button>`);
+    return;
+  }
+  openSheet(`<h2>${t('addHome')}</h2><p>${t('installOther')}</p><button class="btn" data-act="closeSheet">${t('gotIt')}</button>`);
 }
 
 function openSheet(html) {
-  const s = document.getElementById('sheet');
-  s.innerHTML = `<div class="sheet-bg" data-close="1"><div class="sheet sticker" role="dialog" aria-modal="true">${html}</div></div>`;
-  s.querySelectorAll('[data-close]').forEach((el) => el.addEventListener('click', (e) => { if (e.target === el) s.innerHTML = ''; }));
+  document.getElementById('sheet').innerHTML = `<div class="sheet-bg" data-act="closeSheet"><div class="sheet sticker" role="dialog" aria-modal="true">${html}</div></div>`;
 }
-
-const GUIDE = {
-  fam: {
-    title: 'For neighbors',
-    steps: [
-      '<b>Find your family.</b> Scroll down, or type your name in the search box. 🔍',
-      '<b>Tap each requirement you already have.</b> It turns green ✅ and saves by itself. There’s no “Submit” button, promise!',
-      '<b>Tapped the wrong one?</b> Just tap it again to untick. No worries. 😉',
-      '<b>Want to see who still needs something?</b> Tap a card under “Who has what”.',
-      '<b>To open it again easily,</b> tap “App” at the top to put it on your home screen. 📱',
-    ],
-    tip: 'You don’t need to sign in to tick. Only the organizer signs in.',
-  },
-  org: {
-    title: 'For the organizer',
-    steps: [
-      '<b>Sign in with Google</b> using your own account. Only you will be able to edit.',
-      '<b>Create a checklist,</b> give it a name, then tap “Create it!”',
-      '<b>In Organizer tools, add the requirements,</b> e.g. Meralco on own poste, Barangay permit.',
-      '<b>Add the families,</b> one at a time or all at once with “Add many families at once”.',
-      '<b>Tap “Copy link”</b> and paste it in the block’s group chat. That’s it! 🎉',
-      '<b>Every now and then, tap “Copy update for the GC”</b> to remind those who aren’t done yet.',
-      '<b>To get back to Organizer tools,</b> scroll to the very bottom and tap “Organizer sign-in” or “Organizer tools”.',
-    ],
-    tip: 'On another phone or laptop, just sign in again with the same Google account.',
-  },
-};
-function openGuide(tab) {
-  const g = GUIDE[tab];
-  openSheet(`<h2>How does this work? 🤔</h2>
-    <div class="tabs" role="group" aria-label="Guide">
-      <button data-gtab="fam" aria-pressed="${tab === 'fam'}">Neighbors</button>
-      <button data-gtab="org" aria-pressed="${tab === 'org'}">Organizer</button>
-    </div>
-    <h3>${g.title}</h3>
-    <ol class="steps">${g.steps.map((x) => `<li>${x}</li>`).join('')}</ol>
-    <p class="tip"><span>💡</span><span>${g.tip}</span></p>
-    <button class="btn" data-close="1">Got it! 👍</button>`);
-  document.querySelectorAll('[data-gtab]').forEach((b) => b.addEventListener('click', () => openGuide(b.dataset.gtab)));
-  store.set('seenGuide', '1');
-}
+function closeSheet() { document.getElementById('sheet').innerHTML = ''; }
+const sheetOpen = () => !!document.querySelector('#sheet .sheet');
 
 function reqs() { return (state.list && state.list.requirements) || []; }
+const famById = (id) => state.families.find((f) => f.id === id);
 const has = (f, r) => !!(f.ticks && f.ticks[r.id]);
 const isComplete = (f, R) => R.length > 0 && R.every((r) => has(f, r));
+const shareUrl = () => location.origin + location.pathname + '?c=' + cid;
 
 function topBar() {
   return `<header class="top">
     <span class="logo"><img src="icon-192.png" alt="">Ka-Block</span>
     <span class="top-actions">
-      <button class="install help" id="helpBtn">❓ Help</button>
-      ${canOfferInstall() ? `<button class="install" id="installBtn">${I.down}App</button>` : ''}
+      ${deferredInstall && !isStandalone() ? `<button class="pill icon sun" data-act="install" aria-label="${esc(t('addHome'))}">${I.down}</button>` : ''}
+      <button class="pill icon" data-act="display" aria-label="${esc(t('display'))}">Aa</button>
+      <button class="pill" data-act="help">${t('help')}</button>
     </span>
   </header>`;
 }
 
-function renderNoList() {
+function renderLanding() {
+  const u = state.user;
+  let lists = '';
+  if (u) {
+    if (state.myListsFor !== u.uid) loadMyLists();
+    const L = state.myLists;
+    lists = `<section class="sticker" style="display:grid;gap:12px;padding:20px">
+      <h2>${t('myListsH')}</h2>
+      ${L === null ? `<p class="sub">${t('loadingLists')}</p>` : L.length ? `<div class="lists">${L.map((l) => `<a class="list-link" href="?c=${encodeURIComponent(l.id)}"><span>${esc(l.title || t('defTitle'))}</span><small>${l.mine ? t('mainOrg') : t('coOrg')}</small></a>`).join('')}</div>` : `<p class="sub">${t('noLists')}</p>`}
+    </section>`;
+  }
   $app.innerHTML = `
     ${topBar()}
     <section class="sticker hero">
       <div class="hero-top">
         <div>
-          <h1>${cid ? 'Oops, this checklist isn’t here 😅' : 'One link for the whole block'}</h1>
-          <p class="sub" style="margin-top:10px">${cid ? 'The link might be cut off. Ask your organizer to send it again.' : 'Each family ticks what they already have, and everyone sees who still needs what. No lines, no paperwork!'}</p>
+          <h1>${cid ? t('notFoundH') : t('landingH')}</h1>
+          <p class="sub" style="margin-top:10px">${cid ? t('notFoundP') : t('landingP')}</p>
         </div>
         ${ART}
       </div>
     </section>
+    ${lists}
     <section class="sticker" style="display:grid;gap:14px;padding:20px">
-      <h2>Let’s make a checklist</h2>
-      <p class="sub">For the organizer. Add the requirements and the families, then share the link in the group chat.</p>
+      <h2>${t('startH')}</h2>
+      <p class="sub">${t('startP')}</p>
       <ol class="steps">
-        <li class="${state.user ? 'done' : ''}"><b>Sign in with Google.</b> Use your own Google account. Only you can edit your checklist.${state.user ? ' Done! ✨' : ''}</li>
-        <li><b>Give it a name,</b> e.g. Block 5 Requirements.</li>
-        <li><b>Tap “Create it!”</b> Then you’ll add the requirements and families.</li>
+        <li class="${u ? 'done' : ''}">${t('step1', !!u)}</li>
+        <li>${t('step2')}</li>
+        <li>${t('step3')}</li>
       </ol>
-      <input id="newTitle" class="field" placeholder="Name it, e.g. Block 5 Requirements" maxlength="60" aria-label="Checklist name">
-      <button class="btn" id="createBtn">${state.user ? 'Create it! ✨' : 'Sign in with Google to start'}</button>
-      ${state.user ? `<p class="sub small">Signed in as ${esc(state.user.email)}. <button class="linkbtn" id="outBtn">Sign out</button></p>` : ''}
+      <input id="newTitle" class="field" placeholder="${esc(t('namePh'))}" maxlength="60" aria-label="${esc(t('namePh'))}" data-enter="create">
+      <button class="btn" data-act="create">${u ? t('createBtn') : t('signStart')}</button>
+      ${u ? `<p class="sub small">${esc(t('signedInAs', u.email || ''))} <button class="linkbtn" data-act="signOut">${t('signOut')}</button></p>` : ''}
     </section>
-    <p class="sub small" style="text-align:center">Got a link from your organizer? Just open it. No sign-in needed, promise! 🤞</p>`;
-  document.getElementById('createBtn').onclick = async () => {
-    if (!state.user) { await signIn(); return; }
-    const title = document.getElementById('newTitle').value.trim() || 'Block Requirements';
-    const ref = doc(collection(db, 'checklists'));
-    try {
-      await setDoc(ref, { title, ownerUid: state.user.uid, requirements: [{ id: rid(), name: 'Meralco on own poste' }, { id: rid(), name: 'Barangay permit' }], createdAt: serverTimestamp(), updatedAt: serverTimestamp() });
-      store.set('openAdmin', '1');
-      location.search = '?c=' + ref.id;
-    } catch (e) {
-      toast('Couldn’t create it. Check your internet and try again. 📶');
-    }
-  };
-  const out = document.getElementById('outBtn');
-  if (out) out.onclick = () => signOut(auth);
-  const ib = document.getElementById('installBtn');
-  if (ib) ib.onclick = install;
-  document.getElementById('helpBtn').onclick = () => openGuide('org');
+    <p class="sub small" style="text-align:center">${t('haveLink')}</p>`;
+  document.getElementById('fabSlot').innerHTML = '';
+}
+
+async function loadMyLists() {
+  const u = state.user;
+  if (!u || state.myListsFor === u.uid) return;
+  state.myListsFor = u.uid;
+  state.myLists = null;
+  try {
+    const email = String(u.email || '').toLowerCase();
+    const [a, b] = await Promise.all([
+      getDocs(query(collection(db, 'checklists'), where('ownerUid', '==', u.uid))),
+      email ? getDocs(query(collection(db, 'checklists'), where('editors', 'array-contains', email))) : Promise.resolve({ docs: [] }),
+    ]);
+    const map = new Map();
+    a.docs.forEach((d) => map.set(d.id, { id: d.id, ...d.data(), mine: true }));
+    b.docs.forEach((d) => { if (!map.has(d.id)) map.set(d.id, { id: d.id, ...d.data(), mine: false }); });
+    state.myLists = [...map.values()].sort((x, y) => (millis(y.updatedAt) || 0) - (millis(x.updatedAt) || 0));
+  } catch {
+    state.myLists = [];
+  }
+  render();
 }
 
 let pending = false;
@@ -505,119 +1194,401 @@ function typing() {
 }
 document.addEventListener('focusout', () => setTimeout(() => { if (pending && !typing()) render(); }, 0));
 
+function medalsFor(F, R) {
+  const done = F.filter((f) => isComplete(f, R)).sort((a, b) => (millis(a.completedAt) ?? 9e15) - (millis(b.completedAt) ?? 9e15));
+  const m = {};
+  done.slice(0, 3).forEach((f, i) => { m[f.id] = i; });
+  return m;
+}
+
+function famCard(f, R, medals, mine) {
+  const have = R.filter((r) => has(f, r)).length;
+  const all = isComplete(f, R);
+  const ver = f.verified || {};
+  const orgMode = state.admin && state.adminOpen;
+  const tags = [];
+  if (medals[f.id] !== undefined) tags.push(`<span class="badge gold">${t('medals')[medals[f.id]]}</span>`);
+  if (f.locked) tags.push(`<span class="badge">${t('lockedBadge')}</span>`);
+  const missing = R.filter((r) => !has(f, r));
+  return `<article class="sticker fam ${mine ? 'mine' : ''}">
+    <div class="fam-head">
+      <div class="who">
+        <div class="avatar" style="background:${colorFor(f.name)}" aria-hidden="true">${esc(initials(f.name))}</div>
+        <div><div class="fam-name">${esc(f.name)}</div>${f.lot || f.group ? `<div class="fam-lot">${esc([f.lot, f.group].filter(Boolean).join(', '))}</div>` : ''}</div>
+      </div>
+      ${all ? `<span class="done-sticker">${t('doneSticker')}</span>` : `<span class="score">${have} of ${R.length}</span>`}
+    </div>
+    ${tags.length ? `<div class="fam-tags">${tags.join('')}</div>` : ''}
+    ${mine ? (missing.length ? `<div class="need-h">${t('stillNeeded')}</div><ul class="need">${missing.map((r) => `<li><b>${esc(r.name)}</b>${r.note ? `<span>${esc(r.note)}</span>` : ''}</li>`).join('')}</ul>` : (R.length ? `<div class="allset">${t('allSetMine')}</div>` : '')) : ''}
+    <div class="ticks">${R.map((r) => {
+      const held = !state.admin && (f.locked || ver[r.id]);
+      return `<button class="tick ${held ? 'held' : ''}" aria-pressed="${has(f, r)}" ${held ? 'aria-disabled="true"' : ''} data-act="tick" data-fam="${f.id}" data-req="${r.id}"><span class="box">${I.check}</span>${esc(r.name)}${ver[r.id] ? ` <span class="vtag">✓ ${t('verifiedTag')}</span>` : ''}</button>`;
+    }).join('')}</div>
+    ${have ? `<div class="updated">${t('updated', ago(f.updatedAt))}</div>` : ''}
+    ${!myFam && !state.admin ? `<button class="thisus" data-act="thisUs" data-fam="${f.id}">${t('thisIsUs')}</button>` : ''}
+    ${orgMode ? `<div class="org-row"><span class="lbl">${t('orgLabel')}</span>${R.filter((r) => has(f, r)).map((r) => `<button class="mini ${ver[r.id] ? 'on' : ''}" data-act="verify" data-fam="${f.id}" data-req="${r.id}">${ver[r.id] ? '✓ ' : ''}${esc(t('verifyBtn', r.name))}</button>`).join('')}<button class="mini ${f.locked ? 'on' : ''}" data-act="lock" data-fam="${f.id}">${f.locked ? t('unlockBtn') : t('lockBtn')}</button></div>` : ''}
+  </article>`;
+}
+
+function chartHtml(F, R) {
+  if (!F.length || !R.length) return '';
+  const today = startOfDay(Date.now());
+  const times = F.filter((f) => isComplete(f, R)).map((f) => millis(f.completedAt) || Date.now());
+  const created = millis(state.list.createdAt) || today;
+  const first = startOfDay(Math.min(created, today, ...times));
+  const n = Math.min(21, Math.max(7, Math.round((today - first) / DAY) + 1));
+  const start = today - (n - 1) * DAY;
+  const days = Array.from({ length: n }, (_, i) => start + i * DAY);
+  const counts = days.map((d) => times.filter((x) => x < d + DAY).length);
+  const W = n * 24;
+  const H = 120;
+  const max = F.length;
+  const bars = counts.map((c, i) => {
+    const h = c ? Math.max(8, Math.round((c / max) * (H - 26))) : 3;
+    const label = c && (i === n - 1 || c !== counts[i - 1]);
+    return `<rect x="${i * 24 + 3}" y="${H - h}" width="18" height="${h}" rx="4" style="fill:${c ? 'var(--volt)' : 'var(--soft)'};stroke:var(--edge);stroke-width:2"/>${label ? `<text x="${i * 24 + 12}" y="${H - h - 6}" text-anchor="middle" style="fill:var(--ink);font:800 11px Figtree,sans-serif">${c}</text>` : ''}`;
+  }).join('');
+  return `<section class="sticker chart">
+    <div><h2>${t('chartH')}</h2><span class="sub small">${times.length ? t('chartSub', times.length, max) : t('chartEmpty')}</span></div>
+    <svg viewBox="0 0 ${W} ${H + 2}" role="img" aria-label="${esc(t('chartSub', times.length, max))}">${bars}</svg>
+    <div class="axis"><span>${fmtDate(days[0]).replace(/ \d{4}$/, '')}</span><span>${t('today')}</span></div>
+  </section>`;
+}
+
 function render(force) {
   if (!state.loaded) return;
   if (!force && typing()) { pending = true; return; }
   pending = false;
-  if (state.error) { $app.innerHTML = `${topBar()}<div class="sticker empty"><div class="icon">📶</div><h2>${esc(state.error)}</h2></div>`; return; }
-  if (!cid || !state.list) { renderNoList(); return; }
+  if (state.error) {
+    $app.innerHTML = `${topBar()}<div class="sticker empty"><div class="icon">📶</div><h2>${esc(t(state.error))}</h2></div>`;
+    return;
+  }
+  if (!cid || !state.list) { renderLanding(); return; }
+  const L = state.list;
   const R = reqs();
   const F = state.families;
-  const q = state.q.trim().toLowerCase();
+  const medals = medalsFor(F, R);
   const completeCount = F.filter((f) => isComplete(f, R)).length;
   const pct = F.length ? Math.round((completeCount / F.length) * 100) : 0;
+  const groups = [...new Set(F.map((f) => String(f.group || '').trim()).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+  if (state.group && !groups.includes(state.group)) state.group = '';
+  const words = norm(state.q).split(/\s+/).filter(Boolean);
+  const narrowed = words.length || state.filter || state.group || state.view !== 'all';
+  const mineF = myFam ? famById(myFam) : null;
 
-  let shown = F.filter((f) => !q || String(f.name).toLowerCase().includes(q) || String(f.lot || '').toLowerCase().includes(q));
+  let shown = F.filter((f) => { const hay = norm(`${f.name} ${f.lot || ''} ${f.group || ''}`); return words.every((w) => hay.includes(w)); });
+  if (state.group) shown = shown.filter((f) => String(f.group || '').trim() === state.group);
   if (state.filter) shown = shown.filter((f) => !has(f, { id: state.filter }));
   if (state.view === 'todo') shown = shown.filter((f) => !isComplete(f, R));
   if (state.view === 'done') shown = shown.filter((f) => isComplete(f, R));
+  const listed = !narrowed && mineF ? shown.filter((f) => f.id !== mineF.id) : shown;
   const filterReq = R.find((r) => r.id === state.filter);
+
+  let quip = TX[prefs.lang].quips[quipSeed];
+  if (!F.length) quip = t('quipNone');
+  else if (completeCount === F.length && R.length) quip = t('quipAll');
+  else if (completeCount === 0) quip = t('quipZero');
+  else if (completeCount / F.length >= 0.5) quip = t('quipHalf');
+
+  let deadline = '';
+  if (L.deadline) {
+    const d = daysLeft(L.deadline);
+    deadline = `<span class="tag dl">⏰ ${d < 0 ? t('dlPassed') : d === 0 ? t('dlToday') : t('dlLeft', d, fmtDate(isoToMs(L.deadline)))}</span>`;
+  }
 
   const stats = R.map((r) => {
     const done = F.filter((f) => has(f, r)).length;
     const p = F.length ? Math.round((done / F.length) * 100) : 0;
     const missing = F.length - done;
-    return `<button class="sticker stat" data-filter="${r.id}" aria-pressed="${state.filter === r.id}">
-      <span class="name">${esc(r.name)}</span>
-      <span class="count">${done}<small> of ${F.length} have it</small></span>
-      <span class="bar"><span class="${p ? '' : 'zero'}" style="width:${p}%"></span></span>
-      <span class="hint ${F.length && !missing ? 'ok' : ''}">${F.length ? (missing ? `${plural(missing, 'family', 'families')} still without. Tap to see who. 👀` : 'Everyone has this! 🎉') : 'No families yet'}</span>
-    </button>`;
+    return `<div class="sticker stat-wrap ${state.filter === r.id ? 'on' : ''}">
+      <button class="stat" data-act="filter" data-req="${r.id}" aria-pressed="${state.filter === r.id}">
+        <span class="name">${esc(r.name)}</span>
+        <span class="count">${done}<small>${t('haveIt', F.length)}</small></span>
+        <span class="bar"><span class="${p ? '' : 'zero'}" style="width:${p}%"></span></span>
+        <span class="hint ${F.length && !missing ? 'ok' : ''}">${F.length ? (missing ? t('missingHint', missing) : t('allHave')) : t('noFamsYet')}</span>
+      </button>
+      ${r.note ? `<button class="info" data-act="info" data-req="${r.id}">${t('howToGet')}</button>` : ''}
+    </div>`;
   }).join('');
 
-  const cards = shown.map((f) => {
-    const have = R.filter((r) => has(f, r)).length;
-    const all = isComplete(f, R);
-    return `<article class="sticker fam ${all ? 'complete' : ''}">
-      <div class="fam-head">
-        <div class="who">
-          <div class="avatar" style="background:${colorFor(f.name)}" aria-hidden="true">${esc(initials(f.name))}</div>
-          <div><div class="fam-name">${esc(f.name)}</div>${f.lot ? `<div class="fam-lot">${esc(f.lot)}</div>` : ''}</div>
-        </div>
-        ${all ? '<span class="done-sticker">All done! ✨</span>' : `<span class="score">${have} of ${R.length}</span>`}
-      </div>
-      <div class="ticks">${R.map((r) => `<button class="tick" aria-pressed="${has(f, r)}" data-fam="${f.id}" data-req="${r.id}"><span class="box">${I.check}</span>${esc(r.name)}</button>`).join('')}</div>
-      ${have ? `<div class="updated">Updated ${ago(f.updatedAt)}</div>` : ''}
-    </article>`;
-  }).join('');
-
-  const shareUrl = location.origin + location.pathname + '?c=' + cid;
-  let emptyMsg = 'No families here yet';
-  let emptySub = 'The organizer will add them soon. Stay tuned! 👀';
+  let emptyMsg = t('emptyNone');
+  let emptySub = t('emptyNoneSub');
   if (F.length) {
     emptySub = '';
-    if (q) emptyMsg = 'No family by that name. Maybe a typo? 🤔';
-    else if (filterReq) emptyMsg = 'Everyone already has this! 🎉';
-    else if (state.view === 'todo') emptyMsg = 'Every family is done! Party time! 🥳';
-    else emptyMsg = 'Nobody’s done yet. Will your family be first? 👀';
+    if (words.length) { emptyMsg = t('emptySearch'); emptySub = t('emptySearchSub'); }
+    else if (filterReq) emptyMsg = t('emptyFilter');
+    else if (state.view === 'todo') emptyMsg = t('emptyTodo');
+    else if (state.view === 'done') emptyMsg = t('emptyDone');
+    else emptyMsg = t('emptyFilter');
   }
 
   $app.innerHTML = `
     ${topBar()}
+    ${state.online ? '' : `<div class="offline" role="status">${t('offline')}</div>`}
     <section class="sticker hero">
       <div class="hero-top">
         <div>
-          <h1>${esc(state.list.title || 'Block Requirements')}</h1>
-          <p class="sub" style="margin-top:8px;font-weight:600">${quip(completeCount, F.length)}</p>
-          <div class="tags"><span class="tag">🏠 ${plural(F.length, 'family', 'families')}</span><span class="tag y">📋 ${plural(R.length, 'requirement', 'requirements')}</span></div>
+          <h1>${esc(L.title || t('defTitle'))}</h1>
+          <p class="sub quip">${quip}</p>
+          <div class="tags"><span class="tag">🏠 ${t('families', F.length)}</span><span class="tag y">📋 ${t('requirements', R.length)}</span>${deadline}</div>
         </div>
         ${ART}
       </div>
-      <div class="battery" role="img" aria-label="${completeCount} of ${F.length} families done">
-        <div class="cell"><span class="fill ${pct ? '' : 'zero'}" style="width:${pct}%"></span><span class="blabel"><b>${completeCount} of ${F.length} families done</b></span></div>
+      <div class="battery" role="img" aria-label="${esc(t('battery', completeCount, F.length))}">
+        <div class="cell"><span class="fill ${pct ? '' : 'zero'}" style="width:${pct}%"></span><span class="blabel"><b>${t('battery', completeCount, F.length)}</b></span></div>
         <span class="nub"></span>
       </div>
     </section>
 
-    <div class="how"><span class="em" aria-hidden="true">👆</span><span>Find your family, then tap what you already have. It saves by itself and everyone sees it right away!</span></div>
+    ${L.announcement ? `<div class="notice" role="note"><b>${t('annLabel')}</b><span>${esc(L.announcement)}</span></div>` : ''}
 
-    ${state.admin && state.adminOpen ? adminHtml(shareUrl) : ''}
+    <div class="how"><span class="em" aria-hidden="true">👆</span><span>${t('how')}</span></div>
 
-    ${R.length ? `<div class="sec"><h2>Who has what</h2><span>Tap one to see who still needs it</span></div><section class="stats" aria-label="Summary">${stats}</section>` : ''}
+    ${state.admin && state.adminOpen ? adminHtml() : ''}
 
-    <div class="sec"><h2>Families</h2><span>${shown.length === F.length ? '' : `Showing ${shown.length} of ${F.length}`}</span></div>
+    ${mineF && !narrowed ? `<div class="sec"><h2>${t('yourFamily')}</h2><button class="linkbtn" data-act="notMine">${t('notMine')}</button></div>${famCard(mineF, R, medals, true)}` : ''}
+
+    ${R.length ? `<div class="sec"><h2>${t('statsH')}</h2><span>${t('statsSub')}</span></div><section class="stats" aria-label="${esc(t('statsH'))}">${stats}</section>` : ''}
+
+    <div class="sec" id="famsTop"><h2>${t('famsH')}</h2><span>${shown.length === F.length ? '' : t('showing', shown.length, F.length)}</span></div>
+    ${F.length ? `<label class="search">${I.search}<input id="q" class="field" type="search" placeholder="${esc(t('searchPh'))}" value="${esc(state.q)}" aria-label="${esc(t('searchPh'))}" autocomplete="off" enterkeyhint="search"></label>` : ''}
     <section class="tools">
-      ${F.length > 4 ? `<label class="search">${I.search}<input id="q" class="field" type="search" placeholder="Search your family name or lot" value="${esc(state.q)}" aria-label="Search families" autocomplete="off"></label>` : ''}
-      ${F.length && R.length ? `<div class="seg" role="group" aria-label="Show">
-        <button data-view="all" aria-pressed="${state.view === 'all'}">All (${F.length})</button>
-        <button data-view="todo" aria-pressed="${state.view === 'todo'}">Not done yet (${F.length - completeCount})</button>
-        <button data-view="done" aria-pressed="${state.view === 'done'}">All done (${completeCount})</button>
+      ${groups.length ? `<div class="chips" role="group"><button data-act="group" data-v="" aria-pressed="${!state.group}">${t('allGroups')}</button>${groups.map((g) => `<button data-act="group" data-v="${esc(g)}" aria-pressed="${state.group === g}">${esc(g)}</button>`).join('')}</div>` : ''}
+      ${F.length && R.length ? `<div class="seg" role="group">
+        <button data-act="view" data-v="all" aria-pressed="${state.view === 'all'}">${t('vAll', F.length)}</button>
+        <button data-act="view" data-v="todo" aria-pressed="${state.view === 'todo'}">${t('vTodo', F.length - completeCount)}</button>
+        <button data-act="view" data-v="done" aria-pressed="${state.view === 'done'}">${t('vDone', completeCount)}</button>
       </div>` : ''}
-      ${filterReq ? `<div class="filterbar"><span class="grow">Still without: ${esc(filterReq.name)}</span><button class="btn small alt" id="clearFilter">Show all</button></div>` : ''}
+      ${filterReq ? `<div class="filterbar"><span class="grow">${esc(t('stillWithout', filterReq.name))}</span><button class="btn small alt" data-act="clearFilter">${t('showAll')}</button></div>` : ''}
     </section>
 
-    <section class="list">${cards || `<div class="sticker empty"><div class="icon">${F.length ? (q ? '🔍' : '🎉') : '🏠'}</div><h2>${emptyMsg}</h2>${emptySub ? `<p class="sub">${emptySub}</p>` : ''}</div>`}</section>
+    <section class="list">${listed.map((f) => famCard(f, R, medals, false)).join('') || (mineF && !narrowed && F.length === 1 ? '' : `<div class="sticker empty"><div class="icon">${F.length ? (words.length ? '🔍' : '🎉') : '🏠'}</div><h2>${emptyMsg}</h2>${emptySub ? `<p class="sub">${emptySub}</p>` : ''}</div>`)}</section>
+
+    ${chartHtml(F, R)}
 
     <footer class="foot">
-      <span class="live"><i></i>Live for everyone</span>
-      ${state.admin ? `<button class="linkbtn" id="adminToggle">${state.adminOpen ? 'Close organizer tools' : 'Organizer tools'}</button>` : `<button class="linkbtn" id="adminSignIn">${state.user ? 'Sign out' : 'Organizer sign-in'}</button>`}
+      <span class="live"><i></i>${t('live')}</span>
+      ${state.admin ? `<button class="linkbtn" data-act="adminToggle">${state.adminOpen ? t('closeOrg') : t('orgTools')}</button>` : `<button class="linkbtn" data-act="orgSignIn">${state.user ? t('signOut') : t('orgSignIn')}</button>`}
     </footer>`;
 
-  bind(shareUrl);
+  document.getElementById('fabSlot').innerHTML = F.length ? `<button class="fab" data-act="fab">${I.search}${t('findBtn')}</button>` : '';
 }
 
-function summaryText(shareUrl) {
+function adminHtml() {
+  const L = state.list;
   const R = reqs();
   const F = state.families;
-  const date = new Date().toLocaleDateString(undefined, { month: 'long', day: 'numeric' });
-  const lines = [`📋 ${state.list.title || 'Block Requirements'} (as of ${date})`, ''];
-  R.forEach((r) => {
-    const without = F.filter((f) => !has(f, r));
-    lines.push(`${without.length ? '⏳' : '✅'} ${r.name}: ${F.length - without.length} of ${F.length} done`);
-    if (without.length) lines.push('   Still without: ' + without.map((f) => f.name + (f.lot ? ` (${f.lot})` : '')).join(', '));
-  });
-  lines.push('', 'Please tick what your family already has here 👇', shareUrl, '', 'Thank you, neighbors! 🙏');
-  return lines.join('\n');
+  const c = state.confirm;
+  const url = shareUrl();
+  const editors = L.editors || [];
+  const tip = (s) => `<p class="tip"><span>💡</span><span>${s}</span></p>`;
+  const famItem = (f, i) => {
+    if (state.editing === f.id) {
+      return `<div class="item col">
+        <input class="field" id="ef-name" value="${esc(f.name)}" maxlength="50" aria-label="${esc(t('famPh'))}" placeholder="${esc(t('famPh'))}" data-enter="saveFam" data-fam="${f.id}">
+        <div class="row"><input class="field grow" id="ef-lot" value="${esc(f.lot || '')}" maxlength="20" placeholder="${esc(t('lotPh'))}" aria-label="${esc(t('lotPh'))}"><input class="field grow" id="ef-group" value="${esc(f.group || '')}" maxlength="30" placeholder="${esc(t('groupPh'))}" aria-label="${esc(t('groupPh'))}" list="groupList"></div>
+        <div class="row"><button class="btn small" data-act="saveFam" data-fam="${f.id}">${t('save')}</button><button class="btn small alt" data-act="cancelEdit">${t('cancel')}</button></div>
+      </div>`;
+    }
+    if (state.contactEdit === f.id) {
+      const phone = state.contacts[f.id] || '';
+      const miss = R.filter((r) => !has(f, r)).map((r) => r.name).join(', ');
+      const body = miss ? t('famText', f.name, miss, url) : t('famTextDone', f.name);
+      return `<div class="item col">
+        <b>📱 ${esc(f.name)}</b>
+        <input class="field" id="ec-phone" type="tel" value="${esc(phone)}" maxlength="20" placeholder="${esc(t('phonePh'))}" aria-label="${esc(t('phonePh'))}" data-enter="saveContact" data-fam="${f.id}">
+        <p class="sub small">${t('phoneNote')}</p>
+        <div class="row"><button class="btn small" data-act="saveContact" data-fam="${f.id}">${t('save')}</button>${phone ? `<a class="btn small alt" href="sms:${esc(phone.replace(/[^\d+]/g, ''))}?&body=${encodeURIComponent(body)}">💬 ${t('textBtn')}</a>` : ''}<button class="btn small alt" data-act="cancelEdit">${t('cancel')}</button></div>
+      </div>`;
+    }
+    return `<div class="item">
+      <div class="grow"><b>${esc(f.name)}</b>${f.lot || f.group ? ` <span class="sub small">${esc([f.lot, f.group].filter(Boolean).join(', '))}</span>` : ''}${state.contacts[f.id] ? ' <span class="small" aria-hidden="true">📱</span>' : ''}</div>
+      ${c === 'f:' + f.id
+        ? `<button class="btn small danger" data-act="delFam" data-fam="${f.id}">${t('del')}</button><button class="btn small alt" data-act="cancel">${t('keep')}</button>`
+        : `<button class="iconbtn" data-act="famMove" data-fam="${f.id}" data-dir="-1" aria-label="${esc(t('moveUp'))}" ${i === 0 ? 'disabled' : ''}>▲</button><button class="iconbtn" data-act="famMove" data-fam="${f.id}" data-dir="1" aria-label="${esc(t('moveDown'))}" ${i === F.length - 1 ? 'disabled' : ''}>▼</button><button class="iconbtn" data-act="editFam" data-fam="${f.id}" aria-label="✏️ ${esc(f.name)}">${I.edit}</button><button class="iconbtn" data-act="contact" data-fam="${f.id}" aria-label="📱 ${esc(f.name)}">📱</button><button class="iconbtn del" data-act="askFam" data-fam="${f.id}" aria-label="${esc(t('del'))} ${esc(f.name)}">${I.trash}</button>`}
+    </div>`;
+  };
+  const groups = [...new Set(F.map((f) => String(f.group || '').trim()).filter(Boolean))];
+  return `<section class="sticker admin" aria-label="${esc(t('adminH'))}">
+    <div class="admin-h"><h2>${t('adminH')}</h2><p>${esc(t('adminSub', state.user.email || ''))}</p></div>
+    <div class="admin-body">
+      ${tip(t('tipCards'))}
+
+      <div class="admin-sec">
+        <h3>${t('secShare')}</h3>
+        ${tip(t('tipShare'))}
+        <div class="link-box">${esc(url)}</div>
+        <div class="row">
+          <button class="btn small" data-act="copyLink">${I.copy}${t('copyLink')}</button>
+          ${navigator.share ? `<button class="btn small alt" data-act="shareLink">${I.share}${t('share')}</button>` : ''}
+          <button class="btn small alt" data-act="qr">${I.qr}${t('qrBtn')}</button>
+        </div>
+      </div>
+
+      <div class="admin-sec">
+        <h3>${t('secMsgs')}</h3>
+        ${tip(t('tipMsgs'))}
+        <div class="row">
+          <button class="btn small alt" data-act="msg" data-v="update">${t('msgUpdate')}</button>
+          <button class="btn small alt" data-act="msg" data-v="remind">${t('msgRemind')}</button>
+          <button class="btn small alt" data-act="msg" data-v="deadline">${t('msgDeadline')}</button>
+          <button class="btn small alt" data-act="msg" data-v="thanks">${t('msgThanks')}</button>
+        </div>
+      </div>
+
+      <div class="admin-sec">
+        <h3>${t('secNotice')}</h3>
+        ${tip(t('tipNotice'))}
+        <label class="small sub" for="dlIn" style="font-weight:700">${t('deadlineLabel')}</label>
+        <div class="row"><input id="dlIn" class="field grow" type="date" value="${esc(L.deadline || '')}">${L.deadline ? `<button class="btn small alt" data-act="clearDeadline">${t('clearDeadline')}</button>` : ''}</div>
+        <textarea id="annIn" class="field" maxlength="200" placeholder="${esc(t('annPh'))}" aria-label="${esc(t('annPh'))}" style="min-height:80px">${esc(L.announcement || '')}</textarea>
+        <div class="row"><button class="btn small" data-act="saveNotice">${t('save')}</button></div>
+      </div>
+
+      <div class="admin-sec">
+        <h3>${t('secName')}</h3>
+        ${tip(t('tipName'))}
+        <div class="row"><input id="titleIn" class="field grow" value="${esc(L.title || '')}" maxlength="60" aria-label="${esc(t('secName'))}" data-enter="saveTitle"><button class="btn small alt" data-act="saveTitle">${t('save')}</button></div>
+      </div>
+
+      <div class="admin-sec">
+        <h3>${t('secReqs', R.length)}</h3>
+        ${tip(t('tipReqs'))}
+        ${R.map((r, i) => `<div class="item col">
+          <div class="row">
+            <input class="field grow" data-rename="${r.id}" value="${esc(r.name)}" maxlength="40" aria-label="${esc(r.name)}">
+            ${c === 'r:' + r.id
+              ? `<button class="btn small danger" data-act="delReq" data-req="${r.id}">${t('del')}</button><button class="btn small alt" data-act="cancel">${t('keep')}</button>`
+              : `<button class="iconbtn" data-act="reqMove" data-req="${r.id}" data-dir="-1" aria-label="${esc(t('moveUp'))}" ${i === 0 ? 'disabled' : ''}>▲</button><button class="iconbtn" data-act="reqMove" data-req="${r.id}" data-dir="1" aria-label="${esc(t('moveDown'))}" ${i === R.length - 1 ? 'disabled' : ''}>▼</button><button class="iconbtn del" data-act="askReq" data-req="${r.id}" aria-label="${esc(t('del'))} ${esc(r.name)}">${I.trash}</button>`}
+          </div>
+          <input class="field" data-note="${r.id}" value="${esc(r.note || '')}" maxlength="160" placeholder="${esc(t('notePh'))}" aria-label="${esc(t('notePh'))}">
+        </div>`).join('')}
+        <div class="row"><input id="newReq" class="field grow" placeholder="${esc(t('reqPh'))}" maxlength="40" aria-label="${esc(t('reqPh'))}" data-enter="addReq"><button class="btn small" data-act="addReq">${I.plus}${t('add')}</button></div>
+      </div>
+
+      <div class="admin-sec">
+        <h3>${t('secFams', F.length)}</h3>
+        ${tip(t('tipFams'))}
+        ${F.map(famItem).join('') || `<p class="sub small">${t('noFamsAdmin')}</p>`}
+        <datalist id="groupList">${groups.map((g) => `<option value="${esc(g)}">`).join('')}</datalist>
+        <input id="famName" class="field" placeholder="${esc(t('famPh'))}" maxlength="50" aria-label="${esc(t('famPh'))}" data-enter="addFam">
+        <div class="row"><input id="famLot" class="field grow" placeholder="${esc(t('lotPh'))}" maxlength="20" aria-label="${esc(t('lotPh'))}" data-enter="addFam"><input id="famGroup" class="field grow" placeholder="${esc(t('groupPh'))}" maxlength="30" aria-label="${esc(t('groupPh'))}" list="groupList" data-enter="addFam"></div>
+        <div class="row"><button class="btn small" data-act="addFam">${I.plus}${t('add')}</button></div>
+        <details id="bulkBox" ${state.bulkOpen ? 'open' : ''}>
+          <summary class="linkbtn" style="cursor:pointer;display:inline-block">${t('bulkSum')}</summary>
+          <div style="display:grid;gap:8px;margin-top:8px">
+            <p class="sub small">${t('bulkHint')}</p>
+            <textarea id="bulk" class="field" placeholder="Dela Cruz, Lot 5, Rose St.&#10;Santos, Lot 6, Rose St.&#10;Reyes, Lot 7, Ilang-Ilang St." aria-label="${esc(t('bulkSum'))}"></textarea>
+            <button class="btn small" data-act="bulk">${t('bulkBtn')}</button>
+          </div>
+        </details>
+      </div>
+
+      <div class="admin-sec">
+        <h3>🕑 ${t('secLog')}</h3>
+        ${tip(t('tipLog'))}
+        <div class="log">${state.log.length ? state.log.map((e) => `<div class="log-item"><span>${e.on ? '✅' : '↩️'} <b>${esc(e.family)}</b> ${e.on ? t('logTicked') : t('logUnticked')} ${esc(e.req)}</span><small>${esc(ago(e.at))}, ${esc(e.by || t('logPhone', e.device || '?'))}</small></div>`).join('') : `<p class="sub small">${t('logEmpty')}</p>`}</div>
+      </div>
+
+      <div class="admin-sec">
+        <h3>🖨️ ${t('secReports')}</h3>
+        ${tip(t('tipReports'))}
+        <div class="row"><button class="btn small alt" data-act="printReport">${t('printBtn')}</button><button class="btn small alt" data-act="csv">${t('csvBtn')}</button></div>
+      </div>
+
+      <div class="admin-sec">
+        <h3>👥 ${t('secTeam')}</h3>
+        ${tip(state.owner ? t('tipTeam') : t('teamOwnerOnly'))}
+        ${editors.length ? editors.map((e) => `<div class="item"><div class="grow">${esc(e)}</div>${state.owner ? `<button class="iconbtn del" data-act="removeEditor" data-v="${esc(e)}" aria-label="${esc(t('del'))} ${esc(e)}">${I.trash}</button>` : ''}</div>`).join('') : `<p class="sub small">${t('noTeam')}</p>`}
+        ${state.owner ? `<div class="row"><input id="edIn" class="field grow" type="email" placeholder="${esc(t('emailPh'))}" aria-label="${esc(t('emailPh'))}" data-enter="addEditor"><button class="btn small" data-act="addEditor">${I.plus}${t('add')}</button></div>` : ''}
+      </div>
+
+      <div class="admin-sec">
+        <h3>🗂️ ${t('secLists')}</h3>
+        ${tip(t('tipLists'))}
+        <div class="row"><a class="btn small alt" href="?home=1">${t('listsBtn')}</a></div>
+      </div>
+
+      <div class="row" style="justify-content:flex-end"><button class="btn small alt" data-act="signOut">${t('signOut')}</button></div>
+    </div>
+  </section>`;
+}
+
+function logTick(f, r, on) {
+  addDoc(collection(db, 'checklists', cid, 'log'), {
+    fid: f.id,
+    family: String(f.name).slice(0, 60),
+    req: String(r.name).slice(0, 60),
+    on,
+    at: serverTimestamp(),
+    device: DEVICE,
+    by: state.admin && state.user ? String(state.user.email || '') : '',
+  }).catch(() => {});
+}
+
+function setTick(f, r, on, el, isUndo) {
+  const R = reqs();
+  const was = isComplete(f, R);
+  const ticks = { ...(f.ticks || {}) };
+  if (on) ticks[r.id] = true; else delete ticks[r.id];
+  const now = R.length > 0 && R.every((x) => ticks[x.id]);
+  const upd = { ['ticks.' + r.id]: on ? true : deleteField(), updatedAt: serverTimestamp() };
+  if (now && !was) upd.completedAt = serverTimestamp();
+  if (!now && was) upd.completedAt = deleteField();
+  updateDoc(doc(db, 'checklists', cid, 'families', f.id), upd).catch(() => toast(t('notSaved')));
+  logTick(f, r, on);
+  if (now && !was && el) { const b = el.getBoundingClientRect(); confetti(b.left + b.width / 2, b.top + b.height / 2); }
+  if (isUndo) { toast(t('undone')); return; }
+  let msg;
+  if (!navigator.onLine) msg = t('savedOffline');
+  else if (now && !was) msg = pick(t('completeMsgs', f.name));
+  else msg = pick(on ? t('tickOn') : t('tickOff'));
+  if (on && !myFam && !state.admin) { myFam = f.id; store.set('myFam:' + cid, f.id); msg = t('pinned', f.name); }
+  toast(msg, { label: t('undo'), fn: () => { const ff = famById(f.id); if (ff) setTick(ff, r, !on, null, true); } });
+}
+
+function checkMilestone() {
+  const R = reqs();
+  const F = state.families;
+  if (!state.list || F.length < 2 || !R.length) return;
+  const c = F.filter((f) => isComplete(f, R)).length;
+  const key = 'ms:' + cid;
+  const prev = Number(store.get(key) || 0);
+  const hit = c === F.length ? 100 : c / F.length >= 0.5 ? 50 : 0;
+  if (hit <= prev) return;
+  store.set(key, String(hit));
+  if (sheetOpen()) return;
+  const w = window.innerWidth;
+  [0.2, 0.5, 0.8].forEach((x, i) => setTimeout(() => confetti(w * x, window.innerHeight * 0.4, 40), i * 250));
+  openSheet(`<div class="big-msg">${hit === 100 ? t('ms100') : t('ms50')}</div><p style="text-align:center">${hit === 100 ? t('ms100p') : t('ms50p')}</p><button class="btn" data-act="closeSheet">${t('yay')}</button>`);
+}
+
+function buildMessage(kind) {
+  const R = reqs();
+  const F = state.families;
+  const L = state.list;
+  const m = M();
+  const url = shareUrl();
+  const title = L.title || t('defTitle');
+  const names = (list) => list.map((f) => f.name + (f.lot ? ` (${f.lot})` : '')).join(', ');
+  const c = F.filter((f) => isComplete(f, R)).length;
+  if (kind === 'update') {
+    const lines = R.map((r) => {
+      const without = F.filter((f) => !has(f, r));
+      return m.line(!without.length, r.name, F.length - without.length, F.length) + (without.length ? '\n' + m.still(names(without)) : '');
+    }).join('\n');
+    return m.update(title, fmtDate(Date.now()), lines, url);
+  }
+  if (kind === 'remind') {
+    const lines = R.map((r) => { const w = F.filter((f) => !has(f, r)); return w.length ? m.remindLine(r.name, names(w)) : ''; }).filter(Boolean).join('\n');
+    return m.remind(title, lines || '✅', url);
+  }
+  if (kind === 'deadline') {
+    if (!L.deadline) return null;
+    const left = m.daysLeft(daysLeft(L.deadline));
+    return m.deadline(title, fmtDate(isoToMs(L.deadline)), left, names(F.filter((f) => !isComplete(f, R))) || '✅', url);
+  }
+  return m.thanks(title, c, F.length, c === F.length && F.length > 0);
 }
 
 async function copyText(text, okMsg) {
@@ -625,240 +1596,377 @@ async function copyText(text, okMsg) {
     await navigator.clipboard.writeText(text);
     toast(okMsg);
   } catch {
-    openSheet(`<h2>Copy this</h2><textarea class="field" readonly style="min-height:200px">${esc(text)}</textarea><button class="btn" data-close="1">Done</button>`);
+    openSheet(`<textarea class="field" readonly style="min-height:220px">${esc(text)}</textarea><button class="btn" data-act="closeSheet">${t('done')}</button>`);
     const ta = document.querySelector('.sheet textarea');
     ta.focus();
     ta.select();
   }
 }
 
-function adminHtml(shareUrl) {
-  const R = reqs();
-  const F = state.families;
-  const c = state.confirm;
-  return `<section class="sticker admin" aria-label="Organizer tools">
-    <div class="admin-h"><h2>Organizer tools</h2><p>Only you can see this, boss. Signed in as ${esc(state.user.email || '')}</p></div>
-    <div class="admin-body">
-      <div class="admin-sec">
-        <h3>Share with the block</h3>
-        <p class="tip"><span>💡</span><span>Copy the link and paste it in the group chat. “Copy update” makes a ready-made list of who’s still missing what, perfect for friendly reminders!</span></p>
-        <div class="link-box" id="shareUrl">${esc(shareUrl)}</div>
-        <div class="row">
-          <button class="btn small" id="copyLink">${I.copy}Copy link</button>
-          ${navigator.share ? `<button class="btn small alt" id="shareLink">${I.share}Share</button>` : ''}
-          <button class="btn small alt" id="copySummary">${I.chat}Copy update for the GC</button>
-        </div>
-      </div>
-
-      <div class="admin-sec">
-        <h3>Checklist name</h3>
-        <p class="tip"><span>💡</span><span>This is the big title at the top of the page. Change it, then tap “Save”.</span></p>
-        <div class="row"><input id="titleIn" class="field grow" value="${esc(state.list.title || '')}" maxlength="60" aria-label="Checklist name"><button class="btn small alt" id="saveTitle">Save</button></div>
-      </div>
-
-      <div class="admin-sec">
-        <h3>Requirements (${R.length})</h3>
-        <p class="tip"><span>💡</span><span>These are what families will tick. To rename one, tap its name and type the new one. Tap 🗑️ to delete it (its ticks go away too).</span></p>
-        ${R.map((r) => `<div class="item">
-          <input class="field grow" data-rename="${r.id}" value="${esc(r.name)}" maxlength="40" aria-label="Requirement name">
-          ${c === 'r:' + r.id
-            ? `<button class="btn small danger" data-delreq="${r.id}">Delete</button><button class="btn small alt" data-cancel="1">Keep it</button>`
-            : `<button class="iconbtn del" data-askreq="${r.id}" aria-label="Delete ${esc(r.name)}">${I.trash}</button>`}
-        </div>`).join('')}
-        <div class="row"><input id="newReq" class="field grow" placeholder="e.g. Water connection" maxlength="40" aria-label="New requirement"><button class="btn small" id="addReq">${I.plus}Add</button></div>
-      </div>
-
-      <div class="admin-sec">
-        <h3>Families (${F.length})</h3>
-        <p class="tip"><span>💡</span><span>Type the family name (and lot if you like), then tap “Add”. ✏️ to edit, 🗑️ to delete. Got a long list? Use “Add many families at once” below.</span></p>
-        ${F.map((f) => `<div class="item">
-          <div class="grow"><b>${esc(f.name)}</b>${f.lot ? ` <span class="sub small">${esc(f.lot)}</span>` : ''}</div>
-          ${c === 'f:' + f.id
-            ? `<button class="btn small danger" data-delfam="${f.id}">Delete</button><button class="btn small alt" data-cancel="1">Keep it</button>`
-            : `<button class="iconbtn" data-editfam="${f.id}" aria-label="Edit ${esc(f.name)}">${I.edit}</button><button class="iconbtn del" data-askfam="${f.id}" aria-label="Delete ${esc(f.name)}">${I.trash}</button>`}
-        </div>`).join('') || '<p class="sub small">No families yet. Add them below. 👇</p>'}
-        <div class="row"><input id="famName" class="field" style="flex:1 1 100%" placeholder="Family name, e.g. Dela Cruz" maxlength="50" aria-label="Family name"><input id="famLot" class="field grow" placeholder="Lot or house no. (optional)" maxlength="20" aria-label="Lot"><button class="btn small" id="addFam">${I.plus}Add</button></div>
-        <details id="bulkBox" ${state.bulkOpen ? 'open' : ''}>
-          <summary class="linkbtn" style="cursor:pointer;display:inline-block">Add many families at once</summary>
-          <div style="display:grid;gap:8px;margin-top:8px">
-            <p class="sub small">One family per line. Add the lot after a comma if you like, e.g. <b>Santos, Lot 6</b></p>
-            <textarea id="bulk" class="field" placeholder="Dela Cruz, Lot 5&#10;Santos, Lot 6&#10;Reyes, Lot 7" aria-label="Families, one per line"></textarea>
-            <button class="btn small" id="addBulk">Add them all</button>
-          </div>
-        </details>
-      </div>
-
-      <div class="row" style="justify-content:flex-end"><button class="btn small alt" id="outBtn">Sign out</button></div>
-    </div>
-  </section>`;
+function qrSvg(text) {
+  if (!window.qrcode) return '';
+  const q = window.qrcode(0, 'M');
+  q.addData(text);
+  q.make();
+  return q.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
 }
 
-function bind(shareUrl) {
-  const on = (sel, ev, fn) => document.querySelectorAll(sel).forEach((el) => el.addEventListener(ev, fn));
-  const ib = document.getElementById('installBtn');
-  if (ib) ib.onclick = install;
-  on('.art', 'click', () => toast(pick(ZAPS)));
-  const hb = document.getElementById('helpBtn');
-  if (hb) hb.onclick = () => openGuide(state.admin || !cid || !state.list ? 'org' : 'fam');
-  on('.tick', 'click', async (e) => {
-    const b = e.currentTarget;
-    const fam = state.families.find((f) => f.id === b.dataset.fam);
-    const reqId = b.dataset.req;
-    const now = b.getAttribute('aria-pressed') !== 'true';
-    b.setAttribute('aria-pressed', String(now));
-    const willComplete = now && fam && reqs().every((r) => r.id === reqId || has(fam, r));
-    if (willComplete) { const rect = b.getBoundingClientRect(); confetti(rect.left + rect.width / 2, rect.top + rect.height / 2); }
-    try {
-      await updateDoc(doc(db, 'checklists', cid, 'families', b.dataset.fam), { ['ticks.' + reqId]: now ? true : deleteField(), updatedAt: serverTimestamp() });
-      toast(willComplete ? pick([`${fam.name} is all done! 🎉`, `Woohoo! ${fam.name} completed everything! 🎉`, `Look at ${fam.name} go! All done! 🥳`]) : now ? pick(['Saved! Nice one ✓', 'Got it, saved ✓', 'Noted! ✓', 'Done and saved ✓', 'Check! ✅']) : pick(['Unticked', 'Okay, we took that one back']));
-    } catch (err) {
-      b.setAttribute('aria-pressed', String(!now));
-      toast('Not saved. Check your internet and try again. 📶');
-    }
-  });
-  on('.stat', 'click', (e) => {
-    const id = e.currentTarget.dataset.filter;
-    state.filter = state.filter === id ? null : id;
-    if (state.filter) state.view = 'all';
-    render();
-    if (state.filter) document.querySelector('.tools').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-  on('[data-view]', 'click', (e) => { state.view = e.currentTarget.dataset.view; state.filter = null; render(); });
-  const cf = document.getElementById('clearFilter');
-  if (cf) cf.onclick = () => { state.filter = null; render(); };
-  const qi = document.getElementById('q');
-  if (qi) qi.addEventListener('input', (e) => {
-    state.q = e.target.value;
-    const pos = e.target.selectionStart;
-    render(true);
-    const again = document.getElementById('q');
-    if (again) { again.focus(); again.setSelectionRange(pos, pos); }
-  });
-  const signBtn = document.getElementById('adminSignIn');
-  if (signBtn) signBtn.onclick = async () => {
-    if (state.user) { await signOut(auth); toast('Signed out. Come back soon! 👋'); return; }
+function printWith(html) {
+  document.getElementById('print').innerHTML = html;
+  setTimeout(() => window.print(), 60);
+}
+
+function reportHtml() {
+  const R = reqs();
+  const F = state.families;
+  const c = F.filter((f) => isComplete(f, R)).length;
+  return `<div class="pr"><h1>${esc(state.list.title || t('defTitle'))}</h1><p>${esc(t('rpPrinted', fmtDate(Date.now(), true), c, F.length))}</p>
+    <table><thead><tr><th>#</th><th>${t('rpFamily')}</th><th>${t('rpLot')}</th><th>${t('rpStreet')}</th>${R.map((r) => `<th>${esc(r.name)}</th>`).join('')}<th>${t('rpDone')}</th></tr></thead>
+    <tbody>${F.map((f, i) => `<tr><td>${i + 1}</td><td>${esc(f.name)}</td><td>${esc(f.lot || '')}</td><td>${esc(f.group || '')}</td>${R.map((r) => `<td class="c">${has(f, r) ? '✓' : ''}</td>`).join('')}<td class="c">${isComplete(f, R) ? '✓' : ''}</td></tr>`).join('')}</tbody></table></div>`;
+}
+
+function downloadCsv() {
+  const R = reqs();
+  const F = state.families;
+  const cell = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+  const rows = [[t('rpFamily'), t('rpLot'), t('rpStreet'), ...R.map((r) => r.name), t('rpDone')]];
+  F.forEach((f) => rows.push([f.name, f.lot || '', f.group || '', ...R.map((r) => (has(f, r) ? t('yes') : '')), isComplete(f, R) ? t('yes') : '']));
+  const csv = '﻿' + rows.map((r) => r.map(cell).join(',')).join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+  a.download = (String(state.list.title || 'ka-block').replace(/[^\w-]+/g, '-').replace(/^-|-$/g, '') || 'ka-block') + '.csv';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+}
+
+function posterHtml() {
+  return `<div class="poster">
+    <img src="icon-192.png" alt="" style="width:64px;height:64px;border-radius:16px">
+    <h1>${esc(state.list.title || t('defTitle'))}</h1>
+    <div class="lead">${t('posterLead')}</div>
+    <div class="qr">${qrSvg(shareUrl())}</div>
+    <ol>${t('posterSteps').map((s) => `<li>${s}</li>`).join('')}</ol>
+    <div class="url">${esc(shareUrl())}</div>
+  </div>`;
+}
+
+function openGuide(tab) {
+  const D = TX[prefs.lang];
+  const body = tab === 'fam'
+    ? `<h3>${D.famGuideH}</h3><ol class="steps">${D.famSteps.map((s) => `<li>${s}</li>`).join('')}</ol><p class="tip"><span>💡</span><span>${D.famTip}</span></p>`
+    : `<h3>${D.orgStartH}</h3><ol class="steps">${D.orgSteps.map((s) => `<li>${s}</li>`).join('')}</ol><h3>${D.orgExtrasH}</h3><ul class="extras">${D.orgExtras.map((s) => `<li>${s}</li>`).join('')}</ul><p class="tip"><span>💡</span><span>${D.orgTip}</span></p>`;
+  openSheet(`<h2>${t('guideH')}</h2>
+    <div class="tabs" role="group"><button data-act="guideTab" data-v="fam" aria-pressed="${tab === 'fam'}">${t('tabFam')}</button><button data-act="guideTab" data-v="org" aria-pressed="${tab === 'org'}">${t('tabOrg')}</button></div>
+    ${body}
+    <button class="btn" data-act="closeSheet">${t('gotIt')}</button>`);
+  store.set('seenGuide', '1');
+  store.set('seenNew2', '1');
+}
+
+function openWhatsNew() {
+  store.set('seenNew2', '1');
+  openSheet(`<h2>${t('newH')}</h2><ul class="extras">${TX[prefs.lang].newList.map((s) => `<li>${s}</li>`).join('')}</ul><p class="sub">${t('newMore')}</p><button class="btn alt" data-act="help">${t('seeGuide')}</button><button class="btn" data-act="closeSheet">${t('gotIt')}</button>`);
+}
+
+function openDisplay() {
+  const seg = (act, items) => `<div class="seg" role="group">${items.map(([v, label, on]) => `<button data-act="${act}" data-v="${v}" aria-pressed="${on}">${label}</button>`).join('')}</div>`;
+  openSheet(`<h2>${t('dispTitle')}</h2>
+    <div class="opt"><h3>${t('langLabel')}</h3>${seg('setLang', [['en', 'English', prefs.lang === 'en'], ['tl', 'Tagalog', prefs.lang === 'tl']])}</div>
+    <div class="opt"><h3>${t('textSize')}</h3>${seg('setBig', [['0', t('normal'), !prefs.big], ['1', t('bigger'), prefs.big]])}</div>
+    <div class="opt"><h3>${t('contrast')}</h3>${seg('setHc', [['0', t('off'), !prefs.hc], ['1', t('on'), prefs.hc]])}</div>
+    ${!isStandalone() ? `<button class="btn alt" data-act="install">${I.down}${t('addHome')}</button>` : ''}
+    <button class="btn" data-act="closeSheet">${t('done')}</button>`);
+}
+
+const listRef = () => doc(db, 'checklists', cid);
+const famRef = (id) => doc(db, 'checklists', cid, 'families', id);
+const saveReqs = (list) => updateDoc(listRef(), { requirements: list, updatedAt: serverTimestamp() });
+const val = (id) => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+const blurAll = () => { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); };
+const safe = (fn) => async (el, e) => { try { await fn(el, e); } catch { toast(t('notSaved')); } };
+
+const ACTIONS = {
+  closeSheet: (el, e) => { if (el.classList.contains('sheet-bg') && e.target !== el) return; closeSheet(); },
+  help: () => openGuide(state.admin || !cid || !state.list ? 'org' : 'fam'),
+  guideTab: (el) => openGuide(el.dataset.v),
+  display: () => openDisplay(),
+  install: () => install(),
+  setLang: (el) => { prefs.lang = el.dataset.v; store.set('lang', prefs.lang === 'tl' ? 'tl' : ''); applyPrefs(); render(true); openDisplay(); },
+  setBig: (el) => { prefs.big = el.dataset.v === '1'; store.set('big', prefs.big ? '1' : ''); applyPrefs(); openDisplay(); },
+  setHc: (el) => { prefs.hc = el.dataset.v === '1'; store.set('hc', prefs.hc ? '1' : ''); applyPrefs(); openDisplay(); },
+  zap: () => toast(pick(t('zaps'))),
+  signOut: async () => { state.adminOpen = false; await signOut(auth); toast(t('signedOut')); },
+  orgSignIn: async () => {
+    if (state.user) { await signOut(auth); toast(t('signedOut')); return; }
     store.set('openAdmin', '1');
     await signIn();
-    setTimeout(() => { if (state.user && !state.admin) { store.set('openAdmin', ''); toast('Looks like you’re not the organizer of this one. 😅'); } }, 1500);
-  };
-  const tog = document.getElementById('adminToggle');
-  if (tog) tog.onclick = () => { state.adminOpen = !state.adminOpen; state.confirm = null; render(); if (state.adminOpen) document.querySelector('.admin').scrollIntoView({ behavior: 'smooth', block: 'start' }); };
-  if (!(state.admin && state.adminOpen)) return;
-
-  const listRef = doc(db, 'checklists', cid);
-  const famRef = (id) => doc(db, 'checklists', cid, 'families', id);
-  const safe = (fn) => async (...a) => { try { await fn(...a); } catch { toast('Not saved. Check your internet and try again. 📶'); } };
-  const saveReqs = (list) => updateDoc(listRef, { requirements: list, updatedAt: serverTimestamp() });
-  const enter = (id, btnId) => { const el = document.getElementById(id); if (el) el.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); document.getElementById(btnId).click(); } }); };
-  enter('newReq', 'addReq');
-  enter('famName', 'addFam');
-  enter('famLot', 'addFam');
-  enter('titleIn', 'saveTitle');
-
-  document.getElementById('bulkBox').addEventListener('toggle', (e) => { state.bulkOpen = e.target.open; });
-  document.getElementById('copyLink').onclick = () => copyText(shareUrl, 'Link copied! Paste it in the group chat. 📋');
-  document.getElementById('copySummary').onclick = () => copyText(summaryText(shareUrl), 'Update copied! Paste it in the group chat. 📣');
-  const sl = document.getElementById('shareLink');
-  if (sl) sl.onclick = () => navigator.share({ title: state.list.title, text: 'Please tick the requirements your family already has:', url: shareUrl }).catch(() => {});
-  document.getElementById('saveTitle').onclick = safe(async () => {
-    const el = document.getElementById('titleIn');
-    const t = el.value.trim();
-    if (!t) return;
-    el.blur();
-    await updateDoc(listRef, { title: t, updatedAt: serverTimestamp() });
-    toast('Name saved ✓');
-  });
-  document.getElementById('addReq').onclick = safe(async () => {
+    setTimeout(() => { if (state.user && !state.admin) { store.set('openAdmin', ''); toast(t('notOrganizer')); } }, 1500);
+  },
+  create: async () => {
+    if (!state.user) { await signIn(); return; }
+    const title = val('newTitle') || t('defTitle');
+    const ref = doc(collection(db, 'checklists'));
+    try {
+      await setDoc(ref, { title, ownerUid: state.user.uid, editors: [], requirements: [{ id: rid(), name: t('defReq1'), note: '' }, { id: rid(), name: t('defReq2'), note: '' }], deadline: '', announcement: '', createdAt: serverTimestamp(), updatedAt: serverTimestamp() });
+      store.set('openAdmin', '1');
+      location.href = '?c=' + ref.id;
+    } catch {
+      toast(t('createFail'));
+    }
+  },
+  tick: (el) => {
+    const f = famById(el.dataset.fam);
+    const r = reqs().find((x) => x.id === el.dataset.req);
+    if (!f || !r) return;
+    if (!state.admin && f.locked) { toast(t('lockedToast')); return; }
+    if (!state.admin && f.verified && f.verified[r.id]) { toast(t('verifiedToast')); return; }
+    const on = !has(f, r);
+    el.setAttribute('aria-pressed', String(on));
+    setTick(f, r, on, el, false);
+  },
+  thisUs: (el) => { const f = famById(el.dataset.fam); if (!f) return; myFam = f.id; store.set('myFam:' + cid, f.id); state.q = ''; render(true); window.scrollTo({ top: 0, behavior: 'smooth' }); toast(t('pinned', f.name)); },
+  notMine: () => { myFam = null; store.set('myFam:' + cid, ''); render(true); toast(t('unpinned')); },
+  filter: (el) => {
+    const id = el.dataset.req;
+    state.filter = state.filter === id ? null : id;
+    if (state.filter) { state.view = 'all'; state.q = ''; }
+    render(true);
+    if (state.filter) document.getElementById('famsTop').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  },
+  clearFilter: () => { state.filter = null; render(true); },
+  info: (el) => {
+    const r = reqs().find((x) => x.id === el.dataset.req);
+    if (!r) return;
+    openSheet(`<h2>${esc(r.name)}</h2><h3>${t('howToGet').replace('ⓘ ', '')}</h3><p>${esc(r.note || t('noNote'))}</p><button class="btn" data-act="closeSheet">${t('gotIt')}</button>`);
+  },
+  view: (el) => { state.view = el.dataset.v; state.filter = null; render(true); },
+  group: (el) => { state.group = el.dataset.v; render(true); },
+  fab: () => {
+    const q = document.getElementById('q');
+    if (!q) return;
+    q.focus({ preventScroll: true });
+    document.getElementById('famsTop').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  },
+  adminToggle: () => {
+    state.adminOpen = !state.adminOpen;
+    state.confirm = null;
+    state.editing = null;
+    state.contactEdit = null;
+    render(true);
+    if (state.adminOpen) document.querySelector('.admin').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  },
+  copyLink: () => copyText(shareUrl(), t('linkCopied')),
+  shareLink: () => navigator.share({ title: state.list.title, text: t('shareText'), url: shareUrl() }).catch(() => {}),
+  msg: (el) => {
+    const text = buildMessage(el.dataset.v);
+    if (!text) { toast(t('needDeadline')); return; }
+    copyText(text, t('msgCopied'));
+  },
+  qr: () => openSheet(`<h2>${t('posterTitle')}</h2><div class="qr-prev">${qrSvg(shareUrl())}<span>${esc(state.list.title || '')}</span></div><p class="sub small">${t('posterNote')}</p><button class="btn alt" data-act="printPoster">🖨️ ${t('posterPrint')}</button><button class="btn" data-act="closeSheet">${t('done')}</button>`),
+  printPoster: () => { closeSheet(); printWith(posterHtml()); },
+  printReport: () => printWith(reportHtml()),
+  csv: () => downloadCsv(),
+  saveNotice: safe(async () => {
+    const deadline = val('dlIn');
+    const announcement = val('annIn').slice(0, 200);
+    blurAll();
+    await updateDoc(listRef(), { deadline, announcement, updatedAt: serverTimestamp() });
+    toast(t('noticeSaved'));
+  }),
+  clearDeadline: safe(async () => { await updateDoc(listRef(), { deadline: '', updatedAt: serverTimestamp() }); toast(t('noticeSaved')); }),
+  saveTitle: safe(async () => {
+    const title = val('titleIn');
+    if (!title) return;
+    blurAll();
+    await updateDoc(listRef(), { title, updatedAt: serverTimestamp() });
+    toast(t('nameSaved'));
+  }),
+  addReq: safe(async () => {
     const el = document.getElementById('newReq');
     const name = el.value.trim();
     if (!name) { el.focus(); return; }
     el.value = '';
-    el.blur();
-    await saveReqs([...reqs(), { id: rid(), name }]);
-    toast('Requirement added ✓');
-  });
-  on('[data-rename]', 'change', safe(async (e) => {
-    const id = e.target.dataset.rename;
-    const name = e.target.value.trim();
-    if (!name) { render(); return; }
-    await saveReqs(reqs().map((r) => (r.id === id ? { ...r, name } : r)));
-    toast('Renamed ✓');
-  }));
-  on('[data-askreq]', 'click', (e) => { state.confirm = 'r:' + e.currentTarget.dataset.askreq; render(); });
-  on('[data-askfam]', 'click', (e) => { state.confirm = 'f:' + e.currentTarget.dataset.askfam; render(); });
-  on('[data-cancel]', 'click', () => { state.confirm = null; render(); });
-  on('[data-delreq]', 'click', safe(async (e) => {
-    const id = e.currentTarget.dataset.delreq;
+    blurAll();
+    await saveReqs([...reqs(), { id: rid(), name, note: '' }]);
+    toast(t('reqAdded'));
+  }),
+  reqMove: safe(async (el) => {
+    const list = [...reqs()];
+    const i = list.findIndex((r) => r.id === el.dataset.req);
+    const j = i + Number(el.dataset.dir);
+    if (i < 0 || j < 0 || j >= list.length) return;
+    [list[i], list[j]] = [list[j], list[i]];
+    await saveReqs(list);
+  }),
+  askReq: (el) => { state.confirm = 'r:' + el.dataset.req; render(true); },
+  askFam: (el) => { state.confirm = 'f:' + el.dataset.fam; render(true); },
+  cancel: () => { state.confirm = null; render(true); },
+  delReq: safe(async (el) => {
+    const id = el.dataset.req;
     state.confirm = null;
     if (state.filter === id) state.filter = null;
     await saveReqs(reqs().filter((r) => r.id !== id));
-    toast('Requirement deleted');
-  }));
-  on('[data-delfam]', 'click', safe(async (e) => {
+    toast(t('reqDeleted'));
+  }),
+  delFam: safe(async (el) => {
+    const id = el.dataset.fam;
     state.confirm = null;
-    await deleteDoc(famRef(e.currentTarget.dataset.delfam));
-    toast('Family deleted');
-  }));
-  on('[data-editfam]', 'click', (e) => {
-    const f = state.families.find((x) => x.id === e.currentTarget.dataset.editfam);
-    const item = e.currentTarget.closest('.item');
-    item.innerHTML = `<input class="field grow" data-en="1" value="${esc(f.name)}" maxlength="50" aria-label="Family name"><input class="field" style="flex:1 1 110px;max-width:160px" data-el="1" value="${esc(f.lot || '')}" placeholder="Lot" maxlength="20" aria-label="Lot"><button class="btn small" data-es="1">Save</button>`;
-    const nameIn = item.querySelector('[data-en]');
-    nameIn.focus();
-    const saveBtn = item.querySelector('[data-es]');
-    saveBtn.addEventListener('mousedown', (ev) => ev.preventDefault());
-    saveBtn.onclick = safe(async () => {
-      const name = nameIn.value.trim();
-      if (!name) return;
-      const lot = item.querySelector('[data-el]').value.trim();
-      if (document.activeElement) document.activeElement.blur();
-      await updateDoc(famRef(f.id), { name, lot });
-      toast('Saved ✓');
-      render();
-    });
-  });
-  document.getElementById('addFam').onclick = safe(async () => {
-    const n = document.getElementById('famName');
-    const l = document.getElementById('famLot');
-    const name = n.value.trim();
-    if (!name) { n.focus(); return; }
-    const lot = l.value.trim();
-    n.value = '';
-    l.value = '';
-    n.blur();
-    l.blur();
-    await addDoc(collection(db, 'checklists', cid, 'families'), { name, lot, ticks: {}, order: Date.now(), updatedAt: serverTimestamp() });
-    toast(`Welcome to the block, ${name}! 👋`);
-  });
-  document.getElementById('addBulk').onclick = safe(async () => {
+    await deleteDoc(famRef(id));
+    if (state.contacts[id]) deleteDoc(doc(db, 'checklists', cid, 'contacts', id)).catch(() => {});
+    toast(t('famDeleted'));
+  }),
+  famMove: safe(async (el) => {
+    const F = state.families;
+    const i = F.findIndex((f) => f.id === el.dataset.fam);
+    const j = i + Number(el.dataset.dir);
+    if (i < 0 || j < 0 || j >= F.length) return;
+    const a = F[i];
+    const b = F[j];
+    let oa = a.order ?? i;
+    let ob = b.order ?? j;
+    if (oa === ob) { oa = i; ob = j; }
+    const batch = writeBatch(db);
+    batch.update(famRef(a.id), { order: ob });
+    batch.update(famRef(b.id), { order: oa });
+    await batch.commit();
+  }),
+  editFam: (el) => { state.editing = el.dataset.fam; state.contactEdit = null; render(true); const n = document.getElementById('ef-name'); if (n) n.focus(); },
+  contact: (el) => { state.contactEdit = el.dataset.fam; state.editing = null; render(true); const n = document.getElementById('ec-phone'); if (n) n.focus(); },
+  cancelEdit: () => { state.editing = null; state.contactEdit = null; blurAll(); render(true); },
+  saveFam: safe(async (el) => {
+    const id = el.dataset.fam;
+    const name = val('ef-name');
+    if (!name) return;
+    const lot = val('ef-lot');
+    const group = val('ef-group');
+    state.editing = null;
+    blurAll();
+    await updateDoc(famRef(id), { name, lot, group });
+    toast(t('famSaved'));
+    render(true);
+  }),
+  saveContact: safe(async (el) => {
+    const id = el.dataset.fam;
+    const phone = val('ec-phone');
+    blurAll();
+    if (phone) await setDoc(doc(db, 'checklists', cid, 'contacts', id), { phone });
+    else await deleteDoc(doc(db, 'checklists', cid, 'contacts', id));
+    toast(t('phoneSaved'));
+    render(true);
+  }),
+  addFam: safe(async () => {
+    const name = val('famName');
+    if (!name) { document.getElementById('famName').focus(); return; }
+    const lot = val('famLot');
+    const group = val('famGroup');
+    ['famName', 'famLot'].forEach((id) => { document.getElementById(id).value = ''; });
+    blurAll();
+    const last = state.families.reduce((m, f) => Math.max(m, f.order ?? 0), 0);
+    await addDoc(collection(db, 'checklists', cid, 'families'), { name, lot, group, ticks: {}, order: Math.max(Date.now(), last + 1), updatedAt: serverTimestamp() });
+    toast(t('famAdded', name));
+  }),
+  bulk: safe(async () => {
     const box = document.getElementById('bulk');
     const lines = box.value.split('\n').map((l) => l.trim()).filter(Boolean);
     if (!lines.length) { box.focus(); return; }
     box.value = '';
-    box.blur();
-    const base = Date.now();
+    blurAll();
+    const base = Math.max(Date.now(), state.families.reduce((m, f) => Math.max(m, f.order ?? 0), 0) + 1);
     for (let start = 0; start < lines.length; start += 400) {
       const batch = writeBatch(db);
       lines.slice(start, start + 400).forEach((l, i) => {
-        const [name, ...rest] = l.split(',');
-        batch.set(doc(collection(db, 'checklists', cid, 'families')), { name: name.trim().slice(0, 50), lot: rest.join(',').trim().slice(0, 20), ticks: {}, order: base + start + i, updatedAt: serverTimestamp() });
+        const [name, lot = '', ...rest] = l.split(',').map((s) => s.trim());
+        batch.set(doc(collection(db, 'checklists', cid, 'families')), { name: name.slice(0, 50), lot: lot.slice(0, 20), group: rest.join(', ').slice(0, 30), ticks: {}, order: base + start + i, updatedAt: serverTimestamp() });
       });
       await batch.commit();
     }
-    toast(`${plural(lines.length, 'family', 'families')} added. What a crowd! 🏘️`);
-  });
-  document.getElementById('outBtn').onclick = async () => { state.adminOpen = false; await signOut(auth); toast('Signed out. Come back soon! 👋'); };
-}
+    toast(t('bulkAdded', lines.length));
+  }),
+  verify: safe(async (el) => {
+    const f = famById(el.dataset.fam);
+    const id = el.dataset.req;
+    if (!f) return;
+    const on = !(f.verified && f.verified[id]);
+    await updateDoc(famRef(f.id), { ['verified.' + id]: on ? true : deleteField() });
+    toast(on ? t('verified') : t('unverified'));
+  }),
+  lock: safe(async (el) => {
+    const f = famById(el.dataset.fam);
+    if (!f) return;
+    await updateDoc(famRef(f.id), { locked: !f.locked });
+    toast(f.locked ? t('unlocked') : t('locked'));
+  }),
+  addEditor: safe(async () => {
+    const email = val('edIn').toLowerCase();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { toast(t('badEmail')); return; }
+    const editors = [...new Set([...(state.list.editors || []), email])];
+    blurAll();
+    await updateDoc(listRef(), { editors, updatedAt: serverTimestamp() });
+    toast(t('teamAdded'));
+  }),
+  removeEditor: safe(async (el) => {
+    const editors = (state.list.editors || []).filter((e) => e !== el.dataset.v);
+    await updateDoc(listRef(), { editors, updatedAt: serverTimestamp() });
+    toast(t('teamRemoved'));
+  }),
+};
 
-let guided = false;
-function firstVisitGuide() {
-  if (guided || store.get('seenGuide')) return;
-  guided = true;
-  setTimeout(() => { if (!document.querySelector('.sheet')) openGuide(cid && state.list && !state.admin ? 'fam' : 'org'); }, 700);
-}
-const firstRender = setInterval(() => { if (state.loaded && !document.querySelector('.loading')) { clearInterval(firstRender); firstVisitGuide(); } }, 300);
+document.addEventListener('click', (e) => {
+  const el = e.target.closest('[data-act]');
+  if (!el || el.disabled) return;
+  const fn = ACTIONS[el.dataset.act];
+  if (fn) fn(el, e);
+});
+
+document.addEventListener('input', (e) => {
+  if (e.target.id !== 'q') return;
+  state.q = e.target.value;
+  const pos = e.target.selectionStart;
+  render(true);
+  const again = document.getElementById('q');
+  if (again) { again.focus({ preventScroll: true }); try { again.setSelectionRange(pos, pos); } catch {} }
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Enter' || !e.target.dataset || !e.target.dataset.enter) return;
+  e.preventDefault();
+  const fn = ACTIONS[e.target.dataset.enter];
+  if (fn) fn(e.target, e);
+});
+
+document.addEventListener('change', async (e) => {
+  const tg = e.target;
+  const d = tg.dataset || {};
+  if (!d.rename && !d.note) return;
+  try {
+    if (d.rename) {
+      const name = tg.value.trim();
+      if (!name) { render(true); return; }
+      await saveReqs(reqs().map((r) => (r.id === d.rename ? { ...r, name } : r)));
+      toast(t('renamed'));
+    } else {
+      await saveReqs(reqs().map((r) => (r.id === d.note ? { ...r, note: tg.value.trim().slice(0, 160) } : r)));
+      toast(t('noticeSaved'));
+    }
+  } catch {
+    toast(t('notSaved'));
+  }
+});
+
+document.addEventListener('toggle', (e) => { if (e.target.id === 'bulkBox') state.bulkOpen = e.target.open; }, true);
 
 setInterval(() => { if (state.families.some((f) => f.updatedAt)) render(); }, 60000);
+
+const firstLook = setInterval(() => {
+  if (!state.loaded || document.querySelector('#app .loading')) return;
+  clearInterval(firstLook);
+  setTimeout(() => {
+    if (sheetOpen()) return;
+    if (!store.get('seenGuide')) openGuide(cid && state.list && !state.admin ? 'fam' : 'org');
+    else if (!store.get('seenNew2')) openWhatsNew();
+  }, 700);
+}, 300);
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));

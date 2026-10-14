@@ -1,5 +1,5 @@
-const CACHE = 'ka-block-v4';
-const SHELL = ['./', './config.js', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
+const CACHE = 'ka-block-v5';
+const SHELL = ['./', './config.js', './qrcode.js', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));

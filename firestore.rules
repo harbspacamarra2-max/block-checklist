@@ -1,22 +1,50 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+    function myEmail() {
+      return signedIn() && request.auth.token.email != null ? request.auth.token.email.lower() : '';
+    }
+    function isAdmin(data) {
+      return signedIn() && (data.ownerUid == request.auth.uid
+        || (request.auth.token.email_verified == true && myEmail() in data.get('editors', [])));
+    }
+    function listOf(cid) {
+      return get(/databases/$(database)/documents/checklists/$(cid)).data;
+    }
+
     match /checklists/{cid} {
       allow read: if true;
-      allow create: if request.auth != null && request.resource.data.ownerUid == request.auth.uid;
-      allow update: if request.auth != null && resource.data.ownerUid == request.auth.uid
-                    && request.resource.data.ownerUid == resource.data.ownerUid;
-      allow delete: if request.auth != null && resource.data.ownerUid == request.auth.uid;
+      allow create: if signedIn() && request.resource.data.ownerUid == request.auth.uid;
+      allow update: if signedIn() && request.resource.data.ownerUid == resource.data.ownerUid && (
+        resource.data.ownerUid == request.auth.uid
+        || (isAdmin(resource.data) && request.resource.data.get('editors', []) == resource.data.get('editors', []))
+      );
+      allow delete: if signedIn() && resource.data.ownerUid == request.auth.uid;
+
       match /families/{fid} {
-        function isOwner() {
-          return request.auth != null
-            && get(/databases/$(database)/documents/checklists/$(cid)).data.ownerUid == request.auth.uid;
-        }
         allow read: if true;
-        allow create, delete: if isOwner();
-        allow update: if isOwner()
-          || (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['ticks', 'updatedAt'])
-              && request.resource.data.ticks is map);
+        allow create, delete: if isAdmin(listOf(cid));
+        allow update: if isAdmin(listOf(cid)) || (
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['ticks', 'updatedAt', 'completedAt'])
+          && request.resource.data.ticks is map
+          && resource.data.get('locked', false) != true
+          && !request.resource.data.ticks.diff(resource.data.get('ticks', {})).affectedKeys().hasAny(resource.data.get('verified', {}).keys())
+        );
+      }
+
+      match /log/{lid} {
+        allow read, delete: if isAdmin(listOf(cid));
+        allow create: if request.resource.data.keys().hasOnly(['fid', 'family', 'req', 'on', 'at', 'device', 'by'])
+          && request.resource.data.at == request.time
+          && request.resource.data.family is string && request.resource.data.family.size() <= 60
+          && request.resource.data.req is string && request.resource.data.req.size() <= 60;
+      }
+
+      match /contacts/{fid} {
+        allow read, write: if isAdmin(listOf(cid));
       }
     }
   }
