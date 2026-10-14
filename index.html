@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Ka-Block</title>
 <meta name="description" content="See which families already have each requirement for the block.">
-<meta name="theme-color" content="#FFF8F1" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#17120F" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F4F0FF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#140B2A" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Ka-Block">
@@ -16,177 +16,189 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #FFF8F1;
-  --bg2: #FFEFE0;
+  --bg: #F4F0FF;
   --card: #FFFFFF;
-  --soft: #FBF0E5;
-  --line: #F0E1D2;
-  --ink: #2A211B;
-  --sub: #7A6A5D;
-  --faint: #B3A396;
-  --accent: #E8641C;
-  --accent-ink: #FFFFFF;
-  --accent-soft: #FDE7D7;
-  --done: #1F9D63;
-  --done-soft: #DFF5E9;
-  --miss: #C2410C;
-  --danger: #D93636;
-  --danger-soft: #FDE4E4;
-  --shadow: 0 1px 2px rgba(120, 72, 30, 0.06), 0 8px 24px rgba(120, 72, 30, 0.08);
-  --radius: 20px;
-  --font: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --soft: #ECE6FF;
+  --ink: #1A1033;
+  --edge: #1A1033;
+  --drop: #1A1033;
+  --sub: #5B4F7A;
+  --faint: #8C80AD;
+  --grape: #7C4DFF;
+  --on-grape: #FFFFFF;
+  --volt: #D4FF3A;
+  --pink: #FF5FA2;
+  --pink-ink: #C2185B;
+  --sun: #FFC93C;
+  --danger: #E5326B;
+  --danger-soft: #FFE1EC;
+  --display: "Bricolage Grotesque", "Figtree", system-ui, sans-serif;
+  --body: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --r-lg: 22px;
+  --r-md: 16px;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #17120F; --bg2: #21170F; --card: #221B16; --soft: #2C231D; --line: #3A2F27; --ink: #F6EEE7; --sub: #BFAE9F; --faint: #7D6E62;
-    --accent: #FF8A45; --accent-ink: #1E120A; --accent-soft: #3D2516; --done: #4CD18D; --done-soft: #173726;
-    --miss: #FF9C6B; --danger: #FF6B6B; --danger-soft: #3E1D1D; --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
+    --bg: #140B2A; --card: #21153F; --soft: #2C1D54; --ink: #F4F0FF; --edge: #B9A8F5; --drop: #05010F;
+    --sub: #C3B8E6; --faint: #8C80AD; --grape: #9B78FF; --on-grape: #12082A; --pink: #FF7AB4; --pink-ink: #FF9CC8;
+    --danger: #FF6B95; --danger-soft: #3E1530;
     color-scheme: dark;
   }
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; }
 body {
-  background: radial-gradient(1200px 500px at 50% -200px, var(--bg2), var(--bg) 70%) no-repeat, var(--bg);
-  color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.45; min-height: 100vh;
-  padding: max(14px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(40px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  background-color: var(--bg);
+  background-image: radial-gradient(var(--soft) 1.4px, transparent 1.6px);
+  background-size: 22px 22px;
+  color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.5; min-height: 100vh;
+  padding: max(14px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(44px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
   -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased;
 }
-.wrap { max-width: 760px; margin: 0 auto; display: grid; gap: 18px; }
-h1 { font-size: clamp(26px, 6.4vw, 36px); line-height: 1.12; margin: 0; font-weight: 900; letter-spacing: -0.02em; text-wrap: balance; overflow-wrap: anywhere; }
-h2 { font-size: 18px; margin: 0; font-weight: 800; }
-h3 { margin: 0; font-size: 15px; font-weight: 800; }
+.wrap { max-width: 720px; margin: 0 auto; display: grid; gap: 20px; }
+h1, h2, h3 { font-family: var(--display); margin: 0; letter-spacing: -0.02em; }
+h1 { font-size: clamp(28px, 7.4vw, 46px); line-height: 1.04; font-weight: 800; text-wrap: balance; overflow-wrap: break-word; hyphens: manual; }
+h2 { font-size: 22px; font-weight: 800; line-height: 1.15; }
+h3 { font-size: 17px; font-weight: 700; }
 p { margin: 0; }
 .sub { color: var(--sub); }
 .small { font-size: 14px; }
 button, input, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; border: 0; background: none; }
-button:focus-visible, input:focus-visible, textarea:focus-visible, summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-.card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow); }
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 20px; border-radius: 999px; font-weight: 800; background: var(--accent); color: var(--accent-ink); white-space: nowrap; transition: transform 0.12s ease, filter 0.12s ease; }
-.btn:active { transform: scale(0.97); }
-.btn:hover { filter: brightness(1.04); }
-.btn.ghost { background: var(--soft); color: var(--ink); }
+:focus-visible { outline: 3px solid var(--pink); outline-offset: 3px; }
+
+.sticker { background: var(--card); border: 2.5px solid var(--edge); border-radius: var(--r-lg); box-shadow: 5px 5px 0 var(--drop); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; padding: 0 22px; border-radius: 999px; font-weight: 800; background: var(--grape); color: var(--on-grape); border: 2.5px solid var(--edge); box-shadow: 3px 3px 0 var(--drop); white-space: nowrap; transition: transform 0.08s ease, box-shadow 0.08s ease; }
+.btn:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--drop); }
+.btn.alt { background: var(--card); color: var(--ink); }
 .btn.danger { background: var(--danger-soft); color: var(--danger); }
-.btn.small { min-height: 40px; padding: 0 16px; font-size: 14px; }
+.btn.small { min-height: 42px; padding: 0 16px; font-size: 14px; }
 .btn svg { width: 18px; height: 18px; flex: none; }
-.field { width: 100%; min-height: 50px; border-radius: 14px; border: 1.5px solid var(--line); background: var(--card); padding: 0 14px; transition: border-color 0.15s; }
-.field:focus { border-color: var(--accent); }
+.field { width: 100%; min-height: 52px; border-radius: var(--r-md); border: 2.5px solid var(--edge); background: var(--card); padding: 0 16px; }
+.field::placeholder { color: var(--faint); }
 .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 .grow { flex: 1 1 180px; min-width: 0; }
 
 .top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
-.brand { display: inline-flex; gap: 10px; align-items: center; font-weight: 800; font-size: 15px; }
-.brand img { width: 32px; height: 32px; border-radius: 9px; }
-.pill-btn { display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 0 14px; border-radius: 999px; background: var(--card); border: 1px solid var(--line); font-weight: 700; font-size: 14px; box-shadow: var(--shadow); }
-.pill-btn svg { width: 16px; height: 16px; }
+.logo { display: inline-flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 800; font-size: 22px; letter-spacing: -0.03em; }
+.logo img { width: 36px; height: 36px; border-radius: 11px; border: 2.5px solid var(--edge); box-shadow: 2px 2px 0 var(--drop); transform: rotate(-6deg); }
+.install { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 14px; border-radius: 999px; background: var(--sun); color: #1A1033; border: 2.5px solid var(--edge); box-shadow: 3px 3px 0 var(--drop); font-weight: 800; font-size: 14px; transition: transform 0.08s, box-shadow 0.08s; }
+.install:active { transform: translate(3px, 3px); box-shadow: none; }
+.install svg { width: 16px; height: 16px; }
 
-.hero { position: relative; overflow: hidden; display: grid; grid-template-columns: 1fr auto; gap: 14px; align-items: center; padding: 20px; background: linear-gradient(135deg, var(--card), var(--card) 55%, var(--accent-soft)); }
-.hero > div { position: relative; z-index: 1; }
-.hero .meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
-.chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: var(--soft); font-size: 13px; font-weight: 700; color: var(--sub); }
-.ring { --p: 0; width: 104px; height: 104px; border-radius: 50%; display: grid; place-items: center; background: conic-gradient(var(--done) calc(var(--p) * 1%), var(--soft) 0); flex: none; }
-.ring > div { width: 80px; height: 80px; border-radius: 50%; background: var(--card); display: grid; place-items: center; text-align: center; line-height: 1.05; }
-.ring b { font-size: 24px; font-weight: 900; font-variant-numeric: tabular-nums; }
-.ring span { font-size: 11px; color: var(--sub); font-weight: 700; }
-.scene { position: absolute; right: -10px; bottom: -6px; width: 220px; opacity: 0.14; pointer-events: none; color: var(--accent); z-index: 0; }
-@media (max-width: 420px) { .hero { grid-template-columns: 1fr; } .ring { justify-self: start; width: 88px; height: 88px; } .ring > div { width: 68px; height: 68px; } .ring b { font-size: 20px; } }
+.hero { position: relative; padding: 22px 20px 20px; display: grid; gap: 16px; overflow: hidden; }
+.hero-top { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: start; }
+.art { width: 86px; height: auto; margin: -4px -6px 0 0; }
+@media (min-width: 560px) { .art { width: 170px; } .hero { padding: 26px 26px 22px; } }
+.tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+.tag { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; border: 2px solid var(--edge); font-size: 14px; font-weight: 700; background: var(--soft); }
+.tag.y { background: var(--sun); color: #1A1033; }
 
-.how { display: flex; gap: 12px; align-items: center; background: var(--done-soft); color: var(--ink); border-radius: 16px; padding: 12px 16px; font-size: 15px; }
-.how .dot { width: 34px; height: 34px; border-radius: 50%; background: var(--done); color: #fff; display: grid; place-items: center; flex: none; }
-.how .dot svg { width: 18px; height: 18px; }
+.battery { display: flex; align-items: center; }
+.cell { position: relative; flex: 1; height: 54px; border: 2.5px solid var(--edge); border-radius: 16px; background: var(--card); overflow: hidden; padding: 4px; }
+.fill { display: block; height: 100%; border-radius: 10px; background: repeating-linear-gradient(-45deg, var(--volt) 0 14px, #C3F02C 14px 28px); border: 2px solid #1A1033; min-width: 0; transition: width 0.9s cubic-bezier(.2,.8,.2,1); }
+.fill.zero { border: 0; }
+.blabel { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 800; font-size: 17px; color: var(--ink); }
+.blabel b { background: var(--card); color: var(--ink); padding: 2px 12px; border-radius: 999px; border: 2px solid var(--edge); }
+.nub { width: 9px; height: 22px; background: var(--edge); border-radius: 0 6px 6px 0; }
 
-.section-h { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin: 4px 2px -6px; flex-wrap: wrap; }
-.section-h span { font-size: 13px; color: var(--sub); font-weight: 600; }
-.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
-.stat { text-align: left; display: grid; gap: 10px; background: var(--card); border: 1.5px solid var(--line); border-radius: var(--radius); padding: 14px 16px; box-shadow: var(--shadow); transition: border-color 0.15s, transform 0.12s; }
-.stat:active { transform: scale(0.98); }
-.stat[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
-.stat .t { display: flex; justify-content: space-between; gap: 8px; font-weight: 800; }
-.stat .t span:first-child { overflow-wrap: anywhere; }
-.stat .num { font-variant-numeric: tabular-nums; color: var(--sub); font-weight: 700; white-space: nowrap; }
-.bar { height: 10px; border-radius: 999px; background: var(--soft); overflow: hidden; }
-.bar > span { display: block; height: 100%; background: linear-gradient(90deg, var(--done), #34C27F); border-radius: 999px; transition: width 0.5s ease; }
-.stat .hint { font-size: 13px; color: var(--miss); font-weight: 700; }
-.stat .hint.ok { color: var(--done); }
+.how { display: flex; gap: 12px; align-items: center; padding: 14px 16px; border-radius: var(--r-md); background: var(--volt); color: #1A1033; border: 2.5px solid var(--edge); font-weight: 600; }
+.how .em { font-size: 26px; line-height: 1; flex: none; }
 
-.tools { display: grid; gap: 10px; scroll-margin-top: 12px; }
+.sec { display: flex; justify-content: space-between; align-items: end; gap: 10px; flex-wrap: wrap; margin: 6px 2px -6px; }
+.sec span { font-size: 14px; color: var(--sub); font-weight: 600; }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
+.stat { text-align: left; display: grid; gap: 10px; padding: 16px; transition: transform 0.08s, box-shadow 0.08s; }
+.stat:active { transform: translate(3px, 3px); box-shadow: 2px 2px 0 var(--drop); }
+.stat[aria-pressed="true"] { background: var(--pink); color: #1A1033; }
+.stat[aria-pressed="true"] .hint, .stat[aria-pressed="true"] .count small { color: #1A1033; }
+.stat .name { font-weight: 800; font-size: 16px; overflow-wrap: anywhere; }
+.count { font-family: var(--display); font-weight: 800; font-size: 30px; line-height: 1; font-variant-numeric: tabular-nums; }
+.count small { font-size: 16px; color: var(--sub); font-weight: 700; }
+.bar { height: 14px; border-radius: 999px; border: 2px solid var(--edge); background: var(--soft); overflow: hidden; }
+.bar > span { display: block; height: 100%; background: var(--volt); border-right: 2px solid var(--edge); transition: width 0.6s ease; }
+.bar > span.zero { border: 0; }
+.hint { font-size: 14px; font-weight: 700; color: var(--pink-ink); }
+.hint.ok { color: var(--sub); }
+
+.tools { display: grid; gap: 12px; scroll-margin-top: 14px; }
 .search { position: relative; display: block; }
-.search input { padding-left: 46px; }
-.search svg { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; color: var(--faint); }
-.seg { display: flex; gap: 6px; background: var(--soft); padding: 4px; border-radius: 999px; overflow-x: auto; scrollbar-width: none; }
+.search input { padding-left: 48px; }
+.search svg { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; color: var(--sub); }
+.seg { display: flex; gap: 4px; padding: 4px; border-radius: 999px; border: 2.5px solid var(--edge); background: var(--card); overflow-x: auto; scrollbar-width: none; }
 .seg::-webkit-scrollbar { display: none; }
-.seg button { flex: 1 0 auto; min-height: 38px; padding: 0 14px; border-radius: 999px; font-weight: 700; font-size: 14px; color: var(--sub); white-space: nowrap; }
-.seg button[aria-pressed="true"] { background: var(--card); color: var(--ink); box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08); }
+.seg button { flex: 1 0 auto; min-height: 40px; padding: 0 14px; border-radius: 999px; font-weight: 700; font-size: 14px; color: var(--sub); white-space: nowrap; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--card); }
+.filterbar { display: flex; gap: 10px; align-items: center; padding: 8px 8px 8px 16px; border-radius: var(--r-md); background: var(--pink); color: #1A1033; border: 2.5px solid var(--edge); font-weight: 800; }
 
-.filterbar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; background: var(--accent-soft); color: var(--accent); border-radius: 14px; padding: 8px 8px 8px 14px; font-weight: 700; }
-
-.list { display: grid; gap: 12px; }
-.fam { display: grid; gap: 12px; transition: border-color 0.3s; }
-.fam.complete { border-color: color-mix(in srgb, var(--done) 45%, var(--line)); }
+.list { display: grid; gap: 16px; }
+.fam { position: relative; display: grid; gap: 14px; padding: 16px; }
+.fam.complete { background: linear-gradient(var(--card), var(--card)) padding-box; }
 .fam-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
 .who { display: flex; gap: 12px; align-items: center; min-width: 0; }
-.avatar { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; font-weight: 900; font-size: 17px; flex: none; color: #fff; }
-.fam-name { font-size: 18px; font-weight: 800; overflow-wrap: anywhere; line-height: 1.2; }
-.fam-lot { color: var(--sub); font-size: 14px; }
-.fam-count { font-size: 13px; font-weight: 800; color: var(--sub); background: var(--soft); padding: 6px 10px; border-radius: 999px; white-space: nowrap; font-variant-numeric: tabular-nums; }
-.fam-count.all { color: var(--done); background: var(--done-soft); }
-.ticks { display: flex; flex-wrap: wrap; gap: 8px; }
-.tick { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 0 16px 0 8px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--card); font-weight: 700; font-size: 15px; transition: transform 0.12s ease, background 0.2s, border-color 0.2s, color 0.2s; text-align: left; }
-.tick:active { transform: scale(0.95); }
-.tick .box { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--faint); display: grid; place-items: center; flex: none; transition: background 0.2s, border-color 0.2s; }
-.tick .box svg { width: 16px; height: 16px; opacity: 0; transform: scale(0.4); transition: opacity 0.2s, transform 0.25s cubic-bezier(0.3, 1.6, 0.5, 1); }
-.tick[aria-pressed="true"] { background: var(--done-soft); border-color: var(--done); color: var(--done); }
-.tick[aria-pressed="true"] .box { background: var(--done); border-color: var(--done); color: #fff; }
-.tick[aria-pressed="true"] .box svg { opacity: 1; transform: scale(1); }
-.updated { font-size: 12px; color: var(--faint); font-weight: 600; }
+.avatar { width: 46px; height: 46px; border-radius: 14px; border: 2.5px solid var(--edge); display: grid; place-items: center; font-family: var(--display); font-weight: 800; font-size: 18px; flex: none; color: #1A1033; }
+.fam-name { font-family: var(--display); font-size: 21px; font-weight: 800; line-height: 1.1; overflow-wrap: anywhere; letter-spacing: -0.02em; }
+.fam-lot { color: var(--sub); font-size: 14px; font-weight: 600; }
+.score { font-weight: 800; font-size: 14px; padding: 6px 12px; border-radius: 999px; border: 2px solid var(--edge); background: var(--soft); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.done-sticker { font-family: var(--display); font-weight: 800; font-size: 15px; padding: 6px 12px; border-radius: 12px; background: var(--sun); color: #1A1033; border: 2.5px solid var(--edge); box-shadow: 2px 2px 0 var(--drop); transform: rotate(4deg); white-space: nowrap; }
+.ticks { display: flex; flex-wrap: wrap; gap: 10px; }
+.tick { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 18px 0 8px; border-radius: 999px; border: 2.5px solid var(--edge); background: var(--card); font-weight: 700; font-size: 15px; box-shadow: 3px 3px 0 var(--drop); transition: transform 0.08s, box-shadow 0.08s, background 0.15s; text-align: left; }
+.tick:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--drop); }
+.tick .box { width: 30px; height: 30px; border-radius: 50%; border: 2.5px solid var(--edge); display: grid; place-items: center; flex: none; background: var(--card); }
+.tick .box svg { width: 17px; height: 17px; opacity: 0; transform: scale(0.3) rotate(-20deg); transition: opacity 0.15s, transform 0.3s cubic-bezier(0.3, 1.8, 0.5, 1); }
+.tick[aria-pressed="true"] { background: var(--volt); color: #1A1033; border-color: #1A1033; }
+.tick[aria-pressed="true"] .box { background: #1A1033; border-color: #1A1033; color: var(--volt); }
+.tick[aria-pressed="true"] .box svg { opacity: 1; transform: none; }
+.updated { font-size: 13px; color: var(--faint); font-weight: 600; }
 
-.empty { text-align: center; padding: 30px 16px; display: grid; gap: 8px; justify-items: center; }
-.empty .icon { font-size: 42px; }
+.empty { text-align: center; padding: 32px 18px; display: grid; gap: 8px; justify-items: center; }
+.empty .icon { font-size: 44px; }
 
-.foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; color: var(--faint); font-size: 14px; padding: 6px 2px; }
+.foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; color: var(--sub); font-size: 14px; font-weight: 600; padding: 4px 2px; }
 .live { display: inline-flex; align-items: center; gap: 8px; }
-.live i { width: 8px; height: 8px; border-radius: 50%; background: var(--done); animation: pulse 2s infinite; }
-@keyframes pulse { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--done) 60%, transparent); } 70% { box-shadow: 0 0 0 8px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
-.linkbtn { color: var(--sub); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; padding: 8px 0; }
+.live i { width: 10px; height: 10px; border-radius: 50%; background: #2BD46A; border: 2px solid var(--edge); animation: blink 2.4s infinite; }
+@keyframes blink { 50% { opacity: 0.35; } }
+.linkbtn { color: var(--ink); font-weight: 800; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; padding: 8px 0; }
 
-.admin { display: grid; gap: 18px; border: 2px solid var(--accent); scroll-margin-top: 12px; }
-.admin-h { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
-.admin-sec { display: grid; gap: 10px; padding-top: 16px; border-top: 1px solid var(--line); }
-.item { display: flex; align-items: center; gap: 8px; padding: 6px 6px 6px 12px; border-radius: 14px; background: var(--soft); flex-wrap: wrap; }
+.admin { display: grid; gap: 18px; padding: 0; overflow: hidden; scroll-margin-top: 14px; }
+.admin-h { background: var(--grape); color: var(--on-grape); padding: 16px 18px; border-bottom: 2.5px solid var(--edge); display: grid; gap: 2px; }
+.admin-h p { font-size: 14px; opacity: 0.9; font-weight: 600; }
+.admin-body { display: grid; gap: 22px; padding: 0 18px 18px; }
+.admin-sec { display: grid; gap: 10px; }
+.item { display: flex; align-items: center; gap: 8px; padding: 6px 6px 6px 14px; border-radius: var(--r-md); background: var(--soft); border: 2px solid var(--edge); flex-wrap: wrap; }
 .item .grow { overflow-wrap: anywhere; }
-.item input.field { min-height: 42px; }
-.iconbtn { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--card); border: 1px solid var(--line); flex: none; }
-.iconbtn svg { width: 17px; height: 17px; }
+.item input.field { min-height: 42px; border-width: 2px; }
+.iconbtn { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: var(--card); border: 2px solid var(--edge); flex: none; }
+.iconbtn svg { width: 18px; height: 18px; }
 .iconbtn.del { color: var(--danger); }
-textarea.field { min-height: 120px; padding: 12px 14px; resize: vertical; line-height: 1.5; }
-.share code { display: block; overflow-wrap: anywhere; background: var(--soft); padding: 11px 14px; border-radius: 14px; font-size: 13px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+textarea.field { min-height: 120px; padding: 12px 16px; resize: vertical; line-height: 1.5; }
+.link-box { overflow-wrap: anywhere; background: var(--soft); padding: 12px 14px; border-radius: var(--r-md); border: 2px dashed var(--edge); font-size: 14px; font-weight: 600; }
 details summary { list-style: none; }
 details summary::-webkit-details-marker { display: none; }
 
-.sheet-bg { position: fixed; inset: 0; background: rgba(20, 12, 6, 0.45); display: grid; align-items: end; justify-items: center; z-index: 20; padding: 16px; animation: fade 0.2s ease; }
-.sheet { width: 100%; max-width: 440px; background: var(--card); border-radius: 24px; padding: 22px; display: grid; gap: 14px; box-shadow: var(--shadow); animation: up 0.25s ease; margin-bottom: env(safe-area-inset-bottom); }
+.sheet-bg { position: fixed; inset: 0; background: rgba(20, 11, 42, 0.5); display: grid; align-items: end; justify-items: center; z-index: 20; padding: 16px; animation: fade 0.2s ease; }
+.sheet { width: 100%; max-width: 440px; padding: 22px; display: grid; gap: 14px; animation: up 0.25s ease; margin-bottom: env(safe-area-inset-bottom); }
 .sheet ol { margin: 0; padding-left: 22px; display: grid; gap: 10px; }
-.sheet .ico { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 7px; background: var(--soft); vertical-align: middle; margin: 0 2px; }
-.sheet .ico svg { width: 16px; height: 16px; color: #0A84FF; }
+.sheet .ico { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 8px; background: var(--soft); border: 2px solid var(--edge); vertical-align: middle; margin: 0 2px; }
+.sheet .ico svg { width: 16px; height: 16px; }
 @keyframes fade { from { opacity: 0; } }
 @keyframes up { from { transform: translateY(30px); opacity: 0; } }
 
-.toast { position: fixed; left: 50%; bottom: max(20px, env(safe-area-inset-bottom)); transform: translateX(-50%) translateY(160%); background: var(--ink); color: var(--bg); padding: 12px 20px; border-radius: 999px; font-weight: 700; box-shadow: var(--shadow); transition: transform 0.25s ease; z-index: 30; max-width: calc(100% - 32px); text-align: center; }
-.toast.show { transform: translateX(-50%) translateY(0); }
-.loading { display: grid; gap: 12px; }
-.skel { height: 120px; border-radius: var(--radius); background: linear-gradient(90deg, var(--soft), var(--line), var(--soft)); background-size: 200% 100%; animation: sk 1.2s infinite linear; }
-@keyframes sk { to { background-position: -200% 0; } }
-.confetti { position: fixed; width: 9px; height: 13px; border-radius: 2px; pointer-events: none; z-index: 40; }
+.toast { position: fixed; left: 50%; bottom: max(20px, env(safe-area-inset-bottom)); transform: translateX(-50%) translateY(180%); background: var(--ink); color: var(--card); padding: 12px 20px; border-radius: 999px; font-weight: 800; border: 2.5px solid var(--edge); box-shadow: 4px 4px 0 var(--pink); transition: transform 0.25s cubic-bezier(.2,1.4,.4,1), visibility 0.25s; visibility: hidden; z-index: 30; max-width: calc(100% - 32px); text-align: center; }
+.toast.show { transform: translateX(-50%) translateY(0); visibility: visible; }
+.loading { display: grid; gap: 16px; }
+.skel { height: 120px; border-radius: var(--r-lg); border: 2.5px solid var(--soft); background: var(--card); animation: blink 1.2s infinite; }
+.confetti { position: fixed; width: 10px; height: 14px; border-radius: 3px; border: 1.5px solid #1A1033; pointer-events: none; z-index: 40; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 </style>
 </head>
 <body>
-<main class="wrap" id="app"><div class="loading" aria-label="Loading"><div class="skel" style="height:150px"></div><div class="skel"></div><div class="skel"></div></div></main>
+<main class="wrap" id="app"><div class="loading" aria-label="Loading"><div class="skel" style="height:190px"></div><div class="skel"></div><div class="skel"></div></div></main>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div id="sheet"></div>
 
@@ -212,23 +224,36 @@ if (!cid && store.get('lastChecklist')) location.replace('?c=' + store.get('last
 const state = { list: null, families: [], user: null, admin: false, adminOpen: false, filter: null, view: 'all', q: '', confirm: null, error: null, loaded: false, bulkOpen: false };
 const $app = document.getElementById('app');
 const I = {
-  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
-  search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>',
-  edit: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></svg>',
-  trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>',
-  down: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>',
-  share: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></svg>',
-  copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 00-2-2H6a2 2 0 00-2 2v8a2 2 0 002 2h2"/></svg>',
-  chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4V5z"/></svg>',
-  plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>',
+  edit: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></svg>',
+  trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>',
+  down: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>',
+  share: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></svg>',
+  copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 00-2-2H6a2 2 0 00-2 2v8a2 2 0 002 2h2"/></svg>',
+  chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4V5z"/></svg>',
+  plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
 };
-const SCENE = '<svg class="scene" viewBox="0 0 220 120" fill="currentColor" aria-hidden="true"><rect x="160" y="10" width="7" height="110" rx="2"/><rect x="140" y="22" width="47" height="5" rx="2"/><path d="M0 40 Q80 60 143 25" fill="none" stroke="currentColor" stroke-width="2"/><path d="M187 25 Q205 35 220 32" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 120V78l30-24 30 24v42z"/><path d="M85 120V86l24-19 24 19v34z"/></svg>';
-const COLORS = ['#E8641C', '#1F9D63', '#2F7AE5', '#A855F7', '#E11D74', '#0EA5A4', '#D97706', '#6366F1'];
+const ART = `<svg class="art" viewBox="0 0 170 140" aria-hidden="true">
+  <path d="M0 46 Q 52 70 104 30" fill="none" stroke="var(--edge)" stroke-width="3" stroke-linecap="round"/>
+  <path d="M0 58 Q 50 84 104 42" fill="none" stroke="var(--edge)" stroke-width="3" stroke-linecap="round"/>
+  <path d="M146 30 Q 158 40 170 38" fill="none" stroke="var(--edge)" stroke-width="3" stroke-linecap="round"/>
+  <rect x="118" y="8" width="13" height="132" rx="3" fill="#8C80AD" stroke="var(--edge)" stroke-width="3"/>
+  <rect x="98" y="24" width="54" height="11" rx="4" fill="#8C80AD" stroke="var(--edge)" stroke-width="3"/>
+  <circle cx="106" cy="21" r="5" fill="var(--sun)" stroke="var(--edge)" stroke-width="3"/>
+  <circle cx="144" cy="21" r="5" fill="var(--sun)" stroke="var(--edge)" stroke-width="3"/>
+  <path d="M6 138 V96 L36 72 L66 96 V138 Z" fill="var(--pink)" stroke="var(--edge)" stroke-width="3" stroke-linejoin="round"/>
+  <rect x="26" y="104" width="20" height="18" rx="3" fill="var(--volt)" stroke="var(--edge)" stroke-width="3"/>
+  <path d="M62 138 V108 L86 89 L110 108 V138 Z" fill="var(--sun)" stroke="var(--edge)" stroke-width="3" stroke-linejoin="round"/>
+  <rect x="78" y="114" width="16" height="24" rx="3" fill="var(--grape)" stroke="var(--edge)" stroke-width="3"/>
+</svg>`;
+const COLORS = ['#FFC93C', '#D4FF3A', '#FF8FC1', '#A98BFF', '#6EE7F9', '#FFA36B', '#8EF0B4', '#FDE68A'];
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const rid = () => Math.random().toString(36).slice(2, 9);
 const colorFor = (s) => COLORS[[...String(s)].reduce((a, c) => a + c.charCodeAt(0), 0) % COLORS.length];
 const initials = (s) => String(s).trim().split(/\s+/).filter((w) => !/^(the|fam|family|pamilya)$/i.test(w)).slice(0, 2).map((w) => w[0]).join('').toUpperCase() || '•';
 const millis = (t) => (t && t.toMillis ? t.toMillis() : typeof t === 'number' ? t : null);
+const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
 function ago(t) {
   const m = millis(t);
   if (!m) return 'just now';
@@ -251,8 +276,8 @@ function toast(msg) {
 
 function confetti(x, y) {
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const colors = ['#E8641C', '#F59E0B', '#1F9D63', '#2F7AE5', '#E11D74'];
-  for (let i = 0; i < 26; i++) {
+  const colors = ['#D4FF3A', '#FFC93C', '#FF5FA2', '#7C4DFF', '#6EE7F9'];
+  for (let i = 0; i < 30; i++) {
     const el = document.createElement('div');
     el.className = 'confetti';
     el.style.left = x + 'px';
@@ -260,12 +285,12 @@ function confetti(x, y) {
     el.style.background = colors[i % colors.length];
     document.body.appendChild(el);
     const a = Math.random() * Math.PI * 2;
-    const d = 60 + Math.random() * 110;
+    const d = 70 + Math.random() * 120;
     el.animate([
       { transform: 'translate(-50%, -50%) rotate(0deg)', opacity: 1 },
-      { transform: `translate(${Math.cos(a) * d}px, ${Math.sin(a) * d - 40}px) rotate(${Math.random() * 720}deg)`, opacity: 1, offset: 0.6 },
-      { transform: `translate(${Math.cos(a) * d}px, ${Math.sin(a) * d + 80}px) rotate(${Math.random() * 900}deg)`, opacity: 0 },
-    ], { duration: 1100 + Math.random() * 400, easing: 'cubic-bezier(.2,.7,.4,1)' }).onfinish = () => el.remove();
+      { transform: `translate(${Math.cos(a) * d}px, ${Math.sin(a) * d - 50}px) rotate(${Math.random() * 720}deg)`, opacity: 1, offset: 0.6 },
+      { transform: `translate(${Math.cos(a) * d}px, ${Math.sin(a) * d + 90}px) rotate(${Math.random() * 900}deg)`, opacity: 0 },
+    ], { duration: 1200 + Math.random() * 400, easing: 'cubic-bezier(.2,.7,.4,1)' }).onfinish = () => el.remove();
   }
 }
 
@@ -279,7 +304,7 @@ async function signIn() {
     if (code === 'auth/popup-blocked' || code === 'auth/operation-not-supported-in-this-environment' || code === 'auth/web-storage-unsupported') {
       await signInWithRedirect(auth, provider);
     } else if (code !== 'auth/popup-closed-by-user' && code !== 'auth/cancelled-popup-request') {
-      toast('Sign-in did not work. Please try again.');
+      toast('Sign-in didn’t work. Try again.');
     }
   }
 }
@@ -299,11 +324,11 @@ if (cid) {
   onSnapshot(doc(db, 'checklists', cid), (snap) => {
     state.loaded = true;
     state.list = snap.exists() ? { id: snap.id, ...snap.data() } : null;
-    if (state.list) { store.set('lastChecklist', cid); document.title = (state.list.title ? state.list.title + ' · ' : '') + 'Ka-Block'; }
+    if (state.list) { store.set('lastChecklist', cid); document.title = (state.list.title ? state.list.title + ' | ' : '') + 'Ka-Block'; }
     else if (store.get('lastChecklist') === cid) store.set('lastChecklist', '');
     checkAdmin();
     render();
-  }, () => { state.loaded = true; state.error = 'We could not load this checklist. Check your internet and try again.'; render(); });
+  }, () => { state.loaded = true; state.error = 'Couldn’t load the checklist. Check your internet, then refresh.'; render(); });
   onSnapshot(collection(db, 'checklists', cid, 'families'), (snap) => {
     state.families = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
     state.families.sort((a, b) => (a.order ?? 0) - (b.order ?? 0) || String(a.name).localeCompare(String(b.name)));
@@ -317,7 +342,7 @@ let deferredInstall = null;
 const isStandalone = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
 const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredInstall = e; render(); });
-window.addEventListener('appinstalled', () => { deferredInstall = null; toast('Added to your apps'); render(); });
+window.addEventListener('appinstalled', () => { deferredInstall = null; toast('Ka-Block is on your home screen'); render(); });
 const canOfferInstall = () => !isStandalone() && (deferredInstall || isIOS());
 
 async function install() {
@@ -328,18 +353,18 @@ async function install() {
     render();
     return;
   }
-  openSheet(`<h2>Add to your Home Screen</h2>
+  openSheet(`<h2>Add Ka-Block to your Home Screen</h2>
     <ol>
       <li>Tap the Share button <span class="ico">${I.share}</span> in Safari.</li>
       <li>Scroll down and tap <b>Add to Home Screen</b>.</li>
-      <li>Tap <b>Add</b>. The checklist now opens like an app.</li>
+      <li>Tap <b>Add</b>. It now opens like an app.</li>
     </ol>
     <button class="btn" data-close="1">Got it</button>`);
 }
 
 function openSheet(html) {
   const s = document.getElementById('sheet');
-  s.innerHTML = `<div class="sheet-bg" data-close="1"><div class="sheet" role="dialog" aria-modal="true">${html}</div></div>`;
+  s.innerHTML = `<div class="sheet-bg" data-close="1"><div class="sheet sticker" role="dialog" aria-modal="true">${html}</div></div>`;
   s.querySelectorAll('[data-close]').forEach((el) => el.addEventListener('click', (e) => { if (e.target === el) s.innerHTML = ''; }));
 }
 
@@ -349,27 +374,29 @@ const isComplete = (f, R) => R.length > 0 && R.every((r) => has(f, r));
 
 function topBar() {
   return `<header class="top">
-    <span class="brand"><img src="icon-192.png" alt="">Ka-Block</span>
-    ${canOfferInstall() ? `<button class="pill-btn" id="installBtn">${I.down}Add to Home Screen</button>` : ''}
+    <span class="logo"><img src="icon-192.png" alt="">Ka-Block</span>
+    ${canOfferInstall() ? `<button class="install" id="installBtn">${I.down}Get the app</button>` : ''}
   </header>`;
 }
 
 function renderNoList() {
   $app.innerHTML = `
     ${topBar()}
-    <section class="card hero">
-      <div>
-        <h1>${cid ? 'This checklist was not found' : 'Keep track of your block, together'}</h1>
-        <p class="sub" style="margin-top:8px">${cid ? 'The link may be incomplete. Ask your organizer to send it again.' : 'One link for the whole block. Families tick what they already have, and everyone sees who still needs it.'}</p>
+    <section class="sticker hero">
+      <div class="hero-top">
+        <div>
+          <h1>${cid ? 'Hmm, this checklist isn’t here' : 'Your block’s checklist, in one link'}</h1>
+          <p class="sub" style="margin-top:10px">${cid ? 'The link may be cut off. Ask your organizer to send it again.' : 'Families tick what they already have. Everyone sees who still needs help.'}</p>
+        </div>
+        ${ART}
       </div>
-      ${SCENE}
     </section>
-    <section class="card" style="display:grid;gap:14px">
+    <section class="sticker" style="display:grid;gap:14px;padding:20px">
       <h2>Start a checklist</h2>
-      <p class="sub small">For the organizer. You'll add the requirements and the families, then share the link in your group chat.</p>
+      <p class="sub">For the organizer. Add the requirements and the families, then share the link in your group chat.</p>
       <input id="newTitle" class="field" placeholder="Name it, e.g. Block 5 Requirements" maxlength="60" aria-label="Checklist name">
       <button class="btn" id="createBtn">${state.user ? 'Create checklist' : 'Sign in with Google to start'}</button>
-      ${state.user ? `<p class="sub small">Signed in as ${esc(state.user.email)} · <button class="linkbtn" id="outBtn">Sign out</button></p>` : ''}
+      ${state.user ? `<p class="sub small">Signed in as ${esc(state.user.email)}. <button class="linkbtn" id="outBtn">Sign out</button></p>` : ''}
     </section>
     <p class="sub small" style="text-align:center">Got a link from your organizer? Just open it. No sign-in needed to tick.</p>`;
   document.getElementById('createBtn').onclick = async () => {
@@ -381,7 +408,7 @@ function renderNoList() {
       store.set('openAdmin', '1');
       location.search = '?c=' + ref.id;
     } catch (e) {
-      toast('Could not create the checklist. Please try again.');
+      toast('Couldn’t create it. Check your internet and try again.');
     }
   };
   const out = document.getElementById('outBtn');
@@ -401,7 +428,7 @@ function render(force) {
   if (!state.loaded) return;
   if (!force && typing()) { pending = true; return; }
   pending = false;
-  if (state.error) { $app.innerHTML = `${topBar()}<div class="card empty"><div class="icon">📶</div><h2>${esc(state.error)}</h2></div>`; return; }
+  if (state.error) { $app.innerHTML = `${topBar()}<div class="sticker empty"><div class="icon">📶</div><h2>${esc(state.error)}</h2></div>`; return; }
   if (!cid || !state.list) { renderNoList(); return; }
   const R = reqs();
   const F = state.families;
@@ -419,23 +446,24 @@ function render(force) {
     const done = F.filter((f) => has(f, r)).length;
     const p = F.length ? Math.round((done / F.length) * 100) : 0;
     const missing = F.length - done;
-    return `<button class="stat" data-filter="${r.id}" aria-pressed="${state.filter === r.id}">
-      <div class="t"><span>${esc(r.name)}</span><span class="num">${done}/${F.length}</span></div>
-      <div class="bar"><span style="width:${p}%"></span></div>
-      <div class="hint ${F.length && !missing ? 'ok' : ''}">${F.length ? (missing ? `${missing} ${missing === 1 ? 'family' : 'families'} still without · see who` : 'Everyone has this 🎉') : 'No families yet'}</div>
+    return `<button class="sticker stat" data-filter="${r.id}" aria-pressed="${state.filter === r.id}">
+      <span class="name">${esc(r.name)}</span>
+      <span class="count">${done}<small> of ${F.length} have it</small></span>
+      <span class="bar"><span class="${p ? '' : 'zero'}" style="width:${p}%"></span></span>
+      <span class="hint ${F.length && !missing ? 'ok' : ''}">${F.length ? (missing ? `${plural(missing, 'family', 'families')} still without. Tap to see who.` : 'Everyone has this 🎉') : 'No families yet'}</span>
     </button>`;
   }).join('');
 
   const cards = shown.map((f) => {
     const have = R.filter((r) => has(f, r)).length;
     const all = isComplete(f, R);
-    return `<article class="card fam ${all ? 'complete' : ''}">
+    return `<article class="sticker fam ${all ? 'complete' : ''}">
       <div class="fam-head">
         <div class="who">
           <div class="avatar" style="background:${colorFor(f.name)}" aria-hidden="true">${esc(initials(f.name))}</div>
           <div><div class="fam-name">${esc(f.name)}</div>${f.lot ? `<div class="fam-lot">${esc(f.lot)}</div>` : ''}</div>
         </div>
-        <div class="fam-count ${all ? 'all' : ''}">${all ? 'Complete ✓' : `${have} of ${R.length}`}</div>
+        ${all ? '<span class="done-sticker">All set! ✨</span>' : `<span class="score">${have} of ${R.length}</span>`}
       </div>
       <div class="ticks">${R.map((r) => `<button class="tick" aria-pressed="${has(f, r)}" data-fam="${f.id}" data-req="${r.id}"><span class="box">${I.check}</span>${esc(r.name)}</button>`).join('')}</div>
       ${have ? `<div class="updated">Updated ${ago(f.updatedAt)}</div>` : ''}
@@ -444,47 +472,52 @@ function render(force) {
 
   const shareUrl = location.origin + location.pathname + '?c=' + cid;
   let emptyMsg = 'No families yet';
-  let emptySub = 'The organizer will add the families soon.';
+  let emptySub = 'The organizer will add them soon.';
   if (F.length) {
     emptySub = '';
-    if (q) emptyMsg = 'No family matches your search';
+    if (q) emptyMsg = 'No family with that name';
     else if (filterReq) emptyMsg = 'Everyone already has this 🎉';
-    else if (state.view === 'todo') emptyMsg = 'Every family is complete 🎉';
-    else emptyMsg = 'No complete families yet';
+    else if (state.view === 'todo') emptyMsg = 'Every family is all set 🎉';
+    else emptyMsg = 'No family is all set yet';
   }
 
   $app.innerHTML = `
     ${topBar()}
-    <section class="card hero">
-      <div>
-        <h1>${esc(state.list.title || 'Block Requirements')}</h1>
-        <div class="meta"><span class="chip">🏠 ${F.length} ${F.length === 1 ? 'family' : 'families'}</span><span class="chip">📋 ${R.length} ${R.length === 1 ? 'requirement' : 'requirements'}</span></div>
+    <section class="sticker hero">
+      <div class="hero-top">
+        <div>
+          <h1>${esc(state.list.title || 'Block Requirements')}</h1>
+          <div class="tags"><span class="tag">🏠 ${plural(F.length, 'family', 'families')}</span><span class="tag y">📋 ${plural(R.length, 'requirement', 'requirements')}</span></div>
+        </div>
+        ${ART}
       </div>
-      <div class="ring" style="--p:${pct}" role="img" aria-label="${completeCount} of ${F.length} families complete"><div><b>${completeCount}/${F.length}</b><span>complete</span></div></div>
-      ${SCENE}
+      <div class="battery" role="img" aria-label="${completeCount} of ${F.length} families all set">
+        <div class="cell"><span class="fill ${pct ? '' : 'zero'}" style="width:${pct}%"></span><span class="blabel"><b>${completeCount} of ${F.length} all set</b></span></div>
+        <span class="nub"></span>
+      </div>
     </section>
 
-    <div class="how"><span class="dot">${I.check}</span><span>Find your family, then <b>tap each requirement you already have</b>. It saves right away for everyone.</span></div>
+    <div class="how"><span class="em" aria-hidden="true">👆</span><span>Find your family, then tap what you already have. It saves instantly for everyone.</span></div>
 
     ${state.admin && state.adminOpen ? adminHtml(shareUrl) : ''}
 
-    ${R.length ? `<div class="section-h"><h2>Summary</h2><span>Tap one to see who still needs it</span></div><section class="stats" aria-label="Summary">${stats}</section>` : ''}
+    ${R.length ? `<div class="sec"><h2>Who has what</h2><span>Tap one to see who still needs it</span></div><section class="stats" aria-label="Summary">${stats}</section>` : ''}
 
-    <div class="section-h"><h2>Families</h2><span>${shown.length === F.length ? '' : `Showing ${shown.length} of ${F.length}`}</span></div>
+    <div class="sec"><h2>Families</h2><span>${shown.length === F.length ? '' : `Showing ${shown.length} of ${F.length}`}</span></div>
     <section class="tools">
-      ${F.length > 4 ? `<label class="search">${I.search}<input id="q" class="field" type="search" placeholder="Search family name or lot" value="${esc(state.q)}" aria-label="Search families" autocomplete="off"></label>` : ''}
+      ${F.length > 4 ? `<label class="search">${I.search}<input id="q" class="field" type="search" placeholder="Search your family name or lot" value="${esc(state.q)}" aria-label="Search families" autocomplete="off"></label>` : ''}
       ${F.length && R.length ? `<div class="seg" role="group" aria-label="Show">
         <button data-view="all" aria-pressed="${state.view === 'all'}">All (${F.length})</button>
-        <button data-view="todo" aria-pressed="${state.view === 'todo'}">Not yet complete (${F.length - completeCount})</button>
-        <button data-view="done" aria-pressed="${state.view === 'done'}">Complete (${completeCount})</button>
+        <button data-view="todo" aria-pressed="${state.view === 'todo'}">Not done yet (${F.length - completeCount})</button>
+        <button data-view="done" aria-pressed="${state.view === 'done'}">All set (${completeCount})</button>
       </div>` : ''}
-      ${filterReq ? `<div class="filterbar"><span class="grow">Without: ${esc(filterReq.name)}</span><button class="btn small ghost" id="clearFilter">Show all</button></div>` : ''}
+      ${filterReq ? `<div class="filterbar"><span class="grow">Still without: ${esc(filterReq.name)}</span><button class="btn small alt" id="clearFilter">Show all</button></div>` : ''}
     </section>
 
-    <section class="list">${cards || `<div class="card empty"><div class="icon">${F.length ? (q ? '🔍' : '🎉') : '🏠'}</div><h2>${emptyMsg}</h2>${emptySub ? `<p class="sub">${emptySub}</p>` : ''}</div>`}</section>
+    <section class="list">${cards || `<div class="sticker empty"><div class="icon">${F.length ? (q ? '🔍' : '🎉') : '🏠'}</div><h2>${emptyMsg}</h2>${emptySub ? `<p class="sub">${emptySub}</p>` : ''}</div>`}</section>
 
     <footer class="foot">
-      <span class="live"><i></i>Live · updates for everyone</span>
+      <span class="live"><i></i>Live for everyone</span>
       ${state.admin ? `<button class="linkbtn" id="adminToggle">${state.adminOpen ? 'Close organizer tools' : 'Organizer tools'}</button>` : `<button class="linkbtn" id="adminSignIn">${state.user ? 'Sign out' : 'Organizer sign-in'}</button>`}
     </footer>`;
 
@@ -495,7 +528,7 @@ function summaryText(shareUrl) {
   const R = reqs();
   const F = state.families;
   const date = new Date().toLocaleDateString(undefined, { month: 'long', day: 'numeric' });
-  const lines = [`📋 ${state.list.title || 'Block Requirements'} — update as of ${date}`, ''];
+  const lines = [`📋 ${state.list.title || 'Block Requirements'} (as of ${date})`, ''];
   R.forEach((r) => {
     const without = F.filter((f) => !has(f, r));
     lines.push(`${without.length ? '⏳' : '✅'} ${r.name}: ${F.length - without.length} of ${F.length} done`);
@@ -521,55 +554,56 @@ function adminHtml(shareUrl) {
   const R = reqs();
   const F = state.families;
   const c = state.confirm;
-  return `<section class="card admin" aria-label="Organizer tools">
-    <div class="admin-h"><h2>Organizer tools</h2><span class="sub small">Only you can see this · ${esc(state.user.email || '')}</span></div>
-
-    <div class="admin-sec" style="border-top:0;padding-top:0">
-      <h3>Share with the block</h3>
-      <div class="share"><code id="shareUrl">${esc(shareUrl)}</code></div>
-      <div class="row">
-        <button class="btn small" id="copyLink">${I.copy}Copy link</button>
-        ${navigator.share ? `<button class="btn small ghost" id="shareLink">${I.share}Share</button>` : ''}
-        <button class="btn small ghost" id="copySummary">${I.chat}Copy update for group chat</button>
-      </div>
-    </div>
-
-    <div class="admin-sec">
-      <h3>Checklist name</h3>
-      <div class="row"><input id="titleIn" class="field grow" value="${esc(state.list.title || '')}" maxlength="60" aria-label="Checklist name"><button class="btn small ghost" id="saveTitle">Save</button></div>
-    </div>
-
-    <div class="admin-sec">
-      <h3>Requirements (${R.length})</h3>
-      ${R.map((r) => `<div class="item">
-        <input class="field grow" data-rename="${r.id}" value="${esc(r.name)}" maxlength="40" aria-label="Requirement name">
-        ${c === 'r:' + r.id
-          ? `<button class="btn small danger" data-delreq="${r.id}">Delete</button><button class="btn small ghost" data-cancel="1">Keep</button>`
-          : `<button class="iconbtn del" data-askreq="${r.id}" aria-label="Delete ${esc(r.name)}">${I.trash}</button>`}
-      </div>`).join('')}
-      <div class="row"><input id="newReq" class="field grow" placeholder="e.g. Water connection" maxlength="40" aria-label="New requirement"><button class="btn small" id="addReq">${I.plus}Add</button></div>
-    </div>
-
-    <div class="admin-sec">
-      <h3>Families (${F.length})</h3>
-      ${F.map((f) => `<div class="item">
-        <div class="grow"><b>${esc(f.name)}</b>${f.lot ? ` <span class="sub small">· ${esc(f.lot)}</span>` : ''}</div>
-        ${c === 'f:' + f.id
-          ? `<button class="btn small danger" data-delfam="${f.id}">Delete</button><button class="btn small ghost" data-cancel="1">Keep</button>`
-          : `<button class="iconbtn" data-editfam="${f.id}" aria-label="Edit ${esc(f.name)}">${I.edit}</button><button class="iconbtn del" data-askfam="${f.id}" aria-label="Delete ${esc(f.name)}">${I.trash}</button>`}
-      </div>`).join('') || '<p class="sub small">No families yet. Add them below.</p>'}
-      <div class="row"><input id="famName" class="field" style="flex:1 1 100%" placeholder="Family name, e.g. Dela Cruz" maxlength="50" aria-label="Family name"><input id="famLot" class="field grow" placeholder="Lot or house no. (optional)" maxlength="20" aria-label="Lot"><button class="btn small" id="addFam">${I.plus}Add</button></div>
-      <details id="bulkBox" ${state.bulkOpen ? 'open' : ''}>
-        <summary class="linkbtn" style="cursor:pointer;display:inline-block">Add many families at once</summary>
-        <div style="display:grid;gap:8px;margin-top:8px">
-          <p class="sub small">One family per line. Put the lot after a comma if you like, e.g. <b>Santos, Lot 6</b></p>
-          <textarea id="bulk" class="field" placeholder="Dela Cruz, Lot 5&#10;Santos, Lot 6&#10;Reyes, Lot 7" aria-label="Families, one per line"></textarea>
-          <button class="btn small" id="addBulk">Add all</button>
+  return `<section class="sticker admin" aria-label="Organizer tools">
+    <div class="admin-h"><h2>Organizer tools</h2><p>Only you can see this. Signed in as ${esc(state.user.email || '')}</p></div>
+    <div class="admin-body">
+      <div class="admin-sec">
+        <h3>Share with the block</h3>
+        <div class="link-box" id="shareUrl">${esc(shareUrl)}</div>
+        <div class="row">
+          <button class="btn small" id="copyLink">${I.copy}Copy link</button>
+          ${navigator.share ? `<button class="btn small alt" id="shareLink">${I.share}Share</button>` : ''}
+          <button class="btn small alt" id="copySummary">${I.chat}Copy update for the GC</button>
         </div>
-      </details>
-    </div>
+      </div>
 
-    <div class="row" style="justify-content:flex-end"><button class="btn small ghost" id="outBtn">Sign out</button></div>
+      <div class="admin-sec">
+        <h3>Checklist name</h3>
+        <div class="row"><input id="titleIn" class="field grow" value="${esc(state.list.title || '')}" maxlength="60" aria-label="Checklist name"><button class="btn small alt" id="saveTitle">Save</button></div>
+      </div>
+
+      <div class="admin-sec">
+        <h3>Requirements (${R.length})</h3>
+        ${R.map((r) => `<div class="item">
+          <input class="field grow" data-rename="${r.id}" value="${esc(r.name)}" maxlength="40" aria-label="Requirement name">
+          ${c === 'r:' + r.id
+            ? `<button class="btn small danger" data-delreq="${r.id}">Delete</button><button class="btn small alt" data-cancel="1">Keep</button>`
+            : `<button class="iconbtn del" data-askreq="${r.id}" aria-label="Delete ${esc(r.name)}">${I.trash}</button>`}
+        </div>`).join('')}
+        <div class="row"><input id="newReq" class="field grow" placeholder="e.g. Water connection" maxlength="40" aria-label="New requirement"><button class="btn small" id="addReq">${I.plus}Add</button></div>
+      </div>
+
+      <div class="admin-sec">
+        <h3>Families (${F.length})</h3>
+        ${F.map((f) => `<div class="item">
+          <div class="grow"><b>${esc(f.name)}</b>${f.lot ? ` <span class="sub small">${esc(f.lot)}</span>` : ''}</div>
+          ${c === 'f:' + f.id
+            ? `<button class="btn small danger" data-delfam="${f.id}">Delete</button><button class="btn small alt" data-cancel="1">Keep</button>`
+            : `<button class="iconbtn" data-editfam="${f.id}" aria-label="Edit ${esc(f.name)}">${I.edit}</button><button class="iconbtn del" data-askfam="${f.id}" aria-label="Delete ${esc(f.name)}">${I.trash}</button>`}
+        </div>`).join('') || '<p class="sub small">No families yet. Add them below.</p>'}
+        <div class="row"><input id="famName" class="field" style="flex:1 1 100%" placeholder="Family name, e.g. Dela Cruz" maxlength="50" aria-label="Family name"><input id="famLot" class="field grow" placeholder="Lot or house no. (optional)" maxlength="20" aria-label="Lot"><button class="btn small" id="addFam">${I.plus}Add</button></div>
+        <details id="bulkBox" ${state.bulkOpen ? 'open' : ''}>
+          <summary class="linkbtn" style="cursor:pointer;display:inline-block">Add many families at once</summary>
+          <div style="display:grid;gap:8px;margin-top:8px">
+            <p class="sub small">One family per line. Put the lot after a comma if you like, e.g. <b>Santos, Lot 6</b></p>
+            <textarea id="bulk" class="field" placeholder="Dela Cruz, Lot 5&#10;Santos, Lot 6&#10;Reyes, Lot 7" aria-label="Families, one per line"></textarea>
+            <button class="btn small" id="addBulk">Add all</button>
+          </div>
+        </details>
+      </div>
+
+      <div class="row" style="justify-content:flex-end"><button class="btn small alt" id="outBtn">Sign out</button></div>
+    </div>
   </section>`;
 }
 
@@ -587,7 +621,7 @@ function bind(shareUrl) {
     if (willComplete) { const rect = b.getBoundingClientRect(); confetti(rect.left + rect.width / 2, rect.top + rect.height / 2); }
     try {
       await updateDoc(doc(db, 'checklists', cid, 'families', b.dataset.fam), { ['ticks.' + reqId]: now ? true : deleteField(), updatedAt: serverTimestamp() });
-      toast(willComplete ? `${fam.name} is complete! 🎉` : now ? 'Saved ✓' : 'Unticked');
+      toast(willComplete ? `${fam.name} is all set! 🎉` : now ? 'Saved ✓' : 'Unticked');
     } catch (err) {
       b.setAttribute('aria-pressed', String(!now));
       toast('Not saved. Check your internet and try again.');
@@ -616,7 +650,7 @@ function bind(shareUrl) {
     if (state.user) { await signOut(auth); toast('Signed out'); return; }
     store.set('openAdmin', '1');
     await signIn();
-    setTimeout(() => { if (state.user && !state.admin) { store.set('openAdmin', ''); toast('This account is not the organizer of this checklist.'); } }, 1500);
+    setTimeout(() => { if (state.user && !state.admin) { store.set('openAdmin', ''); toast('This account isn’t the organizer of this checklist.'); } }, 1500);
   };
   const tog = document.getElementById('adminToggle');
   if (tog) tog.onclick = () => { state.adminOpen = !state.adminOpen; state.confirm = null; render(); if (state.adminOpen) document.querySelector('.admin').scrollIntoView({ behavior: 'smooth', block: 'start' }); };
@@ -633,8 +667,8 @@ function bind(shareUrl) {
   enter('titleIn', 'saveTitle');
 
   document.getElementById('bulkBox').addEventListener('toggle', (e) => { state.bulkOpen = e.target.open; });
-  document.getElementById('copyLink').onclick = () => copyText(shareUrl, 'Link copied. Paste it in your group chat.');
-  document.getElementById('copySummary').onclick = () => copyText(summaryText(shareUrl), 'Update copied. Paste it in your group chat.');
+  document.getElementById('copyLink').onclick = () => copyText(shareUrl, 'Link copied. Paste it in the GC!');
+  document.getElementById('copySummary').onclick = () => copyText(summaryText(shareUrl), 'Update copied. Paste it in the GC!');
   const sl = document.getElementById('shareLink');
   if (sl) sl.onclick = () => navigator.share({ title: state.list.title, text: 'Please tick the requirements your family already has:', url: shareUrl }).catch(() => {});
   document.getElementById('saveTitle').onclick = safe(async () => {
@@ -722,7 +756,7 @@ function bind(shareUrl) {
       });
       await batch.commit();
     }
-    toast(lines.length + (lines.length === 1 ? ' family added' : ' families added'));
+    toast(plural(lines.length, 'family', 'families') + ' added');
   });
   document.getElementById('outBtn').onclick = async () => { state.adminOpen = false; await signOut(auth); toast('Signed out'); };
 }
