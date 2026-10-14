@@ -50,8 +50,19 @@ service cloud.firestore {
       match /records/{fid} {
         allow read, write: if isAdmin(listOf(cid));
       }
+
+      match /households/{hid} {
+        allow read, write: if isAdmin(listOf(cid));
+      }
     }
 
+    match /duesView/{token} {
+      allow get: if true;
+      allow list: if false;
+      allow create: if isAdmin(listOf(request.resource.data.cid));
+      allow update: if request.resource.data.cid == resource.data.cid && isAdmin(listOf(resource.data.cid));
+      allow delete: if isAdmin(listOf(resource.data.cid));
+    }
     match /feedback/{id} {
       allow create: if request.resource.data.keys().hasOnly(['rating', 'kind', 'message', 'contact', 'cid', 'lang', 'role', 'ua', 'createdAt'])
         && request.resource.data.message is string
