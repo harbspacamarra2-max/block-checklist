@@ -46,6 +46,10 @@ service cloud.firestore {
       match /contacts/{fid} {
         allow read, write: if isAdmin(listOf(cid));
       }
+
+      match /records/{fid} {
+        allow read, write: if isAdmin(listOf(cid));
+      }
     }
 
     match /feedback/{id} {

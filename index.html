@@ -173,6 +173,27 @@ html.big .hero-top { grid-template-columns: minmax(0, 1fr); }
 .fam-tags { display: flex; flex-wrap: wrap; gap: 6px; }
 .badge { font-size: 13px; font-weight: 800; padding: 4px 10px; border-radius: 999px; border: 2px solid var(--edge); background: var(--soft); }
 .badge.gold { background: var(--sun); color: #1A1033; }
+.badge.ok { background: var(--volt); color: #1A1033; }
+.badge.warn { background: var(--pink); color: #1A1033; }
+.ic-head { display: flex; gap: 12px; align-items: center; }
+.ic-sec { display: grid; gap: 10px; padding-top: 14px; border-top: 2px dashed var(--edge); }
+.ic-sec h3 { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.ic-label { font-size: 13px; font-weight: 800; color: var(--sub); }
+.ic-status { padding: 10px 12px; border-radius: 12px; border: 2px solid var(--edge); font-weight: 800; }
+.ic-status.ok { background: var(--volt); color: #1A1033; }
+.ic-status.warn { background: var(--pink); color: #1A1033; }
+.ic-status.none { background: var(--soft); }
+.pay { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 8px 8px 8px 12px; border-radius: 12px; background: var(--soft); font-size: 14px; flex-wrap: wrap; }
+.pay small { color: var(--sub); font-weight: 600; }
+.money { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.money div { padding: 12px; display: grid; }
+.money b { font-family: var(--display); font-size: 20px; line-height: 1.15; overflow-wrap: anywhere; }
+.money span { font-size: 12px; color: var(--sub); font-weight: 700; }
+.icard { border: 1.5px solid #000; border-radius: 8px; padding: 10px 12px; margin: 0 0 10px; break-inside: avoid; page-break-inside: avoid; font-size: 12px; }
+.icard h2 { font-size: 17px; margin: 0 0 4px; }
+.icard .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 14px; }
+.icard table { width: 100%; border-collapse: collapse; margin-top: 6px; }
+.icard th, .icard td { border: 1px solid #000; padding: 3px 5px; text-align: left; }
 .ticks { display: flex; flex-wrap: wrap; gap: 10px; }
 .tick { display: inline-flex; align-items: center; gap: 10px; max-width: 100%; min-height: 48px; padding: 0 18px 0 8px; border-radius: 999px; border: 2.5px solid var(--edge); background: var(--card); font-weight: 700; font-size: 15px; box-shadow: 3px 3px 0 var(--drop); transition: transform 0.08s, box-shadow 0.08s, background 0.15s; text-align: left; }
 .tick:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--drop); }
@@ -617,6 +638,8 @@ const TX = {
     ],
     orgExtrasH: 'Extra tools',
     orgExtras: [
+      '📇 <b>Index cards:</b> tap 📇 on a family for their private card: name on the title, number, notes, certifications and dues.',
+      '💰 <b>Monthly dues:</b> turn it on in Organizer tools, then record payments on each index card. Only organizers can see dues.',
       '📣 <b>Ready-made messages:</b> progress updates, reminders, deadline and thank-you. Tap, copy, paste.',
       '📱 <b>Text a family:</b> save their number, then tap “Text them” to send a reminder from your own phone.',
       '✅ <b>Verify and 🔒 lock:</b> buttons on each family card while Organizer tools are open.',
@@ -628,6 +651,7 @@ const TX = {
     orgTip: 'On another phone or laptop, just sign in again with the same Google account. To find Organizer tools, scroll to the very bottom.',
     newH: 'New in Ka-Block ✨',
     newList: [
+      '📇 For organizers: <b>index cards</b> per family and <b>monthly dues</b> tracking (private)',
       '🔍 A <b>Find my family</b> button, always at the bottom right',
       '⭐ Your family is pinned at the top with what you still need',
       '↩️ <b>Undo</b> after every tap',
@@ -671,6 +695,71 @@ const TX = {
     roleOrg: 'organizer',
     roleFam: 'neighbor',
     openList: 'Open checklist',
+    cardBtn: '📇 Index card',
+    certs: [['💧', 'Water connection'], ['⚡', 'Meralco application'], ['🪪', 'Membership'], ['🏗️', 'Construction permit']],
+    quickAdd: 'Quick add:',
+    icTitle: 'Index card',
+    icPrivate: '🔒 Only organizers can see this card.',
+    icOwner: 'Name on the title (titulo)',
+    icOwnerPh: 'e.g. Juan Dela Cruz',
+    icPhone: 'Mobile number',
+    icNotes: 'Notes',
+    icNotesPh: 'e.g. Paid cash to Ate Lorna. Renting, owner abroad.',
+    icSaveDetails: 'Save details',
+    icDetailsSaved: 'Index card saved ✓',
+    icCerts: 'Certifications',
+    icDues: 'Association dues',
+    icDuesOff: 'Dues tracking is off. Turn it on in Organizer tools → Association dues.',
+    icRate: 'Monthly dues for this family (₱)',
+    icRatePh: (d) => d ? `Default ₱${d}` : 'e.g. 100',
+    icPaidUntil: 'Paid until (month)',
+    icSaveDues: 'Save',
+    duesSaved: 'Dues saved ✓',
+    stOk: (m) => `✓ Up to date. Paid until ${m}`,
+    stBehind: (n, m, bal) => `Behind ${n} ${n === 1 ? 'month' : 'months'}${m ? `, paid until ${m}` : ''}${bal ? ` (₱${bal})` : ''}`,
+    stNone: 'No payment recorded yet',
+    payH: 'Record a payment',
+    payMonths: 'How many months?',
+    payCustom: 'Months',
+    payAmount: 'Amount (₱)',
+    payDate: 'Date paid',
+    payOr: 'OR number (optional)',
+    payBtn: 'Record payment',
+    payNeedMonths: 'Enter how many months they paid.',
+    paySaved: (m) => `Payment recorded ✓ Paid until ${m}`,
+    payHistory: 'Payment history',
+    payNone: 'No payments recorded yet.',
+    payLine: (n, from, to) => n === 1 ? from : `${from} to ${to}`,
+    payDeleted: 'Payment removed',
+    printCard: '🖨️ Print this card',
+    badgeOk: (m) => `💰 Paid until ${m}`,
+    badgeBehind: (n) => `💰 Behind ${n} mo`,
+    badgeNone: '💰 No payment yet',
+    secDues: 'Association dues',
+    tipDues: 'Only organizers can see dues. Open a family’s 📇 index card to set their monthly amount, record payments and see their history.',
+    duesOn: 'Track monthly dues',
+    duesStart: 'Dues started (month)',
+    duesDefault: 'Default monthly dues (₱)',
+    duesSettingsSaved: 'Dues settings saved ✓',
+    duesUpToDate: 'up to date',
+    duesBehindN: 'behind',
+    duesToCollect: 'to collect',
+    duesBehindList: 'Behind on dues',
+    duesAllGood: 'Everyone is up to date! 🎉',
+    duesText: (n, months, bal, url) => `Hi ${n} family! 👋 Friendly reminder from the HOA: your association dues are ${months} ${months === 1 ? 'month' : 'months'} behind${bal ? ` (₱${bal})` : ''}. Please settle when you can. Salamat po! 🙏`,
+    textBtnShort: '💬 Text',
+    printCards: '🖨️ Print all index cards',
+    rpTitleOwner: 'Name on title',
+    rpRate: 'Monthly dues',
+    rpPaidUntil: 'Paid until',
+    rpBehind: 'Months behind',
+    rpBalance: 'Balance',
+    rpPhone: 'Mobile',
+    rpNotes: 'Notes',
+    rpOr: 'OR #',
+    rpPayDate: 'Date',
+    rpMonthsCol: 'Months covered',
+    rpAmount: 'Amount',
     newMore: 'Tap ❓ Help anytime for the full guide.',
     seeGuide: 'See the full guide',
     defTitle: 'Block Requirements',
@@ -936,6 +1025,8 @@ const TX = {
     ],
     orgExtrasH: 'Iba pang tools',
     orgExtras: [
+      '📇 <b>Index cards:</b> i-tap ang 📇 ng family para sa private card nila: pangalan sa titulo, number, notes, certifications at dues.',
+      '💰 <b>Monthly dues:</b> i-on sa Organizer tools, tapos i-record ang bayad sa bawat index card. Organizers lang ang nakakakita ng dues.',
       '📣 <b>Ready-made messages:</b> progress update, paalala, deadline at pasasalamat. Tap, copy, paste.',
       '📱 <b>I-text ang family:</b> i-save ang number nila, tapos tap “I-text” para magpadala ng paalala gamit ang sarili mong phone.',
       '✅ <b>I-verify at 🔒 i-lock:</b> nasa bawat family card habang bukas ang Organizer tools.',
@@ -947,6 +1038,7 @@ const TX = {
     orgTip: 'Sa ibang phone o laptop, mag-sign in lang ulit gamit ang parehong Google account. Nasa pinakababa ang Organizer tools.',
     newH: 'Bago sa Ka-Block ✨',
     newList: [
+      '📇 Para sa organizers: <b>index card</b> ng bawat family at <b>monthly dues</b> tracking (private)',
       '🔍 May <b>Hanapin ako</b> button na, laging nasa baba sa kanan',
       '⭐ Naka-pin sa taas ang family mo kasama ang kulang pa',
       '↩️ May <b>Ibalik</b> pagkatapos ng bawat tap',
@@ -990,6 +1082,71 @@ const TX = {
     roleOrg: 'organizer',
     roleFam: 'ka-block',
     openList: 'Buksan ang checklist',
+    cardBtn: '📇 Index card',
+    certs: [['💧', 'Water connection'], ['⚡', 'Meralco application'], ['🪪', 'Membership'], ['🏗️', 'Construction permit']],
+    quickAdd: 'Mabilisang i-add:',
+    icTitle: 'Index card',
+    icPrivate: '🔒 Organizers lang ang nakakakita ng card na ’to.',
+    icOwner: 'Pangalan sa titulo',
+    icOwnerPh: 'e.g. Juan Dela Cruz',
+    icPhone: 'Mobile number',
+    icNotes: 'Notes',
+    icNotesPh: 'e.g. Cash kay Ate Lorna. Nangungupahan, nasa abroad ang may-ari.',
+    icSaveDetails: 'I-save ang details',
+    icDetailsSaved: 'Na-save ang index card ✓',
+    icCerts: 'Mga certification',
+    icDues: 'Monthly dues',
+    icDuesOff: 'Naka-off ang dues tracking. I-on sa Organizer tools → Monthly dues.',
+    icRate: 'Monthly dues ng family na ’to (₱)',
+    icRatePh: (d) => d ? `Default ₱${d}` : 'e.g. 100',
+    icPaidUntil: 'Bayad hanggang (buwan)',
+    icSaveDues: 'I-save',
+    duesSaved: 'Na-save ang dues ✓',
+    stOk: (m) => `✓ Updated. Bayad hanggang ${m}`,
+    stBehind: (n, m, bal) => `Kulang ng ${n} buwan${m ? `, bayad hanggang ${m}` : ''}${bal ? ` (₱${bal})` : ''}`,
+    stNone: 'Wala pang naka-record na bayad',
+    payH: 'Mag-record ng bayad',
+    payMonths: 'Ilang buwan?',
+    payCustom: 'Buwan',
+    payAmount: 'Halaga (₱)',
+    payDate: 'Petsa ng bayad',
+    payOr: 'OR number (optional)',
+    payBtn: 'I-record ang bayad',
+    payNeedMonths: 'Ilagay kung ilang buwan ang binayaran.',
+    paySaved: (m) => `Na-record ✓ Bayad hanggang ${m}`,
+    payHistory: 'Mga nakaraang bayad',
+    payNone: 'Wala pang naka-record na bayad.',
+    payLine: (n, from, to) => n === 1 ? from : `${from} hanggang ${to}`,
+    payDeleted: 'Inalis ang bayad',
+    printCard: '🖨️ I-print ang card',
+    badgeOk: (m) => `💰 Bayad hanggang ${m}`,
+    badgeBehind: (n) => `💰 Kulang ${n} buwan`,
+    badgeNone: '💰 Wala pang bayad',
+    secDues: 'Monthly dues',
+    tipDues: 'Organizers lang ang nakakakita ng dues. Buksan ang 📇 index card ng family para ilagay ang monthly nila, mag-record ng bayad at makita ang history.',
+    duesOn: 'I-track ang monthly dues',
+    duesStart: 'Kailan nagsimula ang dues (buwan)',
+    duesDefault: 'Default na monthly dues (₱)',
+    duesSettingsSaved: 'Na-save ang dues settings ✓',
+    duesUpToDate: 'updated',
+    duesBehindN: 'may kulang',
+    duesToCollect: 'kokolektahin',
+    duesBehindList: 'May kulang sa dues',
+    duesAllGood: 'Lahat updated! 🎉',
+    duesText: (n, months, bal, url) => `Hi ${n} family! 👋 Paalala lang po mula sa HOA: ${months} buwan na po ang kulang sa association dues${bal ? ` (₱${bal})` : ''}. Pakibayaran na lang po pag may time. Salamat po! 🙏`,
+    textBtnShort: '💬 I-text',
+    printCards: '🖨️ I-print lahat ng index card',
+    rpTitleOwner: 'Pangalan sa titulo',
+    rpRate: 'Monthly dues',
+    rpPaidUntil: 'Bayad hanggang',
+    rpBehind: 'Buwang kulang',
+    rpBalance: 'Balanse',
+    rpPhone: 'Mobile',
+    rpNotes: 'Notes',
+    rpOr: 'OR #',
+    rpPayDate: 'Petsa',
+    rpMonthsCol: 'Mga buwan',
+    rpAmount: 'Halaga',
     newMore: 'I-tap ang ❓ Tulong kahit kailan para sa buong guide.',
     seeGuide: 'Tingnan ang buong guide',
     defTitle: 'Block Requirements',
@@ -1003,7 +1160,7 @@ function t(k, ...a) {
 }
 const M = () => TX[prefs.lang].msg;
 
-const state = { list: null, families: [], contacts: {}, log: [], user: null, admin: false, owner: false, adminOpen: false, filter: null, view: 'all', group: '', q: '', confirm: null, editing: null, contactEdit: null, error: null, loaded: false, bulkOpen: false, online: navigator.onLine, myLists: null, myListsFor: null };
+const state = { list: null, families: [], contacts: {}, records: {}, cardOpen: null, log: [], user: null, admin: false, owner: false, adminOpen: false, filter: null, view: 'all', group: '', q: '', confirm: null, editing: null, contactEdit: null, error: null, loaded: false, bulkOpen: false, online: navigator.onLine, myLists: null, myListsFor: null };
 let myFam = cid ? store.get('myFam:' + cid) : null;
 const $app = document.getElementById('app');
 const I = {
@@ -1109,6 +1266,11 @@ function syncSubs() {
       s.docs.forEach((d) => { state.contacts[d.id] = d.data().phone || ''; });
       render();
     }, () => {});
+    subs.records = onSnapshot(collection(db, 'checklists', cid, 'records'), (s) => {
+      state.records = {};
+      s.docs.forEach((d) => { state.records[d.id] = d.data(); });
+      render();
+    }, () => {});
     subs.log = onSnapshot(query(collection(db, 'checklists', cid, 'log'), orderBy('at', 'desc'), limit(40)), (s) => {
       state.log = s.docs.map((d) => ({ id: d.id, ...d.data() }));
       render();
@@ -1117,8 +1279,11 @@ function syncSubs() {
   if (!want && subs.contacts) {
     subs.contacts();
     subs.log();
+    subs.records();
     delete subs.contacts;
     delete subs.log;
+    delete subs.records;
+    state.records = {};
     state.contacts = {};
     state.log = [];
   }
@@ -1192,9 +1357,10 @@ async function install() {
 }
 
 function openSheet(html) {
+  state.cardOpen = null;
   document.getElementById('sheet').innerHTML = `<div class="sheet-bg" data-act="closeSheet"><div class="sheet sticker" role="dialog" aria-modal="true">${html}</div></div>`;
 }
-function closeSheet() { document.getElementById('sheet').innerHTML = ''; }
+function closeSheet() { state.cardOpen = null; document.getElementById('sheet').innerHTML = ''; }
 const sheetOpen = () => !!document.querySelector('#sheet .sheet');
 
 function reqs() { return (state.list && state.list.requirements) || []; }
@@ -1280,7 +1446,7 @@ function typing() {
   const a = document.activeElement;
   return !!a && (a.tagName === 'INPUT' || a.tagName === 'TEXTAREA') && $app.contains(a);
 }
-document.addEventListener('focusout', () => setTimeout(() => { if (pending && !typing()) render(); }, 0));
+document.addEventListener('focusout', () => setTimeout(() => { if (pending && !typing()) render(); if (cardPending) refreshCard(); }, 0));
 
 function medalsFor(F, R) {
   const done = F.filter((f) => isComplete(f, R)).sort((a, b) => (millis(a.completedAt) ?? 9e15) - (millis(b.completedAt) ?? 9e15));
@@ -1314,7 +1480,7 @@ function famCard(f, R, medals, mine) {
     }).join('')}</div>
     ${have ? `<div class="updated">${t('updated', ago(f.updatedAt))}</div>` : ''}
     ${!myFam && !state.admin ? `<button class="thisus" data-act="thisUs" data-fam="${f.id}">${t('thisIsUs')}</button>` : ''}
-    ${orgMode ? `<div class="org-row"><span class="lbl">${t('orgLabel')}</span>${R.filter((r) => has(f, r)).map((r) => `<button class="mini ${ver[r.id] ? 'on' : ''}" data-act="verify" data-fam="${f.id}" data-req="${r.id}">${ver[r.id] ? '✓ ' : ''}${esc(t('verifyBtn', r.name))}</button>`).join('')}<button class="mini ${f.locked ? 'on' : ''}" data-act="lock" data-fam="${f.id}">${f.locked ? t('unlockBtn') : t('lockBtn')}</button></div>` : ''}
+    ${orgMode ? `<div class="org-row"><span class="lbl">${t('orgLabel')}</span>${R.filter((r) => has(f, r)).map((r) => `<button class="mini ${ver[r.id] ? 'on' : ''}" data-act="verify" data-fam="${f.id}" data-req="${r.id}">${ver[r.id] ? '✓ ' : ''}${esc(t('verifyBtn', r.name))}</button>`).join('')}<button class="mini ${f.locked ? 'on' : ''}" data-act="lock" data-fam="${f.id}">${f.locked ? t('unlockBtn') : t('lockBtn')}</button><button class="mini" data-act="card" data-fam="${f.id}">${t('cardBtn')}</button>${duesBadge(f)}</div>` : ''}
   </article>`;
 }
 
@@ -1462,6 +1628,7 @@ function render(force) {
     </footer>`;
 
   document.getElementById('fabSlot').innerHTML = F.length ? `<button class="fab" data-act="fab">${I.search}${t('findBtn')}</button>` : '';
+  refreshCard();
 }
 
 function adminHtml() {
@@ -1495,7 +1662,7 @@ function adminHtml() {
       <div class="grow"><b>${esc(f.name)}</b>${f.lot || f.group ? ` <span class="sub small">${esc([f.lot, f.group].filter(Boolean).join(', '))}</span>` : ''}${state.contacts[f.id] ? ' <span class="small" aria-hidden="true">📱</span>' : ''}</div>
       ${c === 'f:' + f.id
         ? `<button class="btn small danger" data-act="delFam" data-fam="${f.id}">${t('del')}</button><button class="btn small alt" data-act="cancel">${t('keep')}</button>`
-        : `<button class="iconbtn" data-act="famMove" data-fam="${f.id}" data-dir="-1" aria-label="${esc(t('moveUp'))}" ${i === 0 ? 'disabled' : ''}>▲</button><button class="iconbtn" data-act="famMove" data-fam="${f.id}" data-dir="1" aria-label="${esc(t('moveDown'))}" ${i === F.length - 1 ? 'disabled' : ''}>▼</button><button class="iconbtn" data-act="editFam" data-fam="${f.id}" aria-label="✏️ ${esc(f.name)}">${I.edit}</button><button class="iconbtn" data-act="contact" data-fam="${f.id}" aria-label="📱 ${esc(f.name)}">📱</button><button class="iconbtn del" data-act="askFam" data-fam="${f.id}" aria-label="${esc(t('del'))} ${esc(f.name)}">${I.trash}</button>`}
+        : `<button class="iconbtn" data-act="famMove" data-fam="${f.id}" data-dir="-1" aria-label="${esc(t('moveUp'))}" ${i === 0 ? 'disabled' : ''}>▲</button><button class="iconbtn" data-act="famMove" data-fam="${f.id}" data-dir="1" aria-label="${esc(t('moveDown'))}" ${i === F.length - 1 ? 'disabled' : ''}>▼</button><button class="iconbtn" data-act="card" data-fam="${f.id}" aria-label="📇 ${esc(f.name)}">📇</button><button class="iconbtn" data-act="editFam" data-fam="${f.id}" aria-label="✏️ ${esc(f.name)}">${I.edit}</button><button class="iconbtn" data-act="contact" data-fam="${f.id}" aria-label="📱 ${esc(f.name)}">📱</button><button class="iconbtn del" data-act="askFam" data-fam="${f.id}" aria-label="${esc(t('del'))} ${esc(f.name)}">${I.trash}</button>`}
     </div>`;
   };
   const groups = [...new Set(F.map((f) => String(f.group || '').trim()).filter(Boolean))];
@@ -1554,6 +1721,7 @@ function adminHtml() {
           <input class="field" data-note="${r.id}" value="${esc(r.note || '')}" maxlength="160" placeholder="${esc(t('notePh'))}" aria-label="${esc(t('notePh'))}">
         </div>`).join('')}
         <div class="row"><input id="newReq" class="field grow" placeholder="${esc(t('reqPh'))}" maxlength="40" aria-label="${esc(t('reqPh'))}" data-enter="addReq"><button class="btn small" data-act="addReq">${I.plus}${t('add')}</button></div>
+        ${(() => { const have = R.map((r) => norm(r.name)); const left = TX[prefs.lang].certs.filter(([, n]) => !have.includes(norm(n))); return left.length ? `<p class="ic-label">${t('quickAdd')}</p><div class="chips wrap">${left.map(([e, n]) => `<button type="button" data-act="quickReq" data-v="${esc(n)}">${e} ${esc(n)}</button>`).join('')}</div>` : ''; })()}
       </div>
 
       <div class="admin-sec">
@@ -1573,6 +1741,8 @@ function adminHtml() {
           </div>
         </details>
       </div>
+
+      ${duesAdminHtml()}
 
       <div class="admin-sec">
         <h3>🕑 ${t('secLog')}</h3>
@@ -1719,8 +1889,14 @@ function downloadCsv() {
   const R = reqs();
   const F = state.families;
   const cell = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
-  const rows = [[t('rpFamily'), t('rpLot'), t('rpStreet'), ...R.map((r) => r.name), t('rpDone')]];
-  F.forEach((f) => rows.push([f.name, f.lot || '', f.group || '', ...R.map((r) => (has(f, r) ? t('yes') : '')), isComplete(f, R) ? t('yes') : '']));
+  const priv = state.admin;
+  const duesOn = priv && state.list.duesOn;
+  const rows = [[t('rpFamily'), t('rpLot'), t('rpStreet'), ...(priv ? [t('rpTitleOwner'), t('rpPhone')] : []), ...R.map((r) => r.name), t('rpDone'), ...(duesOn ? [t('rpRate'), t('rpPaidUntil'), t('rpBehind'), t('rpBalance')] : []), ...(priv ? [t('rpNotes')] : [])]];
+  F.forEach((f) => {
+    const rec = state.records[f.id] || {};
+    const d = duesOn ? duesInfo(f) : null;
+    rows.push([f.name, f.lot || '', f.group || '', ...(priv ? [rec.titleOwner || '', state.contacts[f.id] || ''] : []), ...R.map((r) => (has(f, r) ? t('yes') : '')), isComplete(f, R) ? t('yes') : '', ...(d ? [d.rate, d.paid, d.behind ?? '', d.balance] : []), ...(priv ? [rec.notes || ''] : [])]);
+  });
   const csv = '﻿' + rows.map((r) => r.map(cell).join(',')).join('\r\n');
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
@@ -1845,11 +2021,11 @@ function openGuide(tab) {
     <button class="btn alt" data-act="feedback">${t('fbLink')}</button>
     <button class="btn" data-act="closeSheet">${t('gotIt')}</button>`);
   store.set('seenGuide', '1');
-  store.set('seenNew2', '1');
+  store.set('seenNew3', '1');
 }
 
 function openWhatsNew() {
-  store.set('seenNew2', '1');
+  store.set('seenNew3', '1');
   openSheet(`<h2>${t('newH')}</h2><ul class="extras">${TX[prefs.lang].newList.map((s) => `<li>${s}</li>`).join('')}</ul><p class="sub">${t('newMore')}</p><button class="btn alt" data-act="help">${t('seeGuide')}</button><button class="btn" data-act="closeSheet">${t('gotIt')}</button>`);
 }
 
@@ -1863,6 +2039,152 @@ function openDisplay() {
     <button class="btn" data-act="closeSheet">${t('done')}</button>`);
 }
 
+const pad2 = (n) => String(n).padStart(2, '0');
+const ymNow = () => { const d = new Date(); return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}`; };
+const ymOk = (ym) => /^\d{4}-\d{2}$/.test(String(ym || ''));
+const ymAdd = (ym, n) => { const [y, m] = ym.split('-').map(Number); const t2 = y * 12 + (m - 1) + n; return `${Math.floor(t2 / 12)}-${pad2((t2 % 12) + 1)}`; };
+const ymDiff = (a, b) => { const [ay, am] = a.split('-').map(Number); const [by, bm] = b.split('-').map(Number); return (by * 12 + bm) - (ay * 12 + am); };
+const fmtYm = (ym) => (ymOk(ym) ? new Date(Number(ym.slice(0, 4)), Number(ym.slice(5)) - 1, 1).toLocaleDateString('en-PH', { month: 'short', year: 'numeric' }) : '');
+const peso = (n) => Number(n || 0).toLocaleString('en-PH', { maximumFractionDigits: 2 });
+const todayIso = () => { const d = new Date(); return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`; };
+const recRef = (id) => doc(db, 'checklists', cid, 'records', id);
+
+function duesInfo(f) {
+  const L = state.list;
+  if (!L || !L.duesOn || !f) return null;
+  const rec = state.records[f.id] || {};
+  const rate = Number(rec.dues || L.duesDefault || 0) || 0;
+  const now = ymNow();
+  const paid = ymOk(rec.paidUntil) ? rec.paidUntil : '';
+  let behind = null;
+  if (paid) behind = Math.max(0, ymDiff(paid, now));
+  else if (ymOk(L.duesStart)) behind = Math.max(0, ymDiff(L.duesStart, now) + 1);
+  return { rate, paid, behind, ok: !!paid && paid >= now, balance: behind ? behind * rate : 0, payments: Array.isArray(rec.payments) ? rec.payments : [], rec };
+}
+
+function duesBadge(f) {
+  const d = duesInfo(f);
+  if (!d) return '';
+  if (d.ok) return `<span class="badge ok">${esc(t('badgeOk', fmtYm(d.paid)))}</span>`;
+  if (d.behind) return `<span class="badge warn">${esc(t('badgeBehind', d.behind))}</span>`;
+  return `<span class="badge">${esc(t('badgeNone'))}</span>`;
+}
+
+function duesStatusHtml(d) {
+  if (d.ok) return `<div class="ic-status ok">${esc(t('stOk', fmtYm(d.paid)))}</div>`;
+  if (d.behind) return `<div class="ic-status warn">${esc(t('stBehind', d.behind, fmtYm(d.paid), d.balance ? peso(d.balance) : ''))}</div>`;
+  return `<div class="ic-status none">${esc(t('stNone'))}</div>`;
+}
+
+function smsHref(phone, body) {
+  return `sms:${String(phone).replace(/[^\d+]/g, '')}?&body=${encodeURIComponent(body)}`;
+}
+
+function duesAdminHtml() {
+  const L = state.list;
+  const F = state.families;
+  const tipLocal = (x) => `<p class="tip"><span>💡</span><span>${x}</span></p>`;
+  let summary = '';
+  if (L.duesOn) {
+    const infos = F.map((f) => ({ f, d: duesInfo(f) }));
+    const ok = infos.filter((x) => x.d.ok).length;
+    const behind = infos.filter((x) => !x.d.ok && x.d.behind).sort((a, b) => b.d.behind - a.d.behind);
+    const total = behind.reduce((a, x) => a + x.d.balance, 0);
+    summary = `<div class="money"><div class="sticker"><b>${ok}/${F.length}</b><span>${t('duesUpToDate')}</span></div><div class="sticker"><b>${behind.length}</b><span>${t('duesBehindN')}</span></div><div class="sticker"><b>₱${peso(total)}</b><span>${t('duesToCollect')}</span></div></div>
+      <p class="ic-label">${t('duesBehindList')}</p>
+      ${behind.length ? behind.map(({ f, d }) => { const phone = state.contacts[f.id]; return `<div class="item"><div class="grow"><b>${esc(f.name)}</b> <span class="sub small">${esc(t('badgeBehind', d.behind).replace('💰 ', ''))}${d.balance ? `, ₱${peso(d.balance)}` : ''}</span></div>${phone ? `<a class="btn small alt" href="${esc(smsHref(phone, t('duesText', f.name, d.behind, d.balance ? peso(d.balance) : '', shareUrl())))}">${t('textBtnShort')}</a>` : ''}<button class="iconbtn" data-act="card" data-fam="${f.id}" aria-label="📇 ${esc(f.name)}">📇</button></div>`; }).join('') : `<p class="sub small">${t('duesAllGood')}</p>`}
+      <div class="row"><button class="btn small alt" data-act="printCards">${t('printCards')}</button></div>`;
+  }
+  return `<div class="admin-sec">
+    <h3>💰 ${t('secDues')}</h3>
+    ${tipLocal(t('tipDues'))}
+    <div class="seg" role="group" aria-label="${esc(t('duesOn'))}"><button data-act="duesToggle" data-v="1" aria-pressed="${!!L.duesOn}">${t('duesOn')}: ${t('on')}</button><button data-act="duesToggle" data-v="0" aria-pressed="${!L.duesOn}">${t('off')}</button></div>
+    ${L.duesOn ? `<label class="ic-label" for="duesStartIn">${t('duesStart')}</label>
+    <input id="duesStartIn" class="field" type="month" value="${esc(L.duesStart || '')}" placeholder="2026-01">
+    <label class="ic-label" for="duesDefIn">${t('duesDefault')}</label>
+    <div class="row"><input id="duesDefIn" class="field grow" inputmode="decimal" value="${esc(L.duesDefault || '')}" placeholder="100" data-enter="duesSettings"><button class="btn small alt" data-act="duesSettings">${t('save')}</button></div>
+    ${summary}` : ''}
+  </div>`;
+}
+
+function cardHtml(fid) {
+  const f = famById(fid);
+  if (!f) return `<p>…</p><button class="btn" data-act="closeSheet">${t('done')}</button>`;
+  const R = reqs();
+  const d = duesInfo(f);
+  const rec = state.records[f.id] || {};
+  const phone = state.contacts[f.id] || '';
+  const ver = f.verified || {};
+  const c = state.confirm;
+  let dues = `<p class="sub small">${t('icDuesOff')}</p>`;
+  if (d) {
+    const months = [1, 3, 6, 12];
+    dues = `${duesStatusHtml(d)}
+      <div class="row"><div class="grow" style="display:grid;gap:6px"><label class="ic-label" for="ic-rate">${t('icRate')}</label><input id="ic-rate" class="field" inputmode="decimal" value="${esc(rec.dues || '')}" placeholder="${esc(t('icRatePh', state.list.duesDefault || ''))}"></div>
+      <div class="grow" style="display:grid;gap:6px"><label class="ic-label" for="ic-paid">${t('icPaidUntil')}</label><input id="ic-paid" class="field" type="month" value="${esc(d.paid)}" placeholder="2026-10"></div></div>
+      <div class="row"><button class="btn small alt" data-act="saveDues" data-fam="${f.id}">${t('icSaveDues')}</button></div>
+      <p class="ic-label">${t('payH')}</p>
+      <div class="chips wrap">${months.map((n) => `<button type="button" data-act="payN" data-v="${n}">${n} ${prefs.lang === 'tl' ? 'buwan' : n === 1 ? 'month' : 'months'}</button>`).join('')}</div>
+      <div class="row"><input id="ic-months" class="field" style="flex:1 1 90px" inputmode="numeric" placeholder="${esc(t('payCustom'))}" aria-label="${esc(t('payMonths'))}"><input id="ic-amt" class="field grow" inputmode="decimal" placeholder="${esc(t('payAmount'))}" aria-label="${esc(t('payAmount'))}"></div>
+      <div class="row"><input id="ic-date" class="field grow" type="date" value="${todayIso()}" aria-label="${esc(t('payDate'))}"><input id="ic-or" class="field grow" maxlength="30" placeholder="${esc(t('payOr'))}" aria-label="${esc(t('payOr'))}"></div>
+      <button class="btn small" data-act="recordPay" data-fam="${f.id}">💰 ${t('payBtn')}</button>
+      <p class="ic-label">${t('payHistory')}</p>
+      ${d.payments.length ? d.payments.slice().reverse().map((pp) => `<div class="pay"><span><b>₱${peso(pp.amount)}</b> ${esc(t('payLine', pp.months, fmtYm(pp.from), fmtYm(pp.to)))}<br><small>${esc([pp.date, pp.or ? 'OR ' + pp.or : ''].filter(Boolean).join(', '))}</small></span>${c === 'p:' + pp.id ? `<span class="row"><button class="btn small danger" data-act="delPay" data-fam="${f.id}" data-v="${pp.id}">${t('del')}</button><button class="btn small alt" data-act="cardCancel">${t('keep')}</button></span>` : `<button class="iconbtn del" data-act="askPay" data-v="${pp.id}" aria-label="${esc(t('del'))}">${I.trash}</button>`}</div>`).join('') : `<p class="sub small">${t('payNone')}</p>`}`;
+  }
+  return `<div class="ic-head"><div class="avatar" style="background:${colorFor(f.name)}" aria-hidden="true">${esc(initials(f.name))}</div><div><h2>${esc(f.name)}</h2><div class="sub small">${esc([f.lot, f.group].filter(Boolean).join(', '))}</div></div></div>
+    <p class="sub small">${t('icPrivate')}</p>
+    <div class="ic-sec">
+      <label class="ic-label" for="ic-owner">${t('icOwner')}</label>
+      <input id="ic-owner" class="field" maxlength="80" value="${esc(rec.titleOwner || '')}" placeholder="${esc(t('icOwnerPh'))}">
+      <label class="ic-label" for="ic-phone">${t('icPhone')}</label>
+      <input id="ic-phone" class="field" type="tel" maxlength="20" value="${esc(phone)}" placeholder="${esc(t('phonePh'))}">
+      <label class="ic-label" for="ic-notes">${t('icNotes')}</label>
+      <textarea id="ic-notes" class="field" maxlength="500" style="min-height:80px" placeholder="${esc(t('icNotesPh'))}">${esc(rec.notes || '')}</textarea>
+      <div class="row"><button class="btn small alt" data-act="saveCard" data-fam="${f.id}">${t('icSaveDetails')}</button></div>
+    </div>
+    <div class="ic-sec">
+      <h3>${t('icCerts')}</h3>
+      <div class="ticks">${R.map((r) => `<button class="tick" aria-pressed="${has(f, r)}" data-act="tick" data-fam="${f.id}" data-req="${r.id}"><span class="box">${I.check}</span>${esc(r.name)}${ver[r.id] ? ` <span class="vtag">✓ ${t('verifiedTag')}</span>` : ''}</button>`).join('')}</div>
+    </div>
+    <div class="ic-sec">
+      <h3>💰 ${t('icDues')}</h3>
+      ${dues}
+    </div>
+    <button class="btn alt" data-act="printCard" data-fam="${f.id}">${t('printCard')}</button>
+    <button class="btn" data-act="closeSheet">${t('done')}</button>`;
+}
+
+let cardPending = false;
+function openCard(fid) {
+  openSheet(cardHtml(fid));
+  state.cardOpen = fid;
+  state.confirm = null;
+}
+function refreshCard() {
+  if (!state.cardOpen) return;
+  const sh = document.querySelector('#sheet .sheet');
+  if (!sh) { state.cardOpen = null; return; }
+  const a = document.activeElement;
+  if (a && sh.contains(a) && (a.tagName === 'INPUT' || a.tagName === 'TEXTAREA')) { cardPending = true; return; }
+  cardPending = false;
+  const top = sh.scrollTop;
+  sh.innerHTML = cardHtml(state.cardOpen);
+  sh.scrollTop = top;
+}
+
+function icardPrintHtml(f) {
+  const R = reqs();
+  const d = duesInfo(f);
+  const rec = state.records[f.id] || {};
+  return `<div class="icard"><h2>${esc(f.name)}</h2>
+    <div class="grid2"><div>${t('rpLot')}: ${esc(f.lot || '')}</div><div>${t('rpStreet')}: ${esc(f.group || '')}</div><div>${t('rpTitleOwner')}: <b>${esc(rec.titleOwner || '')}</b></div><div>${t('rpPhone')}: ${esc(state.contacts[f.id] || '')}</div></div>
+    <div style="margin-top:6px">${R.map((r) => `${has(f, r) ? '☑' : '☐'} ${esc(r.name)}`).join('&nbsp;&nbsp; ')}</div>
+    ${d ? `<div class="grid2" style="margin-top:6px"><div>${t('rpRate')}: ₱${peso(d.rate)}</div><div>${t('rpPaidUntil')}: <b>${esc(fmtYm(d.paid) || '—')}</b></div><div>${t('rpBehind')}: ${d.behind ?? '—'}</div><div>${t('rpBalance')}: ₱${peso(d.balance)}</div></div>
+    ${d.payments.length ? `<table><thead><tr><th>${t('rpPayDate')}</th><th>${t('rpMonthsCol')}</th><th>${t('rpAmount')}</th><th>${t('rpOr')}</th></tr></thead><tbody>${d.payments.map((pp) => `<tr><td>${esc(pp.date || '')}</td><td>${esc(t('payLine', pp.months, fmtYm(pp.from), fmtYm(pp.to)))}</td><td>₱${peso(pp.amount)}</td><td>${esc(pp.or || '')}</td></tr>`).join('')}</tbody></table>` : ''}` : ''}
+    ${rec.notes ? `<div style="margin-top:6px">${t('rpNotes')}: ${esc(rec.notes)}</div>` : ''}
+  </div>`;
+}
+
 const listRef = () => doc(db, 'checklists', cid);
 const famRef = (id) => doc(db, 'checklists', cid, 'families', id);
 const saveReqs = (list) => updateDoc(listRef(), { requirements: list, updatedAt: serverTimestamp() });
@@ -1871,6 +2193,88 @@ const blurAll = () => { if (document.activeElement && document.activeElement.blu
 const safe = (fn) => async (el, e) => { try { await fn(el, e); } catch { toast(t('notSaved')); } };
 
 const ACTIONS = {
+  card: (el) => openCard(el.dataset.fam),
+  cardCancel: () => { state.confirm = null; refreshCard(); },
+  quickReq: safe(async (el) => {
+    const name = el.dataset.v;
+    if (reqs().some((r) => norm(r.name) === norm(name))) return;
+    await saveReqs([...reqs(), { id: rid(), name, note: '' }]);
+    toast(t('reqAdded'));
+  }),
+  duesToggle: safe(async (el) => {
+    const on = el.dataset.v === '1';
+    const upd = { duesOn: on, updatedAt: serverTimestamp() };
+    if (on && !state.list.duesStart) upd.duesStart = ymNow();
+    await updateDoc(listRef(), upd);
+  }),
+  duesSettings: safe(async () => {
+    const start = val('duesStartIn');
+    const def = Number(val('duesDefIn').replace(/[^\d.]/g, '')) || 0;
+    blurAll();
+    await updateDoc(listRef(), { duesStart: ymOk(start) ? start : (state.list.duesStart || ymNow()), duesDefault: def, updatedAt: serverTimestamp() });
+    toast(t('duesSettingsSaved'));
+  }),
+  saveCard: safe(async (el) => {
+    const id = el.dataset.fam;
+    const titleOwner = val('ic-owner').slice(0, 80);
+    const notes = val('ic-notes').slice(0, 500);
+    const phone = val('ic-phone');
+    blurAll();
+    await setDoc(recRef(id), { titleOwner, notes, updatedAt: serverTimestamp() }, { merge: true });
+    if (phone !== (state.contacts[id] || '')) {
+      if (phone) await setDoc(doc(db, 'checklists', cid, 'contacts', id), { phone });
+      else await deleteDoc(doc(db, 'checklists', cid, 'contacts', id));
+    }
+    toast(t('icDetailsSaved'));
+  }),
+  saveDues: safe(async (el) => {
+    const id = el.dataset.fam;
+    const dues = Number(val('ic-rate').replace(/[^\d.]/g, '')) || 0;
+    const paid = val('ic-paid');
+    blurAll();
+    await setDoc(recRef(id), { dues, paidUntil: ymOk(paid) ? paid : '', updatedAt: serverTimestamp() }, { merge: true });
+    toast(t('duesSaved'));
+  }),
+  payN: (el) => {
+    const f = famById(state.cardOpen);
+    const d = duesInfo(f);
+    const n = Number(el.dataset.v);
+    document.getElementById('ic-months').value = String(n);
+    if (d && d.rate) document.getElementById('ic-amt').value = String(n * d.rate);
+    el.parentElement.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === el)));
+  },
+  recordPay: safe(async (el) => {
+    const id = el.dataset.fam;
+    const f = famById(id);
+    const d = duesInfo(f);
+    if (!d) return;
+    const n = parseInt(val('ic-months'), 10) || 0;
+    if (n < 1) { toast(t('payNeedMonths')); document.getElementById('ic-months').focus(); return; }
+    const amount = Number(val('ic-amt').replace(/[^\d.]/g, '')) || n * d.rate;
+    const base = d.paid || ymAdd(ymOk(state.list.duesStart) ? state.list.duesStart : ymNow(), -1);
+    const to = ymAdd(base, n);
+    const pay = { id: rid(), months: n, from: ymAdd(base, 1), to, amount, date: val('ic-date') || todayIso(), or: val('ic-or').slice(0, 30) };
+    blurAll();
+    await setDoc(recRef(id), { paidUntil: to, payments: [...d.payments, pay], updatedAt: serverTimestamp() }, { merge: true });
+    toast(t('paySaved', fmtYm(to)));
+    const r = el.getBoundingClientRect();
+    confetti(r.left + r.width / 2, r.top, 20);
+  }),
+  askPay: (el) => { state.confirm = 'p:' + el.dataset.v; refreshCard(); },
+  delPay: safe(async (el) => {
+    const id = el.dataset.fam;
+    const d = duesInfo(famById(id));
+    if (!d) return;
+    const pay = d.payments.find((x) => x.id === el.dataset.v);
+    if (!pay) return;
+    const upd = { payments: d.payments.filter((x) => x.id !== pay.id), updatedAt: serverTimestamp() };
+    if (pay.to === d.paid) upd.paidUntil = ymAdd(pay.from, -1) < (state.list.duesStart || '') ? '' : ymAdd(pay.from, -1);
+    state.confirm = null;
+    await setDoc(recRef(id), upd, { merge: true });
+    toast(t('payDeleted'));
+  }),
+  printCard: (el) => { const f = famById(el.dataset.fam); if (f) printWith(icardPrintHtml(f)); },
+  printCards: () => printWith(`<div class="pr"><h1>${esc(state.list.title || t('defTitle'))}</h1><p>${esc(fmtDate(Date.now(), true))}</p></div>${state.families.map(icardPrintHtml).join('')}`),
   feedback: () => openFeedback(),
   fbRate: (el) => { fbForm.rating = Number(el.dataset.v); el.parentElement.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === el))); },
   fbKind: (el) => { fbForm.kind = fbForm.kind === el.dataset.v ? '' : el.dataset.v; el.parentElement.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === fbForm.kind))); },
@@ -2117,6 +2521,12 @@ document.addEventListener('click', (e) => {
 });
 
 document.addEventListener('input', (e) => {
+  if (e.target.id === 'ic-months') {
+    const d = duesInfo(famById(state.cardOpen));
+    const n = parseInt(e.target.value, 10) || 0;
+    if (d && d.rate && n > 0) document.getElementById('ic-amt').value = String(n * d.rate);
+    return;
+  }
   if (e.target.id !== 'q') return;
   state.q = e.target.value;
   const pos = e.target.selectionStart;
@@ -2162,7 +2572,7 @@ const firstLook = setInterval(() => {
     if (sheetOpen()) return;
     if (inbox) return;
     if (!store.get('seenGuide')) openGuide(cid && state.list && !state.admin ? 'fam' : 'org');
-    else if (!store.get('seenNew2')) openWhatsNew();
+    else if (!store.get('seenNew3')) openWhatsNew();
   }, 700);
 }, 300);
 
