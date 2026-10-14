@@ -229,6 +229,15 @@ html.big .hero-top { grid-template-columns: minmax(0, 1fr); }
 @keyframes blink { 50% { opacity: 0.35; } }
 .linkbtn { color: var(--ink); font-weight: 800; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; padding: 8px 0; }
 
+.nav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 15; display: flex; justify-content: center; padding: 8px max(10px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left)); background: var(--card); border-top: 2.5px solid var(--edge); }
+.nav-in { display: flex; gap: 4px; width: 100%; max-width: 720px; }
+.nav button { flex: 1; min-width: 0; display: grid; justify-items: center; align-content: center; gap: 2px; min-height: 56px; padding: 4px 2px; border-radius: 14px; border: 2px solid transparent; font-size: 12px; font-weight: 800; color: var(--sub); }
+.nav button .ic { font-size: 22px; line-height: 1.1; }
+.nav button[aria-current="page"] { background: var(--volt); color: #1A1033; border-color: var(--edge); }
+.mtabs { display: flex; flex-wrap: wrap; gap: 8px; }
+.mtabs button { min-height: 40px; padding: 0 14px; border-radius: 999px; border: 2px solid var(--edge); background: var(--card); font-weight: 700; font-size: 14px; }
+.mtabs button[aria-pressed="true"] { background: var(--ink); color: var(--card); }
+.cta { display: grid; gap: 10px; padding: 18px; }
 .fab { position: fixed; right: max(16px, env(safe-area-inset-right)); bottom: max(18px, env(safe-area-inset-bottom)); z-index: 15; display: inline-flex; align-items: center; gap: 8px; min-height: 56px; padding: 0 20px 0 16px; border-radius: 999px; background: var(--grape); color: var(--on-grape); border: 2.5px solid var(--edge); box-shadow: 4px 4px 0 var(--drop); font-weight: 800; font-size: 16px; transition: transform 0.08s, box-shadow 0.08s; }
 .fab svg { width: 22px; height: 22px; }
 .fab:active { transform: translate(3px, 3px); box-shadow: none; }
@@ -295,7 +304,7 @@ details summary::-webkit-details-marker { display: none; }
 @keyframes fade { from { opacity: 0; } }
 @keyframes up { from { transform: translateY(30px); opacity: 0; } }
 
-.toast { position: fixed; left: 50%; bottom: calc(max(18px, env(safe-area-inset-bottom)) + 70px); transform: translateX(-50%) translateY(260%); display: flex; align-items: center; gap: 14px; background: var(--ink); color: var(--card); padding: 12px 20px; border-radius: 999px; font-weight: 800; border: 2.5px solid var(--edge); box-shadow: 4px 4px 0 var(--pink); transition: transform 0.25s cubic-bezier(.2,1.4,.4,1), visibility 0.25s; visibility: hidden; z-index: 30; max-width: calc(100% - 32px); width: max-content; }
+.toast { position: fixed; left: 50%; bottom: calc(max(8px, env(safe-area-inset-bottom)) + 86px); transform: translateX(-50%) translateY(260%); display: flex; align-items: center; gap: 14px; background: var(--ink); color: var(--card); padding: 12px 20px; border-radius: 999px; font-weight: 800; border: 2.5px solid var(--edge); box-shadow: 4px 4px 0 var(--pink); transition: transform 0.25s cubic-bezier(.2,1.4,.4,1), visibility 0.25s; visibility: hidden; z-index: 30; max-width: calc(100% - 32px); width: max-content; }
 .toast.show { transform: translateX(-50%) translateY(0); visibility: visible; }
 .toast .undo { color: var(--volt); font-weight: 800; text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; padding: 4px 0; }
 html.hc .toast .undo { color: #FFFFFF; }
@@ -486,7 +495,7 @@ const TX = {
     notMine: 'Not your family? Change',
     stillNeeded: 'Still needed:',
     allSetMine: 'You have everything! 🎉 Thank you!',
-    pinned: (name) => `Saved! ${name} is now pinned at the top for you. ⭐`,
+    pinned: (name) => `Saved! ${name} is now your family on 🏠 Home. ⭐`,
     unpinned: 'Okay! Tap “This is my family” on your family’s card.',
     lockedBadge: '🔒 Checked by organizer',
     lockedToast: 'The organizer already checked this family. Ask them if something needs changing.',
@@ -569,7 +578,7 @@ const TX = {
     unlocked: 'Family unlocked',
     verified: 'Verified ✓',
     unverified: 'Verification removed',
-    tipCards: 'While these tools are open, each family card below has organizer buttons. Verify a requirement after seeing the actual papers, or lock a family so nobody else can change it.',
+    tipCards: 'In 👨‍👩‍👧 Families, each card has organizer buttons. Verify a requirement after seeing the actual papers, or lock a family so nobody else can change it.',
     secLog: 'Recent changes',
     tipLog: 'Every tick and untick, newest first. If something looks wrong, untick it on the family’s card or lock that family.',
     logEmpty: 'No changes yet.',
@@ -617,11 +626,11 @@ const TX = {
     tabOrg: 'Organizer',
     famGuideH: 'For neighbors',
     famSteps: [
-      '<b>Tap 🔍 Find my family</b> (bottom right) and type your family name or lot.',
+      '<b>Tap 👨‍👩‍👧 Families</b> in the menu at the bottom, then type your family name or lot in the search box.',
       '<b>Tap each requirement you already have.</b> It turns green ✅ and saves by itself. There’s no “Submit” button, promise!',
       '<b>Tapped the wrong one?</b> Tap <b>Undo</b> on the message at the bottom, or just tap it again.',
-      '<b>Your family is remembered.</b> Next time it’s pinned at the top with a list of what you still need.',
-      '<b>Not sure how to get a requirement?</b> Tap <b>ⓘ How to get it</b> under it in “Who has what”.',
+      '<b>Your family is remembered.</b> Next time it’s on 🏠 Home with a list of what you still need.',
+      '<b>Not sure how to get a requirement?</b> Tap <b>📊 Summary</b>, then <b>ⓘ How to get it</b> under the requirement.',
       '<b>Hard to read?</b> Tap <b>Aa</b> at the top for bigger text, high contrast, or Tagalog.',
       '<b>Open it like an app:</b> tap <b>Aa → Add to Home Screen</b>.',
     ],
@@ -631,7 +640,7 @@ const TX = {
     orgSteps: [
       '<b>Sign in with Google</b> using your own account.',
       '<b>Create a checklist</b> and give it a name.',
-      '<b>Add the requirements</b> in Organizer tools. Add “How to get it” notes so people know what to do.',
+      '<b>Add the requirements</b> in ⚙️ Manage. Add “How to get it” notes so people know what to do.',
       '<b>Add the families,</b> one at a time or many at once. Add a street or phase so people can find their group.',
       '<b>Share it:</b> copy the link to the group chat, or print the QR poster for the gate.',
       '<b>Set a deadline and announcement</b> so they show at the top for everyone.',
@@ -639,20 +648,20 @@ const TX = {
     orgExtrasH: 'Extra tools',
     orgExtras: [
       '📇 <b>Index cards:</b> tap 📇 on a family for their private card: name on the title, number, notes, certifications and dues.',
-      '💰 <b>Monthly dues:</b> turn it on in Organizer tools, then record payments on each index card. Only organizers can see dues.',
+      '💰 <b>Monthly dues:</b> open 💰 Dues in the menu, turn it on, then record payments on each index card. Only organizers can see dues.',
       '📣 <b>Ready-made messages:</b> progress updates, reminders, deadline and thank-you. Tap, copy, paste.',
       '📱 <b>Text a family:</b> save their number, then tap “Text them” to send a reminder from your own phone.',
-      '✅ <b>Verify and 🔒 lock:</b> buttons on each family card while Organizer tools are open.',
+      '✅ <b>Verify and 🔒 lock:</b> buttons on each family card in 👨‍👩‍👧 Families.',
       '🕑 <b>Recent changes:</b> see every tick, so mistakes are easy to spot.',
       '🖨️ <b>Print or Excel:</b> a clean list for HOA or barangay meetings.',
       '👥 <b>Co-organizers:</b> add helpers by their Google email.',
       '🗂️ <b>More checklists:</b> make separate ones for other projects.',
     ],
-    orgTip: 'On another phone or laptop, just sign in again with the same Google account. To find Organizer tools, scroll to the very bottom.',
+    orgTip: 'On another phone or laptop, just sign in again with the same Google account. Your tools are in ⚙️ Manage and 💰 Dues in the menu at the bottom.',
     newH: 'New in Ka-Block ✨',
     newList: [
       '📇 For organizers: <b>index cards</b> per family and <b>monthly dues</b> tracking (private)',
-      '🔍 A <b>Find my family</b> button, always at the bottom right',
+      '🧭 A <b>menu at the bottom</b>: Home, Families and Summary, so nothing is crowded',
       '⭐ Your family is pinned at the top with what you still need',
       '↩️ <b>Undo</b> after every tap',
       'ⓘ <b>How to get it</b> notes for each requirement',
@@ -709,7 +718,7 @@ const TX = {
     icDetailsSaved: 'Index card saved ✓',
     icCerts: 'Certifications',
     icDues: 'Association dues',
-    icDuesOff: 'Dues tracking is off. Turn it on in Organizer tools → Association dues.',
+    icDuesOff: 'Dues tracking is off. Turn it on in 💰 Dues in the menu.',
     icRate: 'Monthly dues for this family (₱)',
     icRatePh: (d) => d ? `Default ₱${d}` : 'e.g. 100',
     icPaidUntil: 'Paid until (month)',
@@ -760,6 +769,27 @@ const TX = {
     rpPayDate: 'Date',
     rpMonthsCol: 'Months covered',
     rpAmount: 'Amount',
+    navHome: 'Home',
+    navFams: 'Families',
+    navSummary: 'Summary',
+    navManage: 'Manage',
+    navDues: 'Dues',
+    navLabel: 'Main menu',
+    findCta: 'Find your family',
+    orgHomeH: 'Hi, organizer! 👋',
+    orgHomeStart: 'Start in ⚙️ Manage: add the requirements and the families, then share the link.',
+    noReqsYet: 'No requirements yet',
+    allCards: 'All index cards',
+    tipAllCards: 'Tap a family to open their index card. Families who are behind are listed first.',
+    mReqs: '📋 Requirements',
+    mFams: '🏠 Families',
+    mShare: '📤 Share',
+    mMsgs: '📣 Messages',
+    mNotice: '⏰ Name & notice',
+    mLog: '🕑 History',
+    mReports: '🖨️ Print & Excel',
+    mTeam: '👥 Team',
+    mLists: '🗂️ Checklists',
     newMore: 'Tap ❓ Help anytime for the full guide.',
     seeGuide: 'See the full guide',
     defTitle: 'Block Requirements',
@@ -873,7 +903,7 @@ const TX = {
     notMine: 'Hindi ’to family mo? Palitan',
     stillNeeded: 'Kulang pa:',
     allSetMine: 'Kumpleto na kayo! 🎉 Salamat!',
-    pinned: (name) => `Sige! Naka-pin na sa taas ang ${name}. ⭐`,
+    pinned: (name) => `Sige! ${name} na ang family mo sa 🏠 Home. ⭐`,
     unpinned: 'Okay! I-tap ang “Family ko ’to” sa card ng family mo.',
     lockedBadge: '🔒 Na-check na ng organizer',
     lockedToast: 'Na-check na ng organizer ang family na ’to. Sabihan sila kung may babaguhin.',
@@ -956,7 +986,7 @@ const TX = {
     unlocked: 'Na-unlock na',
     verified: 'Verified ✓',
     unverified: 'Inalis ang verification',
-    tipCards: 'Habang bukas ang tools na ’to, may organizer buttons ang bawat family card sa baba. I-verify ang requirement pag nakita mo na ang mismong papers, o i-lock ang family para walang makapagbago.',
+    tipCards: 'Sa 👨‍👩‍👧 Families, may organizer buttons ang bawat card. I-verify ang requirement pag nakita mo na ang mismong papers, o i-lock ang family para walang makapagbago.',
     secLog: 'Mga bagong pagbabago',
     tipLog: 'Lahat ng tick at untick, pinakabago sa taas. Kung may mali, i-untick sa card ng family o i-lock ang family.',
     logEmpty: 'Wala pang pagbabago.',
@@ -1004,11 +1034,11 @@ const TX = {
     tabOrg: 'Organizer',
     famGuideH: 'Para sa ka-block',
     famSteps: [
-      '<b>I-tap ang 🔍 Hanapin ako</b> (sa baba, kanan) at i-type ang family name o lot.',
+      '<b>I-tap ang 👨‍👩‍👧 Families</b> sa menu sa baba, tapos i-type ang family name o lot sa search.',
       '<b>I-tap ang requirement na meron na kayo.</b> Magiging green ✅ at auto-save na. Walang “Submit” button, promise!',
       '<b>Nagkamali ng tap?</b> I-tap ang <b>Ibalik</b> sa message sa baba, o i-tap lang ulit.',
-      '<b>Tatandaan ang family mo.</b> Sa susunod, naka-pin na sa taas kasama ang listahan ng kulang pa.',
-      '<b>Hindi alam paano makuha ang requirement?</b> I-tap ang <b>ⓘ Paano makuha</b> sa “Sino na ang meron?”',
+      '<b>Tatandaan ang family mo.</b> Sa susunod, nasa 🏠 Home na kasama ang listahan ng kulang pa.',
+      '<b>Hindi alam paano makuha ang requirement?</b> I-tap ang <b>📊 Summary</b>, tapos <b>ⓘ Paano makuha</b> sa ilalim ng requirement.',
       '<b>Mahirap basahin?</b> I-tap ang <b>Aa</b> sa taas para sa mas malaking text, high contrast o English.',
       '<b>Gawing parang app:</b> i-tap ang <b>Aa → I-add sa Home Screen</b>.',
     ],
@@ -1018,7 +1048,7 @@ const TX = {
     orgSteps: [
       '<b>Mag-sign in with Google</b> gamit ang sarili mong account.',
       '<b>Gumawa ng checklist</b> at lagyan ng pangalan.',
-      '<b>I-add ang requirements</b> sa Organizer tools. Lagyan ng “Paano makuha” para alam ng lahat ang gagawin.',
+      '<b>I-add ang requirements</b> sa ⚙️ Manage. Lagyan ng “Paano makuha” para alam ng lahat ang gagawin.',
       '<b>I-add ang families,</b> isa-isa o sabay-sabay. Lagyan ng street o phase para madaling mahanap.',
       '<b>I-share:</b> i-copy ang link sa GC, o i-print ang QR poster para sa gate.',
       '<b>Maglagay ng deadline at paalala</b> para makita ng lahat sa taas.',
@@ -1026,20 +1056,20 @@ const TX = {
     orgExtrasH: 'Iba pang tools',
     orgExtras: [
       '📇 <b>Index cards:</b> i-tap ang 📇 ng family para sa private card nila: pangalan sa titulo, number, notes, certifications at dues.',
-      '💰 <b>Monthly dues:</b> i-on sa Organizer tools, tapos i-record ang bayad sa bawat index card. Organizers lang ang nakakakita ng dues.',
+      '💰 <b>Monthly dues:</b> buksan ang 💰 Dues sa menu, i-on, tapos i-record ang bayad sa bawat index card. Organizers lang ang nakakakita ng dues.',
       '📣 <b>Ready-made messages:</b> progress update, paalala, deadline at pasasalamat. Tap, copy, paste.',
       '📱 <b>I-text ang family:</b> i-save ang number nila, tapos tap “I-text” para magpadala ng paalala gamit ang sarili mong phone.',
-      '✅ <b>I-verify at 🔒 i-lock:</b> nasa bawat family card habang bukas ang Organizer tools.',
+      '✅ <b>I-verify at 🔒 i-lock:</b> nasa bawat family card sa 👨‍👩‍👧 Families.',
       '🕑 <b>Mga bagong pagbabago:</b> kita lahat ng tick para madaling makita ang mali.',
       '🖨️ <b>Print o Excel:</b> malinis na listahan para sa HOA o barangay meeting.',
       '👥 <b>Co-organizers:</b> mag-add ng katulong gamit ang Google email nila.',
       '🗂️ <b>Iba pang checklist:</b> gumawa ng hiwalay para sa ibang project.',
     ],
-    orgTip: 'Sa ibang phone o laptop, mag-sign in lang ulit gamit ang parehong Google account. Nasa pinakababa ang Organizer tools.',
+    orgTip: 'Sa ibang phone o laptop, mag-sign in lang ulit gamit ang parehong Google account. Nasa ⚙️ Manage at 💰 Dues sa menu sa baba ang tools mo.',
     newH: 'Bago sa Ka-Block ✨',
     newList: [
       '📇 Para sa organizers: <b>index card</b> ng bawat family at <b>monthly dues</b> tracking (private)',
-      '🔍 May <b>Hanapin ako</b> button na, laging nasa baba sa kanan',
+      '🧭 May <b>menu na sa baba</b>: Home, Families at Summary, para hindi siksikan',
       '⭐ Naka-pin sa taas ang family mo kasama ang kulang pa',
       '↩️ May <b>Ibalik</b> pagkatapos ng bawat tap',
       'ⓘ May <b>Paano makuha</b> notes ang bawat requirement',
@@ -1096,7 +1126,7 @@ const TX = {
     icDetailsSaved: 'Na-save ang index card ✓',
     icCerts: 'Mga certification',
     icDues: 'Monthly dues',
-    icDuesOff: 'Naka-off ang dues tracking. I-on sa Organizer tools → Monthly dues.',
+    icDuesOff: 'Naka-off ang dues tracking. I-on sa 💰 Dues sa menu.',
     icRate: 'Monthly dues ng family na ’to (₱)',
     icRatePh: (d) => d ? `Default ₱${d}` : 'e.g. 100',
     icPaidUntil: 'Bayad hanggang (buwan)',
@@ -1147,6 +1177,27 @@ const TX = {
     rpPayDate: 'Petsa',
     rpMonthsCol: 'Mga buwan',
     rpAmount: 'Halaga',
+    navHome: 'Home',
+    navFams: 'Families',
+    navSummary: 'Summary',
+    navManage: 'Manage',
+    navDues: 'Dues',
+    navLabel: 'Main menu',
+    findCta: 'Hanapin ang family mo',
+    orgHomeH: 'Hi, organizer! 👋',
+    orgHomeStart: 'Magsimula sa ⚙️ Manage: i-add ang requirements at families, tapos i-share ang link.',
+    noReqsYet: 'Wala pang requirements',
+    allCards: 'Lahat ng index card',
+    tipAllCards: 'I-tap ang family para buksan ang index card nila. Nasa taas ang mga may kulang.',
+    mReqs: '📋 Requirements',
+    mFams: '🏠 Families',
+    mShare: '📤 I-share',
+    mMsgs: '📣 Messages',
+    mNotice: '⏰ Pangalan at paalala',
+    mLog: '🕑 History',
+    mReports: '🖨️ Print at Excel',
+    mTeam: '👥 Team',
+    mLists: '🗂️ Mga checklist',
     newMore: 'I-tap ang ❓ Tulong kahit kailan para sa buong guide.',
     seeGuide: 'Tingnan ang buong guide',
     defTitle: 'Block Requirements',
@@ -1160,7 +1211,7 @@ function t(k, ...a) {
 }
 const M = () => TX[prefs.lang].msg;
 
-const state = { list: null, families: [], contacts: {}, records: {}, cardOpen: null, log: [], user: null, admin: false, owner: false, adminOpen: false, filter: null, view: 'all', group: '', q: '', confirm: null, editing: null, contactEdit: null, error: null, loaded: false, bulkOpen: false, online: navigator.onLine, myLists: null, myListsFor: null };
+const state = { list: null, families: [], contacts: {}, records: {}, cardOpen: null, mtab: 'reqs', log: [], user: null, admin: false, owner: false, adminOpen: false, filter: null, view: 'all', group: '', q: '', confirm: null, editing: null, contactEdit: null, error: null, loaded: false, bulkOpen: false, online: navigator.onLine, myLists: null, myListsFor: null };
 let myFam = cid ? store.get('myFam:' + cid) : null;
 const $app = document.getElementById('app');
 const I = {
@@ -1295,7 +1346,7 @@ function checkAdmin() {
   const email = String((u && u.email) || '').toLowerCase();
   state.owner = !!(u && l && l.ownerUid === u.uid);
   state.admin = state.owner || !!(u && l && email && (l.editors || []).includes(email));
-  if (state.admin && store.get('openAdmin')) { state.adminOpen = true; store.set('openAdmin', ''); }
+  if (state.admin && store.get('openAdmin')) { store.set('openAdmin', ''); if (location.hash !== '#manage') location.hash = 'manage'; }
   if (!state.admin) state.adminOpen = false;
   syncSubs();
 }
@@ -1459,7 +1510,7 @@ function famCard(f, R, medals, mine) {
   const have = R.filter((r) => has(f, r)).length;
   const all = isComplete(f, R);
   const ver = f.verified || {};
-  const orgMode = state.admin && state.adminOpen;
+  const orgMode = state.admin;
   const tags = [];
   if (medals[f.id] !== undefined) tags.push(`<span class="badge gold">${t('medals')[medals[f.id]]}</span>`);
   if (f.locked) tags.push(`<span class="badge">${t('lockedBadge')}</span>`);
@@ -1577,10 +1628,10 @@ function render(force) {
     else emptyMsg = t('emptyFilter');
   }
 
-  $app.innerHTML = `
-    ${topBar()}
-    ${state.online ? '' : `<div class="offline" role="status">${t('offline')}</div>`}
-    <section class="sticker hero">
+  const tab = currentTab();
+  const head = `${topBar()}
+    ${state.online ? '' : `<div class="offline" role="status">${t('offline')}</div>`}`;
+  const hero = `<section class="sticker hero">
       <div class="hero-top">
         <div>
           <h1>${esc(L.title || t('defTitle'))}</h1>
@@ -1593,19 +1644,22 @@ function render(force) {
         <div class="cell"><span class="fill ${pct ? '' : 'zero'}" style="width:${pct}%"></span><span class="blabel"><b>${t('battery', completeCount, F.length)}</b></span></div>
         <span class="nub"></span>
       </div>
-    </section>
-
+    </section>`;
+  const foot = `<footer class="foot">
+      <span class="live"><i></i>${t('live')}</span>
+      <button class="linkbtn" data-act="feedback">${t('fbLink')}</button>
+      ${state.admin ? `<button class="linkbtn" data-act="signOut">${t('signOut')}</button>` : `<button class="linkbtn" data-act="orgSignIn">${state.user ? t('signOut') : t('orgSignIn')}</button>`}
+    </footer>`;
+  let body = '';
+  if (tab === 'home') {
+    const adminStart = state.admin && (!R.length || !F.length);
+    body = `${hero}
     ${L.announcement ? `<div class="notice" role="note"><b>${t('annLabel')}</b><span>${esc(L.announcement)}</span></div>` : ''}
-
-    <div class="how"><span class="em" aria-hidden="true">👆</span><span>${t('how')}</span></div>
-
-    ${state.admin && state.adminOpen ? adminHtml() : ''}
-
-    ${mineF && !narrowed ? `<div class="sec"><h2>${t('yourFamily')}</h2><button class="linkbtn" data-act="notMine">${t('notMine')}</button></div>${famCard(mineF, R, medals, true)}` : ''}
-
-    ${R.length ? `<div class="sec"><h2>${t('statsH')}</h2><span>${t('statsSub')}</span></div><section class="stats" aria-label="${esc(t('statsH'))}">${stats}</section>` : ''}
-
-    <div class="sec" id="famsTop"><h2>${t('famsH')}</h2><span>${shown.length === F.length ? '' : t('showing', shown.length, F.length)}</span></div>
+    ${state.admin ? `<section class="sticker cta"><h2>${t('orgHomeH')}</h2>${adminStart ? `<p class="sub">${t('orgHomeStart')}</p>` : ''}<div class="row"><button class="btn small" data-act="tab" data-v="manage">⚙️ ${t('navManage')}</button><button class="btn small alt" data-act="tab" data-v="dues">💰 ${t('navDues')}</button><button class="btn small alt" data-act="copyLink">${I.copy}${t('copyLink')}</button></div></section>` : ''}
+    ${mineF ? `<div class="sec"><h2>${t('yourFamily')}</h2><button class="linkbtn" data-act="notMine">${t('notMine')}</button></div>${famCard(mineF, R, medals, true)}` : (!state.admin && F.length ? `<section class="sticker cta"><div class="how" style="border:0;padding:0;background:none;color:inherit"><span class="em" aria-hidden="true">👆</span><span>${t('how')}</span></div><button class="btn" data-act="fab">${I.search}${t('findCta')}</button></section>` : '')}
+    ${foot}`;
+  } else if (tab === 'families') {
+    body = `<div class="sec" id="famsTop"><h2>${t('famsH')}</h2><span>${shown.length === F.length ? '' : t('showing', shown.length, F.length)}</span></div>
     ${F.length ? `<label class="search">${I.search}<input id="q" class="field" type="search" placeholder="${esc(t('searchPh'))}" value="${esc(state.q)}" aria-label="${esc(t('searchPh'))}" autocomplete="off" enterkeyhint="search"></label>` : ''}
     <section class="tools">
       ${groups.length ? `<div class="chips" role="group"><button data-act="group" data-v="" aria-pressed="${!state.group}">${t('allGroups')}</button>${groups.map((g) => `<button data-act="group" data-v="${esc(g)}" aria-pressed="${state.group === g}">${esc(g)}</button>`).join('')}</div>` : ''}
@@ -1616,19 +1670,43 @@ function render(force) {
       </div>` : ''}
       ${filterReq ? `<div class="filterbar"><span class="grow">${esc(t('stillWithout', filterReq.name))}</span><button class="btn small alt" data-act="clearFilter">${t('showAll')}</button></div>` : ''}
     </section>
+    <section class="list">${shown.map((f) => famCard(f, R, medals, f.id === myFam)).join('') || `<div class="sticker empty"><div class="icon">${F.length ? (words.length ? '🔍' : '🎉') : '🏠'}</div><h2>${emptyMsg}</h2>${emptySub ? `<p class="sub">${emptySub}</p>` : ''}</div>`}</section>`;
+  } else if (tab === 'summary') {
+    body = `${R.length ? `<div class="sec"><h2>${t('statsH')}</h2><span>${t('statsSub')}</span></div><section class="stats" aria-label="${esc(t('statsH'))}">${stats}</section>` : `<div class="sticker empty"><div class="icon">📋</div><h2>${t('noReqsYet')}</h2></div>`}
+    ${chartHtml(F, R)}`;
+  } else if (tab === 'manage') {
+    body = adminHtml();
+  } else if (tab === 'dues') {
+    body = duesTabHtml();
+  }
+  $app.innerHTML = `${head}${body}`;
 
-    <section class="list">${listed.map((f) => famCard(f, R, medals, false)).join('') || (mineF && !narrowed && F.length === 1 ? '' : `<div class="sticker empty"><div class="icon">${F.length ? (words.length ? '🔍' : '🎉') : '🏠'}</div><h2>${emptyMsg}</h2>${emptySub ? `<p class="sub">${emptySub}</p>` : ''}</div>`)}</section>
-
-    ${chartHtml(F, R)}
-
-    <footer class="foot">
-      <span class="live"><i></i>${t('live')}</span>
-      <button class="linkbtn" data-act="feedback">${t('fbLink')}</button>
-      ${state.admin ? `<button class="linkbtn" data-act="adminToggle">${state.adminOpen ? t('closeOrg') : t('orgTools')}</button>` : `<button class="linkbtn" data-act="orgSignIn">${state.user ? t('signOut') : t('orgSignIn')}</button>`}
-    </footer>`;
-
-  document.getElementById('fabSlot').innerHTML = F.length ? `<button class="fab" data-act="fab">${I.search}${t('findBtn')}</button>` : '';
+  const navItems = [['home', '🏠', t('navHome')], ['families', '👨‍👩‍👧', t('navFams')], ['summary', '📊', t('navSummary')]];
+  if (state.admin) navItems.push(['manage', '⚙️', t('navManage')], ['dues', '💰', t('navDues')]);
+  document.getElementById('fabSlot').innerHTML = `<nav class="nav" aria-label="${esc(t('navLabel'))}"><div class="nav-in">${navItems.map(([k, ic, label]) => `<button data-act="tab" data-v="${k}" ${tab === k ? 'aria-current="page"' : ''}><span class="ic" aria-hidden="true">${ic}</span>${esc(label)}</button>`).join('')}</div></nav>`;
   refreshCard();
+}
+
+const TABS = ['home', 'families', 'summary', 'manage', 'dues'];
+function currentTab() {
+  const h = location.hash.slice(1);
+  const ok = state.admin ? TABS : TABS.slice(0, 3);
+  return ok.includes(h) ? h : 'home';
+}
+function goTab(k) {
+  if (location.hash.slice(1) === k) { render(true); window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+  location.hash = k;
+}
+window.addEventListener('hashchange', () => { render(true); window.scrollTo(0, 0); });
+
+function duesTabHtml() {
+  const L = state.list;
+  const F = state.families;
+  const rows = L.duesOn ? F.map((f) => ({ f, d: duesInfo(f) })).sort((a, b) => (b.d.behind || 0) - (a.d.behind || 0)) : [];
+  return `<section class="sticker" style="padding:18px;display:grid;gap:22px">
+    ${duesAdminHtml()}
+    ${L.duesOn ? `<div class="admin-sec"><h3>📇 ${t('allCards')}</h3><p class="tip"><span>💡</span><span>${t('tipAllCards')}</span></p>${rows.map(({ f }) => `<button class="list-link" data-act="card" data-fam="${f.id}" style="text-align:left"><span>${esc(f.name)}${f.lot || f.group ? `<br><small>${esc([f.lot, f.group].filter(Boolean).join(', '))}</small>` : ''}</span>${duesBadge(f)}</button>`).join('') || `<p class="sub small">${t('noFamsAdmin')}</p>`}</div>` : ''}
+  </section>`;
 }
 
 function adminHtml() {
@@ -1666,12 +1744,8 @@ function adminHtml() {
     </div>`;
   };
   const groups = [...new Set(F.map((f) => String(f.group || '').trim()).filter(Boolean))];
-  return `<section class="sticker admin" aria-label="${esc(t('adminH'))}">
-    <div class="admin-h"><h2>${t('adminH')}</h2><p>${esc(t('adminSub', state.user.email || ''))}</p></div>
-    <div class="admin-body">
-      ${tip(t('tipCards'))}
-
-      <div class="admin-sec">
+  const S = {};
+  S.share = `<div class="admin-sec">
         <h3>${t('secShare')}</h3>
         ${tip(t('tipShare'))}
         <div class="link-box">${esc(url)}</div>
@@ -1680,9 +1754,8 @@ function adminHtml() {
           ${navigator.share ? `<button class="btn small alt" data-act="shareLink">${I.share}${t('share')}</button>` : ''}
           <button class="btn small alt" data-act="qr">${I.qr}${t('qrBtn')}</button>
         </div>
-      </div>
-
-      <div class="admin-sec">
+      </div>`;
+  S.msgs = `<div class="admin-sec">
         <h3>${t('secMsgs')}</h3>
         ${tip(t('tipMsgs'))}
         <div class="row">
@@ -1691,24 +1764,21 @@ function adminHtml() {
           <button class="btn small alt" data-act="msg" data-v="deadline">${t('msgDeadline')}</button>
           <button class="btn small alt" data-act="msg" data-v="thanks">${t('msgThanks')}</button>
         </div>
-      </div>
-
-      <div class="admin-sec">
+      </div>`;
+  S.notice = `<div class="admin-sec">
         <h3>${t('secNotice')}</h3>
         ${tip(t('tipNotice'))}
         <label class="small sub" for="dlIn" style="font-weight:700">${t('deadlineLabel')}</label>
         <div class="row"><input id="dlIn" class="field grow" type="date" value="${esc(L.deadline || '')}">${L.deadline ? `<button class="btn small alt" data-act="clearDeadline">${t('clearDeadline')}</button>` : ''}</div>
         <textarea id="annIn" class="field" maxlength="200" placeholder="${esc(t('annPh'))}" aria-label="${esc(t('annPh'))}" style="min-height:80px">${esc(L.announcement || '')}</textarea>
         <div class="row"><button class="btn small" data-act="saveNotice">${t('save')}</button></div>
-      </div>
-
-      <div class="admin-sec">
+      </div>`;
+  S.name = `<div class="admin-sec">
         <h3>${t('secName')}</h3>
         ${tip(t('tipName'))}
         <div class="row"><input id="titleIn" class="field grow" value="${esc(L.title || '')}" maxlength="60" aria-label="${esc(t('secName'))}" data-enter="saveTitle"><button class="btn small alt" data-act="saveTitle">${t('save')}</button></div>
-      </div>
-
-      <div class="admin-sec">
+      </div>`;
+  S.reqs = `<div class="admin-sec">
         <h3>${t('secReqs', R.length)}</h3>
         ${tip(t('tipReqs'))}
         ${R.map((r, i) => `<div class="item col">
@@ -1722,9 +1792,8 @@ function adminHtml() {
         </div>`).join('')}
         <div class="row"><input id="newReq" class="field grow" placeholder="${esc(t('reqPh'))}" maxlength="40" aria-label="${esc(t('reqPh'))}" data-enter="addReq"><button class="btn small" data-act="addReq">${I.plus}${t('add')}</button></div>
         ${(() => { const have = R.map((r) => norm(r.name)); const left = TX[prefs.lang].certs.filter(([, n]) => !have.includes(norm(n))); return left.length ? `<p class="ic-label">${t('quickAdd')}</p><div class="chips wrap">${left.map(([e, n]) => `<button type="button" data-act="quickReq" data-v="${esc(n)}">${e} ${esc(n)}</button>`).join('')}</div>` : ''; })()}
-      </div>
-
-      <div class="admin-sec">
+      </div>`;
+  S.fams = `<div class="admin-sec">
         <h3>${t('secFams', F.length)}</h3>
         ${tip(t('tipFams'))}
         ${F.map(famItem).join('') || `<p class="sub small">${t('noFamsAdmin')}</p>`}
@@ -1740,35 +1809,37 @@ function adminHtml() {
             <button class="btn small" data-act="bulk">${t('bulkBtn')}</button>
           </div>
         </details>
-      </div>
-
-      ${duesAdminHtml()}
-
-      <div class="admin-sec">
+      </div>`;
+  S.log = `<div class="admin-sec">
         <h3>🕑 ${t('secLog')}</h3>
         ${tip(t('tipLog'))}
         <div class="log">${state.log.length ? state.log.map((e) => `<div class="log-item"><span>${e.on ? '✅' : '↩️'} <b>${esc(e.family)}</b> ${e.on ? t('logTicked') : t('logUnticked')} ${esc(e.req)}</span><small>${esc(ago(e.at))}, ${esc(e.by || t('logPhone', e.device || '?'))}</small></div>`).join('') : `<p class="sub small">${t('logEmpty')}</p>`}</div>
-      </div>
-
-      <div class="admin-sec">
+      </div>`;
+  S.reports = `<div class="admin-sec">
         <h3>🖨️ ${t('secReports')}</h3>
         ${tip(t('tipReports'))}
         <div class="row"><button class="btn small alt" data-act="printReport">${t('printBtn')}</button><button class="btn small alt" data-act="csv">${t('csvBtn')}</button></div>
-      </div>
-
-      <div class="admin-sec">
+      </div>`;
+  S.team = `<div class="admin-sec">
         <h3>👥 ${t('secTeam')}</h3>
         ${tip(state.owner ? t('tipTeam') : t('teamOwnerOnly'))}
         ${editors.length ? editors.map((e) => `<div class="item"><div class="grow">${esc(e)}</div>${state.owner ? `<button class="iconbtn del" data-act="removeEditor" data-v="${esc(e)}" aria-label="${esc(t('del'))} ${esc(e)}">${I.trash}</button>` : ''}</div>`).join('') : `<p class="sub small">${t('noTeam')}</p>`}
         ${state.owner ? `<div class="row"><input id="edIn" class="field grow" type="email" placeholder="${esc(t('emailPh'))}" aria-label="${esc(t('emailPh'))}" data-enter="addEditor"><button class="btn small" data-act="addEditor">${I.plus}${t('add')}</button></div>` : ''}
-      </div>
-
-      <div class="admin-sec">
+      </div>`;
+  S.lists = `<div class="admin-sec">
         <h3>🗂️ ${t('secLists')}</h3>
         ${tip(t('tipLists'))}
         <div class="row"><a class="btn small alt" href="?home=1">${t('listsBtn')}</a>${isDev() ? `<a class="btn small alt" href="?inbox=1">${t('inboxLink')}</a>` : ''}</div>
-      </div>
-
+      </div>`;
+  S.notice = S.name + S.notice;
+  S.fams = tip(t('tipCards')) + S.fams;
+  const tabs = [['reqs', t('mReqs')], ['fams', t('mFams')], ['share', t('mShare')], ['msgs', t('mMsgs')], ['notice', t('mNotice')], ['log', t('mLog')], ['reports', t('mReports')], ['team', t('mTeam')], ['lists', t('mLists')]];
+  const m = tabs.some(([k]) => k === state.mtab) ? state.mtab : 'reqs';
+  return `<section class="sticker admin" aria-label="${esc(t('adminH'))}">
+    <div class="admin-h"><h2>⚙️ ${t('adminH')}</h2><p>${esc(t('adminSub', state.user.email || ''))}</p></div>
+    <div class="admin-body">
+      <div class="mtabs" role="group" aria-label="${esc(t('adminH'))}">${tabs.map(([k, label]) => `<button data-act="mtab" data-v="${k}" aria-pressed="${m === k}">${label}</button>`).join('')}</div>
+      ${S[m]}
       <div class="row" style="justify-content:flex-end"><button class="btn small alt" data-act="signOut">${t('signOut')}</button></div>
     </div>
   </section>`;
@@ -2021,11 +2092,11 @@ function openGuide(tab) {
     <button class="btn alt" data-act="feedback">${t('fbLink')}</button>
     <button class="btn" data-act="closeSheet">${t('gotIt')}</button>`);
   store.set('seenGuide', '1');
-  store.set('seenNew3', '1');
+  store.set('seenNew4', '1');
 }
 
 function openWhatsNew() {
-  store.set('seenNew3', '1');
+  store.set('seenNew4', '1');
   openSheet(`<h2>${t('newH')}</h2><ul class="extras">${TX[prefs.lang].newList.map((s) => `<li>${s}</li>`).join('')}</ul><p class="sub">${t('newMore')}</p><button class="btn alt" data-act="help">${t('seeGuide')}</button><button class="btn" data-act="closeSheet">${t('gotIt')}</button>`);
 }
 
@@ -2193,6 +2264,8 @@ const blurAll = () => { if (document.activeElement && document.activeElement.blu
 const safe = (fn) => async (el, e) => { try { await fn(el, e); } catch { toast(t('notSaved')); } };
 
 const ACTIONS = {
+  tab: (el) => goTab(el.dataset.v),
+  mtab: (el) => { state.mtab = el.dataset.v; state.confirm = null; state.editing = null; state.contactEdit = null; render(true); },
   card: (el) => openCard(el.dataset.fam),
   cardCancel: () => { state.confirm = null; refreshCard(); },
   quickReq: safe(async (el) => {
@@ -2326,14 +2399,14 @@ const ACTIONS = {
     el.setAttribute('aria-pressed', String(on));
     setTick(f, r, on, el, false);
   },
-  thisUs: (el) => { const f = famById(el.dataset.fam); if (!f) return; myFam = f.id; store.set('myFam:' + cid, f.id); state.q = ''; render(true); window.scrollTo({ top: 0, behavior: 'smooth' }); toast(t('pinned', f.name)); },
+  thisUs: (el) => { const f = famById(el.dataset.fam); if (!f) return; myFam = f.id; store.set('myFam:' + cid, f.id); state.q = ''; goTab('home'); toast(t('pinned', f.name)); },
   notMine: () => { myFam = null; store.set('myFam:' + cid, ''); render(true); toast(t('unpinned')); },
   filter: (el) => {
     const id = el.dataset.req;
     state.filter = state.filter === id ? null : id;
     if (state.filter) { state.view = 'all'; state.q = ''; }
     render(true);
-    if (state.filter) document.getElementById('famsTop').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (state.filter) goTab('families');
   },
   clearFilter: () => { state.filter = null; render(true); },
   info: (el) => {
@@ -2344,19 +2417,10 @@ const ACTIONS = {
   view: (el) => { state.view = el.dataset.v; state.filter = null; render(true); },
   group: (el) => { state.group = el.dataset.v; render(true); },
   fab: () => {
-    const q = document.getElementById('q');
-    if (!q) return;
-    q.focus({ preventScroll: true });
-    document.getElementById('famsTop').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (location.hash !== '#families') location.hash = 'families';
+    setTimeout(() => { const q = document.getElementById('q'); if (q) { q.focus(); q.scrollIntoView({ block: 'center' }); } }, 60);
   },
-  adminToggle: () => {
-    state.adminOpen = !state.adminOpen;
-    state.confirm = null;
-    state.editing = null;
-    state.contactEdit = null;
-    render(true);
-    if (state.adminOpen) document.querySelector('.admin').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  },
+  adminToggle: () => goTab('manage'),
   copyLink: () => copyText(shareUrl(), t('linkCopied')),
   shareLink: () => navigator.share({ title: state.list.title, text: t('shareText'), url: shareUrl() }).catch(() => {}),
   msg: (el) => {
@@ -2572,7 +2636,7 @@ const firstLook = setInterval(() => {
     if (sheetOpen()) return;
     if (inbox) return;
     if (!store.get('seenGuide')) openGuide(cid && state.list && !state.admin ? 'fam' : 'org');
-    else if (!store.get('seenNew3')) openWhatsNew();
+    else if (!store.get('seenNew4')) openWhatsNew();
   }, 700);
 }, 300);
 
