@@ -269,30 +269,30 @@ const millis = (t) => (t && t.toMillis ? t.toMillis() : typeof t === 'number' ? 
 const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
 const pick = (a) => a[Math.floor(Math.random() * a.length)];
 const QUIPS = [
-  'Walang iwanan sa block na ’to. 🤝',
-  'Bayanihan, pero digital na. 📱',
-  'Mas mabilis pa ’to sa chismis sa kanto. 🏃‍♀️',
-  'Walang pila, walang papel, walang stress. ✌️',
-  'Konting tick na lang, mga ka-block! 💪',
-  'Sana all complete na. 🙏',
+  'Nobody gets left behind on this block. 🤝',
+  'Bayanihan, now in digital. 📱',
+  'Faster than the latest chismis on the street. 🏃‍♀️',
+  'No lines, no paperwork, no stress. ✌️',
+  'Just a few more ticks, neighbors! 💪',
+  'Manifesting a complete block. 🙏',
 ];
 const quipSeed = Math.floor(Math.random() * QUIPS.length);
 function quip(done, total) {
-  if (!total) return 'Abangan ang mga ka-block! 👀';
-  if (done === total) return 'Complete na lahat! Ang galing natin, mga ka-block! 🎉';
-  if (done === 0) return 'Tara na, mga ka-block! Simulan na ang pag-tick. 💪';
-  if (done / total >= 0.5) return 'Lagpas kalahati na tayo! Kaya pa ’yan. 🔥';
+  if (!total) return 'Waiting for the neighbors to arrive! 👀';
+  if (done === total) return 'Everyone is complete! Great job, neighbors! 🎉';
+  if (done === 0) return 'Let’s go, neighbors! Time to start ticking. 💪';
+  if (done / total >= 0.5) return 'We’re past halfway! Keep it going. 🔥';
   return QUIPS[quipSeed];
 }
-const ZAPS = ['Bzzzt! ⚡ Sana lahat may sariling poste.', 'Huwag hawakan ang wire! ⚡😅', 'Poste: present! 🙋', 'Meralco pa more! 💡'];
+const ZAPS = ['Bzzzt! ⚡ Everyone deserves their own poste.', 'Don’t touch the wires! ⚡😅', 'Poste: present! 🙋', 'More power to you! 💡'];
 function ago(t) {
   const m = millis(t);
-  if (!m) return 'kanina lang';
+  if (!m) return 'just now';
   const s = Math.max(0, (Date.now() - m) / 1000);
-  if (s < 60) return 'kanina lang';
+  if (s < 60) return 'just now';
   if (s < 3600) return Math.floor(s / 60) + ' min ago';
   if (s < 86400) return Math.floor(s / 3600) + ' hr ago';
-  if (s < 172800) return 'kahapon';
+  if (s < 172800) return 'yesterday';
   return new Date(m).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
 }
 
@@ -335,7 +335,7 @@ async function signIn() {
     if (code === 'auth/popup-blocked' || code === 'auth/operation-not-supported-in-this-environment' || code === 'auth/web-storage-unsupported') {
       await signInWithRedirect(auth, provider);
     } else if (code !== 'auth/popup-closed-by-user' && code !== 'auth/cancelled-popup-request') {
-      toast('Hindi gumana ang sign-in. Try ulit. 🙏');
+      toast('Sign-in didn’t work. Please try again. 🙏');
     }
   }
 }
@@ -359,7 +359,7 @@ if (cid) {
     else if (store.get('lastChecklist') === cid) store.set('lastChecklist', '');
     checkAdmin();
     render();
-  }, () => { state.loaded = true; state.error = 'Hindi ma-load ang checklist. Check ang internet, tapos i-refresh. 📶'; render(); });
+  }, () => { state.loaded = true; state.error = 'Couldn’t load the checklist. Check your internet, then refresh. 📶'; render(); });
   onSnapshot(collection(db, 'checklists', cid, 'families'), (snap) => {
     state.families = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
     state.families.sort((a, b) => (a.order ?? 0) - (b.order ?? 0) || String(a.name).localeCompare(String(b.name)));
@@ -373,7 +373,7 @@ let deferredInstall = null;
 const isStandalone = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
 const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredInstall = e; render(); });
-window.addEventListener('appinstalled', () => { deferredInstall = null; toast('Nasa home screen mo na ang Ka-Block! 📱'); render(); });
+window.addEventListener('appinstalled', () => { deferredInstall = null; toast('Ka-Block is on your home screen! 📱'); render(); });
 const canOfferInstall = () => !isStandalone() && (deferredInstall || isIOS());
 
 async function install() {
@@ -384,13 +384,13 @@ async function install() {
     render();
     return;
   }
-  openSheet(`<h2>I-add ang Ka-Block sa Home Screen</h2>
+  openSheet(`<h2>Add Ka-Block to your Home Screen</h2>
     <ol>
-      <li>I-tap ang Share button <span class="ico">${I.share}</span> sa Safari.</li>
-      <li>Mag-scroll pababa, tapos tap ang <b>Add to Home Screen</b>.</li>
-      <li>Tap <b>Add</b>. Ayan, parang app na siya! 📱</li>
+      <li>Tap the Share button <span class="ico">${I.share}</span> in Safari.</li>
+      <li>Scroll down and tap <b>Add to Home Screen</b>.</li>
+      <li>Tap <b>Add</b>. Now it opens just like an app! 📱</li>
     </ol>
-    <button class="btn" data-close="1">Gets!</button>`);
+    <button class="btn" data-close="1">Got it!</button>`);
 }
 
 function openSheet(html) {
@@ -401,41 +401,41 @@ function openSheet(html) {
 
 const GUIDE = {
   fam: {
-    title: 'Para sa ka-block',
+    title: 'For neighbors',
     steps: [
-      '<b>Hanapin ang family mo.</b> Mag-scroll, o i-type ang pangalan sa search. 🔍',
-      '<b>I-tap ang requirement na meron na kayo.</b> Magiging green siya ✅ at auto-save na. Walang “Submit” button, promise!',
-      '<b>Nagkamali ng tap?</b> I-tap lang ulit para i-untick. Okay lang ’yan. 😉',
-      '<b>Gusto makita kung sino pa ang wala?</b> I-tap ang card sa “Sino na ang meron?”',
-      '<b>Para madaling buksan ulit,</b> i-tap ang “App” sa taas para malagay sa home screen mo. 📱',
+      '<b>Find your family.</b> Scroll down, or type your name in the search box. 🔍',
+      '<b>Tap each requirement you already have.</b> It turns green ✅ and saves by itself. There’s no “Submit” button, promise!',
+      '<b>Tapped the wrong one?</b> Just tap it again to untick. No worries. 😉',
+      '<b>Want to see who still needs something?</b> Tap a card under “Who has what”.',
+      '<b>To open it again easily,</b> tap “App” at the top to put it on your home screen. 📱',
     ],
-    tip: 'Hindi kailangan mag-sign in para mag-tick. Ang organizer lang ang nagsa-sign in.',
+    tip: 'You don’t need to sign in to tick. Only the organizer signs in.',
   },
   org: {
-    title: 'Para sa organizer',
+    title: 'For the organizer',
     steps: [
-      '<b>Mag-sign in with Google</b> gamit ang sarili mong account. Ikaw lang ang makaka-edit.',
-      '<b>Gumawa ng checklist</b> at lagyan ng pangalan, tapos tap “Gawin na!”',
-      '<b>Sa Organizer tools, i-add ang requirements,</b> e.g. Meralco on own poste, Barangay permit.',
-      '<b>I-add ang families,</b> isa-isa o sabay-sabay gamit ang “Mag-add ng maraming families”.',
-      '<b>I-tap ang “Copy link”</b> at i-paste sa GC ng block. ’Yun na! 🎉',
-      '<b>Paminsan-minsan, i-tap ang “Copy update para sa GC”</b> para i-remind ang mga wala pa.',
-      '<b>Para bumalik sa Organizer tools,</b> mag-scroll sa pinakababa at tap “Organizer sign-in” o “Organizer tools”.',
+      '<b>Sign in with Google</b> using your own account. Only you will be able to edit.',
+      '<b>Create a checklist,</b> give it a name, then tap “Create it!”',
+      '<b>In Organizer tools, add the requirements,</b> e.g. Meralco on own poste, Barangay permit.',
+      '<b>Add the families,</b> one at a time or all at once with “Add many families at once”.',
+      '<b>Tap “Copy link”</b> and paste it in the block’s group chat. That’s it! 🎉',
+      '<b>Every now and then, tap “Copy update for the GC”</b> to remind those who aren’t done yet.',
+      '<b>To get back to Organizer tools,</b> scroll to the very bottom and tap “Organizer sign-in” or “Organizer tools”.',
     ],
-    tip: 'Sa ibang phone o laptop, mag-sign in lang ulit gamit ang parehong Google account.',
+    tip: 'On another phone or laptop, just sign in again with the same Google account.',
   },
 };
 function openGuide(tab) {
   const g = GUIDE[tab];
-  openSheet(`<h2>Paano gamitin? 🤔</h2>
+  openSheet(`<h2>How does this work? 🤔</h2>
     <div class="tabs" role="group" aria-label="Guide">
-      <button data-gtab="fam" aria-pressed="${tab === 'fam'}">Ka-block</button>
+      <button data-gtab="fam" aria-pressed="${tab === 'fam'}">Neighbors</button>
       <button data-gtab="org" aria-pressed="${tab === 'org'}">Organizer</button>
     </div>
     <h3>${g.title}</h3>
     <ol class="steps">${g.steps.map((x) => `<li>${x}</li>`).join('')}</ol>
     <p class="tip"><span>💡</span><span>${g.tip}</span></p>
-    <button class="btn" data-close="1">Gets ko na! 👍</button>`);
+    <button class="btn" data-close="1">Got it! 👍</button>`);
   document.querySelectorAll('[data-gtab]').forEach((b) => b.addEventListener('click', () => openGuide(b.dataset.gtab)));
   store.set('seenGuide', '1');
 }
@@ -448,7 +448,7 @@ function topBar() {
   return `<header class="top">
     <span class="logo"><img src="icon-192.png" alt="">Ka-Block</span>
     <span class="top-actions">
-      <button class="install help" id="helpBtn">❓ Paano?</button>
+      <button class="install help" id="helpBtn">❓ Help</button>
       ${canOfferInstall() ? `<button class="install" id="installBtn">${I.down}App</button>` : ''}
     </span>
   </header>`;
@@ -460,25 +460,25 @@ function renderNoList() {
     <section class="sticker hero">
       <div class="hero-top">
         <div>
-          <h1>${cid ? 'Hala, wala dito ’yung checklist 😅' : 'Isang link lang para sa buong block'}</h1>
-          <p class="sub" style="margin-top:10px">${cid ? 'Baka naputol ang link. Pakisend ulit kay organizer.' : 'Tick lang ng bawat family kung ano’ng meron na sila. Kita agad kung sino pa ang kulang. Walang pila, walang papel!'}</p>
+          <h1>${cid ? 'Oops, this checklist isn’t here 😅' : 'One link for the whole block'}</h1>
+          <p class="sub" style="margin-top:10px">${cid ? 'The link might be cut off. Ask your organizer to send it again.' : 'Each family ticks what they already have, and everyone sees who still needs what. No lines, no paperwork!'}</p>
         </div>
         ${ART}
       </div>
     </section>
     <section class="sticker" style="display:grid;gap:14px;padding:20px">
-      <h2>Gawa tayo ng checklist</h2>
-      <p class="sub">Para sa organizer. Ilagay ang requirements at ang families, tapos i-share ang link sa GC.</p>
+      <h2>Let’s make a checklist</h2>
+      <p class="sub">For the organizer. Add the requirements and the families, then share the link in the group chat.</p>
       <ol class="steps">
-        <li class="${state.user ? 'done' : ''}"><b>Mag-sign in with Google.</b> Gamitin ang sarili mong Google account. Ikaw lang ang makaka-edit ng checklist mo.${state.user ? ' Done na ’to! ✨' : ''}</li>
-        <li><b>Lagyan ng pangalan</b> ang checklist, e.g. Block 5 Requirements.</li>
-        <li><b>I-tap ang “Gawin na!”</b> Tapos, ilalagay mo na ang requirements at families.</li>
+        <li class="${state.user ? 'done' : ''}"><b>Sign in with Google.</b> Use your own Google account. Only you can edit your checklist.${state.user ? ' Done! ✨' : ''}</li>
+        <li><b>Give it a name,</b> e.g. Block 5 Requirements.</li>
+        <li><b>Tap “Create it!”</b> Then you’ll add the requirements and families.</li>
       </ol>
-      <input id="newTitle" class="field" placeholder="Pangalan, e.g. Block 5 Requirements" maxlength="60" aria-label="Checklist name">
-      <button class="btn" id="createBtn">${state.user ? 'Gawin na! ✨' : 'Sign in with Google para magsimula'}</button>
+      <input id="newTitle" class="field" placeholder="Name it, e.g. Block 5 Requirements" maxlength="60" aria-label="Checklist name">
+      <button class="btn" id="createBtn">${state.user ? 'Create it! ✨' : 'Sign in with Google to start'}</button>
       ${state.user ? `<p class="sub small">Signed in as ${esc(state.user.email)}. <button class="linkbtn" id="outBtn">Sign out</button></p>` : ''}
     </section>
-    <p class="sub small" style="text-align:center">May link ka galing kay organizer? Buksan mo lang. Walang sign-in, promise! 🤞</p>`;
+    <p class="sub small" style="text-align:center">Got a link from your organizer? Just open it. No sign-in needed, promise! 🤞</p>`;
   document.getElementById('createBtn').onclick = async () => {
     if (!state.user) { await signIn(); return; }
     const title = document.getElementById('newTitle').value.trim() || 'Block Requirements';
@@ -488,7 +488,7 @@ function renderNoList() {
       store.set('openAdmin', '1');
       location.search = '?c=' + ref.id;
     } catch (e) {
-      toast('Hindi nagawa. Check ang internet, tapos try ulit. 📶');
+      toast('Couldn’t create it. Check your internet and try again. 📶');
     }
   };
   const out = document.getElementById('outBtn');
@@ -529,9 +529,9 @@ function render(force) {
     const missing = F.length - done;
     return `<button class="sticker stat" data-filter="${r.id}" aria-pressed="${state.filter === r.id}">
       <span class="name">${esc(r.name)}</span>
-      <span class="count">${done}<small> of ${F.length} meron na</small></span>
+      <span class="count">${done}<small> of ${F.length} have it</small></span>
       <span class="bar"><span class="${p ? '' : 'zero'}" style="width:${p}%"></span></span>
-      <span class="hint ${F.length && !missing ? 'ok' : ''}">${F.length ? (missing ? `${plural(missing, 'family', 'families')} pa ang wala. Tap para makita kung sino. 👀` : 'Lahat meron na! 🎉') : 'Wala pang families'}</span>
+      <span class="hint ${F.length && !missing ? 'ok' : ''}">${F.length ? (missing ? `${plural(missing, 'family', 'families')} still without. Tap to see who. 👀` : 'Everyone has this! 🎉') : 'No families yet'}</span>
     </button>`;
   }).join('');
 
@@ -544,22 +544,22 @@ function render(force) {
           <div class="avatar" style="background:${colorFor(f.name)}" aria-hidden="true">${esc(initials(f.name))}</div>
           <div><div class="fam-name">${esc(f.name)}</div>${f.lot ? `<div class="fam-lot">${esc(f.lot)}</div>` : ''}</div>
         </div>
-        ${all ? '<span class="done-sticker">Complete na! ✨</span>' : `<span class="score">${have} of ${R.length}</span>`}
+        ${all ? '<span class="done-sticker">All done! ✨</span>' : `<span class="score">${have} of ${R.length}</span>`}
       </div>
       <div class="ticks">${R.map((r) => `<button class="tick" aria-pressed="${has(f, r)}" data-fam="${f.id}" data-req="${r.id}"><span class="box">${I.check}</span>${esc(r.name)}</button>`).join('')}</div>
-      ${have ? `<div class="updated">Na-update ${ago(f.updatedAt)}</div>` : ''}
+      ${have ? `<div class="updated">Updated ${ago(f.updatedAt)}</div>` : ''}
     </article>`;
   }).join('');
 
   const shareUrl = location.origin + location.pathname + '?c=' + cid;
-  let emptyMsg = 'Wala pang families dito';
-  let emptySub = 'Ilalagay pa ni organizer. Abangan! 👀';
+  let emptyMsg = 'No families here yet';
+  let emptySub = 'The organizer will add them soon. Stay tuned! 👀';
   if (F.length) {
     emptySub = '';
-    if (q) emptyMsg = 'Walang ganyang pangalan. Baka typo? 🤔';
-    else if (filterReq) emptyMsg = 'Lahat meron na nito! 🎉';
-    else if (state.view === 'todo') emptyMsg = 'Complete na lahat! Party party! 🥳';
-    else emptyMsg = 'Wala pang complete. Kayo na kaya ang una? 👀';
+    if (q) emptyMsg = 'No family by that name. Maybe a typo? 🤔';
+    else if (filterReq) emptyMsg = 'Everyone already has this! 🎉';
+    else if (state.view === 'todo') emptyMsg = 'Every family is done! Party time! 🥳';
+    else emptyMsg = 'Nobody’s done yet. Will your family be first? 👀';
   }
 
   $app.innerHTML = `
@@ -573,33 +573,33 @@ function render(force) {
         </div>
         ${ART}
       </div>
-      <div class="battery" role="img" aria-label="${completeCount} of ${F.length} families complete na">
-        <div class="cell"><span class="fill ${pct ? '' : 'zero'}" style="width:${pct}%"></span><span class="blabel"><b>${completeCount} of ${F.length} complete na</b></span></div>
+      <div class="battery" role="img" aria-label="${completeCount} of ${F.length} families done">
+        <div class="cell"><span class="fill ${pct ? '' : 'zero'}" style="width:${pct}%"></span><span class="blabel"><b>${completeCount} of ${F.length} families done</b></span></div>
         <span class="nub"></span>
       </div>
     </section>
 
-    <div class="how"><span class="em" aria-hidden="true">👆</span><span>Hanapin ang family mo, tapos i-tap lang ang meron na kayo. Auto-save, kita agad ng lahat!</span></div>
+    <div class="how"><span class="em" aria-hidden="true">👆</span><span>Find your family, then tap what you already have. It saves by itself and everyone sees it right away!</span></div>
 
     ${state.admin && state.adminOpen ? adminHtml(shareUrl) : ''}
 
-    ${R.length ? `<div class="sec"><h2>Sino na ang meron?</h2><span>Tap para makita kung sino pa ang wala</span></div><section class="stats" aria-label="Summary">${stats}</section>` : ''}
+    ${R.length ? `<div class="sec"><h2>Who has what</h2><span>Tap one to see who still needs it</span></div><section class="stats" aria-label="Summary">${stats}</section>` : ''}
 
-    <div class="sec"><h2>Mga ka-block</h2><span>${shown.length === F.length ? '' : `${shown.length} of ${F.length} ang nakikita`}</span></div>
+    <div class="sec"><h2>Families</h2><span>${shown.length === F.length ? '' : `Showing ${shown.length} of ${F.length}`}</span></div>
     <section class="tools">
-      ${F.length > 4 ? `<label class="search">${I.search}<input id="q" class="field" type="search" placeholder="Hanapin ang family name o lot" value="${esc(state.q)}" aria-label="Search families" autocomplete="off"></label>` : ''}
+      ${F.length > 4 ? `<label class="search">${I.search}<input id="q" class="field" type="search" placeholder="Search your family name or lot" value="${esc(state.q)}" aria-label="Search families" autocomplete="off"></label>` : ''}
       ${F.length && R.length ? `<div class="seg" role="group" aria-label="Show">
-        <button data-view="all" aria-pressed="${state.view === 'all'}">Lahat (${F.length})</button>
-        <button data-view="todo" aria-pressed="${state.view === 'todo'}">Kulang pa (${F.length - completeCount})</button>
-        <button data-view="done" aria-pressed="${state.view === 'done'}">Complete na (${completeCount})</button>
+        <button data-view="all" aria-pressed="${state.view === 'all'}">All (${F.length})</button>
+        <button data-view="todo" aria-pressed="${state.view === 'todo'}">Not done yet (${F.length - completeCount})</button>
+        <button data-view="done" aria-pressed="${state.view === 'done'}">All done (${completeCount})</button>
       </div>` : ''}
-      ${filterReq ? `<div class="filterbar"><span class="grow">Wala pang: ${esc(filterReq.name)}</span><button class="btn small alt" id="clearFilter">Ipakita lahat</button></div>` : ''}
+      ${filterReq ? `<div class="filterbar"><span class="grow">Still without: ${esc(filterReq.name)}</span><button class="btn small alt" id="clearFilter">Show all</button></div>` : ''}
     </section>
 
     <section class="list">${cards || `<div class="sticker empty"><div class="icon">${F.length ? (q ? '🔍' : '🎉') : '🏠'}</div><h2>${emptyMsg}</h2>${emptySub ? `<p class="sub">${emptySub}</p>` : ''}</div>`}</section>
 
     <footer class="foot">
-      <span class="live"><i></i>Live ’to, kita ng lahat</span>
+      <span class="live"><i></i>Live for everyone</span>
       ${state.admin ? `<button class="linkbtn" id="adminToggle">${state.adminOpen ? 'Close organizer tools' : 'Organizer tools'}</button>` : `<button class="linkbtn" id="adminSignIn">${state.user ? 'Sign out' : 'Organizer sign-in'}</button>`}
     </footer>`;
 
@@ -613,10 +613,10 @@ function summaryText(shareUrl) {
   const lines = [`📋 ${state.list.title || 'Block Requirements'} (as of ${date})`, ''];
   R.forEach((r) => {
     const without = F.filter((f) => !has(f, r));
-    lines.push(`${without.length ? '⏳' : '✅'} ${r.name}: ${F.length - without.length} of ${F.length} meron na`);
-    if (without.length) lines.push('   Wala pa: ' + without.map((f) => f.name + (f.lot ? ` (${f.lot})` : '')).join(', '));
+    lines.push(`${without.length ? '⏳' : '✅'} ${r.name}: ${F.length - without.length} of ${F.length} done`);
+    if (without.length) lines.push('   Still without: ' + without.map((f) => f.name + (f.lot ? ` (${f.lot})` : '')).join(', '));
   });
-  lines.push('', 'Paki-tick na lang dito kung ano’ng meron na kayo 👇', shareUrl, '', 'Salamat, mga ka-block! 🙏');
+  lines.push('', 'Please tick what your family already has here 👇', shareUrl, '', 'Thank you, neighbors! 🙏');
   return lines.join('\n');
 }
 
@@ -625,7 +625,7 @@ async function copyText(text, okMsg) {
     await navigator.clipboard.writeText(text);
     toast(okMsg);
   } catch {
-    openSheet(`<h2>I-copy mo ’to</h2><textarea class="field" readonly style="min-height:200px">${esc(text)}</textarea><button class="btn" data-close="1">Tapos na</button>`);
+    openSheet(`<h2>Copy this</h2><textarea class="field" readonly style="min-height:200px">${esc(text)}</textarea><button class="btn" data-close="1">Done</button>`);
     const ta = document.querySelector('.sheet textarea');
     ta.focus();
     ta.select();
@@ -637,32 +637,32 @@ function adminHtml(shareUrl) {
   const F = state.families;
   const c = state.confirm;
   return `<section class="sticker admin" aria-label="Organizer tools">
-    <div class="admin-h"><h2>Organizer tools</h2><p>Ikaw lang ang nakakakita nito, boss. Signed in as ${esc(state.user.email || '')}</p></div>
+    <div class="admin-h"><h2>Organizer tools</h2><p>Only you can see this, boss. Signed in as ${esc(state.user.email || '')}</p></div>
     <div class="admin-body">
       <div class="admin-sec">
-        <h3>I-share sa block</h3>
-        <p class="tip"><span>💡</span><span>I-copy ang link at i-paste sa GC. Ang “Copy update” ay may listahan na ng mga wala pa, pang-remind sa mga ka-block!</span></p>
+        <h3>Share with the block</h3>
+        <p class="tip"><span>💡</span><span>Copy the link and paste it in the group chat. “Copy update” makes a ready-made list of who’s still missing what, perfect for friendly reminders!</span></p>
         <div class="link-box" id="shareUrl">${esc(shareUrl)}</div>
         <div class="row">
           <button class="btn small" id="copyLink">${I.copy}Copy link</button>
           ${navigator.share ? `<button class="btn small alt" id="shareLink">${I.share}Share</button>` : ''}
-          <button class="btn small alt" id="copySummary">${I.chat}Copy update para sa GC</button>
+          <button class="btn small alt" id="copySummary">${I.chat}Copy update for the GC</button>
         </div>
       </div>
 
       <div class="admin-sec">
-        <h3>Pangalan ng checklist</h3>
-        <p class="tip"><span>💡</span><span>Ito ang malaking title sa taas ng page. Palitan, tapos tap “Save”.</span></p>
+        <h3>Checklist name</h3>
+        <p class="tip"><span>💡</span><span>This is the big title at the top of the page. Change it, then tap “Save”.</span></p>
         <div class="row"><input id="titleIn" class="field grow" value="${esc(state.list.title || '')}" maxlength="60" aria-label="Checklist name"><button class="btn small alt" id="saveTitle">Save</button></div>
       </div>
 
       <div class="admin-sec">
         <h3>Requirements (${R.length})</h3>
-        <p class="tip"><span>💡</span><span>Ito ang mga ita-tick ng families. Para i-rename, i-tap ang pangalan at i-type ang bago. 🗑️ para i-delete (mawawala rin ang ticks nito).</span></p>
+        <p class="tip"><span>💡</span><span>These are what families will tick. To rename one, tap its name and type the new one. Tap 🗑️ to delete it (its ticks go away too).</span></p>
         ${R.map((r) => `<div class="item">
           <input class="field grow" data-rename="${r.id}" value="${esc(r.name)}" maxlength="40" aria-label="Requirement name">
           ${c === 'r:' + r.id
-            ? `<button class="btn small danger" data-delreq="${r.id}">Delete</button><button class="btn small alt" data-cancel="1">Huwag pala</button>`
+            ? `<button class="btn small danger" data-delreq="${r.id}">Delete</button><button class="btn small alt" data-cancel="1">Keep it</button>`
             : `<button class="iconbtn del" data-askreq="${r.id}" aria-label="Delete ${esc(r.name)}">${I.trash}</button>`}
         </div>`).join('')}
         <div class="row"><input id="newReq" class="field grow" placeholder="e.g. Water connection" maxlength="40" aria-label="New requirement"><button class="btn small" id="addReq">${I.plus}Add</button></div>
@@ -670,20 +670,20 @@ function adminHtml(shareUrl) {
 
       <div class="admin-sec">
         <h3>Families (${F.length})</h3>
-        <p class="tip"><span>💡</span><span>I-type ang family name (at lot kung gusto), tap “Add”. ✏️ para i-edit, 🗑️ para i-delete. May mahabang listahan? Gamitin ang “sabay-sabay” sa baba.</span></p>
+        <p class="tip"><span>💡</span><span>Type the family name (and lot if you like), then tap “Add”. ✏️ to edit, 🗑️ to delete. Got a long list? Use “Add many families at once” below.</span></p>
         ${F.map((f) => `<div class="item">
           <div class="grow"><b>${esc(f.name)}</b>${f.lot ? ` <span class="sub small">${esc(f.lot)}</span>` : ''}</div>
           ${c === 'f:' + f.id
-            ? `<button class="btn small danger" data-delfam="${f.id}">Delete</button><button class="btn small alt" data-cancel="1">Huwag pala</button>`
+            ? `<button class="btn small danger" data-delfam="${f.id}">Delete</button><button class="btn small alt" data-cancel="1">Keep it</button>`
             : `<button class="iconbtn" data-editfam="${f.id}" aria-label="Edit ${esc(f.name)}">${I.edit}</button><button class="iconbtn del" data-askfam="${f.id}" aria-label="Delete ${esc(f.name)}">${I.trash}</button>`}
-        </div>`).join('') || '<p class="sub small">Wala pang families. I-add sila sa baba. 👇</p>'}
-        <div class="row"><input id="famName" class="field" style="flex:1 1 100%" placeholder="Family name, e.g. Dela Cruz" maxlength="50" aria-label="Family name"><input id="famLot" class="field grow" placeholder="Lot o house no. (optional)" maxlength="20" aria-label="Lot"><button class="btn small" id="addFam">${I.plus}Add</button></div>
+        </div>`).join('') || '<p class="sub small">No families yet. Add them below. 👇</p>'}
+        <div class="row"><input id="famName" class="field" style="flex:1 1 100%" placeholder="Family name, e.g. Dela Cruz" maxlength="50" aria-label="Family name"><input id="famLot" class="field grow" placeholder="Lot or house no. (optional)" maxlength="20" aria-label="Lot"><button class="btn small" id="addFam">${I.plus}Add</button></div>
         <details id="bulkBox" ${state.bulkOpen ? 'open' : ''}>
-          <summary class="linkbtn" style="cursor:pointer;display:inline-block">Mag-add ng maraming families sabay-sabay</summary>
+          <summary class="linkbtn" style="cursor:pointer;display:inline-block">Add many families at once</summary>
           <div style="display:grid;gap:8px;margin-top:8px">
-            <p class="sub small">Isang family kada line. Ilagay ang lot after ng comma kung gusto, e.g. <b>Santos, Lot 6</b></p>
+            <p class="sub small">One family per line. Add the lot after a comma if you like, e.g. <b>Santos, Lot 6</b></p>
             <textarea id="bulk" class="field" placeholder="Dela Cruz, Lot 5&#10;Santos, Lot 6&#10;Reyes, Lot 7" aria-label="Families, one per line"></textarea>
-            <button class="btn small" id="addBulk">I-add lahat</button>
+            <button class="btn small" id="addBulk">Add them all</button>
           </div>
         </details>
       </div>
@@ -710,10 +710,10 @@ function bind(shareUrl) {
     if (willComplete) { const rect = b.getBoundingClientRect(); confetti(rect.left + rect.width / 2, rect.top + rect.height / 2); }
     try {
       await updateDoc(doc(db, 'checklists', cid, 'families', b.dataset.fam), { ['ticks.' + reqId]: now ? true : deleteField(), updatedAt: serverTimestamp() });
-      toast(willComplete ? pick([`${fam.name}, complete na! Sana all! 🎉`, `Petmalu! Complete na ang ${fam.name}! 🎉`, `${fam.name}, ang galing! Complete na! 🥳`]) : now ? pick(['Saved! Galing! ✓', 'Ayan, naka-save na ✓', 'Noted! ✓', 'G! Na-save na ✓', 'Check! ✅']) : pick(['Na-untick na', 'Okay, binawi na natin ’yan']));
+      toast(willComplete ? pick([`${fam.name} is all done! 🎉`, `Woohoo! ${fam.name} completed everything! 🎉`, `Look at ${fam.name} go! All done! 🥳`]) : now ? pick(['Saved! Nice one ✓', 'Got it, saved ✓', 'Noted! ✓', 'Done and saved ✓', 'Check! ✅']) : pick(['Unticked', 'Okay, we took that one back']));
     } catch (err) {
       b.setAttribute('aria-pressed', String(!now));
-      toast('Hindi na-save. Check ang internet mo, tapos try ulit. 📶');
+      toast('Not saved. Check your internet and try again. 📶');
     }
   });
   on('.stat', 'click', (e) => {
@@ -736,10 +736,10 @@ function bind(shareUrl) {
   });
   const signBtn = document.getElementById('adminSignIn');
   if (signBtn) signBtn.onclick = async () => {
-    if (state.user) { await signOut(auth); toast('Signed out. Balik ka ha? 👋'); return; }
+    if (state.user) { await signOut(auth); toast('Signed out. Come back soon! 👋'); return; }
     store.set('openAdmin', '1');
     await signIn();
-    setTimeout(() => { if (state.user && !state.admin) { store.set('openAdmin', ''); toast('Hindi ikaw ang organizer nito, ka-block. 😅'); } }, 1500);
+    setTimeout(() => { if (state.user && !state.admin) { store.set('openAdmin', ''); toast('Looks like you’re not the organizer of this one. 😅'); } }, 1500);
   };
   const tog = document.getElementById('adminToggle');
   if (tog) tog.onclick = () => { state.adminOpen = !state.adminOpen; state.confirm = null; render(); if (state.adminOpen) document.querySelector('.admin').scrollIntoView({ behavior: 'smooth', block: 'start' }); };
@@ -747,7 +747,7 @@ function bind(shareUrl) {
 
   const listRef = doc(db, 'checklists', cid);
   const famRef = (id) => doc(db, 'checklists', cid, 'families', id);
-  const safe = (fn) => async (...a) => { try { await fn(...a); } catch { toast('Hindi na-save. Check ang internet mo, tapos try ulit. 📶'); } };
+  const safe = (fn) => async (...a) => { try { await fn(...a); } catch { toast('Not saved. Check your internet and try again. 📶'); } };
   const saveReqs = (list) => updateDoc(listRef, { requirements: list, updatedAt: serverTimestamp() });
   const enter = (id, btnId) => { const el = document.getElementById(id); if (el) el.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); document.getElementById(btnId).click(); } }); };
   enter('newReq', 'addReq');
@@ -756,17 +756,17 @@ function bind(shareUrl) {
   enter('titleIn', 'saveTitle');
 
   document.getElementById('bulkBox').addEventListener('toggle', (e) => { state.bulkOpen = e.target.open; });
-  document.getElementById('copyLink').onclick = () => copyText(shareUrl, 'Link copied! I-paste mo na sa GC. 📋');
-  document.getElementById('copySummary').onclick = () => copyText(summaryText(shareUrl), 'Update copied! Paste na sa GC. 📣');
+  document.getElementById('copyLink').onclick = () => copyText(shareUrl, 'Link copied! Paste it in the group chat. 📋');
+  document.getElementById('copySummary').onclick = () => copyText(summaryText(shareUrl), 'Update copied! Paste it in the group chat. 📣');
   const sl = document.getElementById('shareLink');
-  if (sl) sl.onclick = () => navigator.share({ title: state.list.title, text: 'Paki-tick kung ano’ng meron na ang family niyo:', url: shareUrl }).catch(() => {});
+  if (sl) sl.onclick = () => navigator.share({ title: state.list.title, text: 'Please tick the requirements your family already has:', url: shareUrl }).catch(() => {});
   document.getElementById('saveTitle').onclick = safe(async () => {
     const el = document.getElementById('titleIn');
     const t = el.value.trim();
     if (!t) return;
     el.blur();
     await updateDoc(listRef, { title: t, updatedAt: serverTimestamp() });
-    toast('Na-save ang pangalan ✓');
+    toast('Name saved ✓');
   });
   document.getElementById('addReq').onclick = safe(async () => {
     const el = document.getElementById('newReq');
@@ -782,7 +782,7 @@ function bind(shareUrl) {
     const name = e.target.value.trim();
     if (!name) { render(); return; }
     await saveReqs(reqs().map((r) => (r.id === id ? { ...r, name } : r)));
-    toast('Na-rename na ✓');
+    toast('Renamed ✓');
   }));
   on('[data-askreq]', 'click', (e) => { state.confirm = 'r:' + e.currentTarget.dataset.askreq; render(); });
   on('[data-askfam]', 'click', (e) => { state.confirm = 'f:' + e.currentTarget.dataset.askfam; render(); });
@@ -792,12 +792,12 @@ function bind(shareUrl) {
     state.confirm = null;
     if (state.filter === id) state.filter = null;
     await saveReqs(reqs().filter((r) => r.id !== id));
-    toast('Na-delete ang requirement');
+    toast('Requirement deleted');
   }));
   on('[data-delfam]', 'click', safe(async (e) => {
     state.confirm = null;
     await deleteDoc(famRef(e.currentTarget.dataset.delfam));
-    toast('Na-delete ang family');
+    toast('Family deleted');
   }));
   on('[data-editfam]', 'click', (e) => {
     const f = state.families.find((x) => x.id === e.currentTarget.dataset.editfam);
@@ -813,7 +813,7 @@ function bind(shareUrl) {
       const lot = item.querySelector('[data-el]').value.trim();
       if (document.activeElement) document.activeElement.blur();
       await updateDoc(famRef(f.id), { name, lot });
-      toast('Na-save ✓');
+      toast('Saved ✓');
       render();
     });
   });
@@ -828,7 +828,7 @@ function bind(shareUrl) {
     n.blur();
     l.blur();
     await addDoc(collection(db, 'checklists', cid, 'families'), { name, lot, ticks: {}, order: Date.now(), updatedAt: serverTimestamp() });
-    toast(`Welcome sa block, ${name}! 👋`);
+    toast(`Welcome to the block, ${name}! 👋`);
   });
   document.getElementById('addBulk').onclick = safe(async () => {
     const box = document.getElementById('bulk');
@@ -845,9 +845,9 @@ function bind(shareUrl) {
       });
       await batch.commit();
     }
-    toast(`${plural(lines.length, 'family', 'families')} added. Ang dami! 🏘️`);
+    toast(`${plural(lines.length, 'family', 'families')} added. What a crowd! 🏘️`);
   });
-  document.getElementById('outBtn').onclick = async () => { state.adminOpen = false; await signOut(auth); toast('Signed out. Balik ka ha? 👋'); };
+  document.getElementById('outBtn').onclick = async () => { state.adminOpen = false; await signOut(auth); toast('Signed out. Come back soon! 👋'); };
 }
 
 let guided = false;
