@@ -399,6 +399,35 @@ button.cell:active { transform: scale(0.92); }
 .tiles .blk { flex-direction: column; align-items: flex-start; justify-content: center; gap: 2px; font-size: 17px; }
 .tiles .blk small { text-align: left; }
 .dgrid th.m, .dgrid thead th:first-child { position: sticky; left: 0; background: var(--card); z-index: 1; padding-right: 6px; }
+.chart-card { display: grid; gap: 10px; padding: 14px; border-radius: var(--r-md); border: 2.5px solid var(--edge); background: var(--card); min-width: 0; }
+.chart-card h3 { font-size: 16px; }
+.hbars { display: grid; gap: 4px; }
+.hbar { display: grid; grid-template-columns: minmax(64px, 30%) minmax(0, 1fr) 52px; gap: 10px; align-items: center; width: 100%; text-align: left; padding: 6px 6px; border-radius: 10px; min-height: 40px; }
+.hbar:hover, .hbar.on, .hbar:focus-visible { background: var(--soft); }
+.hb-l { font-weight: 800; font-size: 14px; line-height: 1.15; min-width: 0; }
+.hb-l small { display: block; font-weight: 600; font-size: 12px; color: var(--sub); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hb-track { display: block; min-width: 0; }
+.hb-fill { display: flex; gap: 2px; height: 18px; }
+.hb-fill i { display: block; min-width: 4px; height: 100%; border: 2px solid var(--edge); border-radius: 4px; }
+.hb-fill i.ok, .col-bar { background: var(--volt); }
+.hb-fill i.warn { background: var(--pink); }
+.hb-okchip { font-size: 12px; font-weight: 800; color: var(--sub); }
+.hb-v { font-size: 13px; font-weight: 800; text-align: right; color: var(--ink); white-space: nowrap; }
+.cols { display: grid; gap: 4px; height: 150px; align-items: end; padding-bottom: 20px; border-bottom: 2px solid var(--soft); }
+.col { position: relative; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: stretch; border-radius: 6px; padding: 0; }
+.col-bar { display: block; border: 2px solid var(--edge); border-radius: 4px 4px 0 0; min-height: 0; }
+.col-x { position: absolute; bottom: -20px; left: 0; right: 0; text-align: center; font-size: 11px; font-weight: 800; color: var(--sub); }
+.col:hover, .col.on, .col:focus-visible { background: var(--soft); }
+.readout { font-weight: 800; font-size: 14px; min-height: 1.3em; }
+.col.off .col-x { opacity: 0.5; }
+.col.off { background: repeating-linear-gradient(135deg, transparent 0 6px, var(--soft) 6px 8px); }
+.logo { color: inherit; text-decoration: none; }
+.money b { white-space: nowrap; font-size: clamp(15px, 4.8vw, 20px); }
+.money > div { min-width: 0; }
+.chips.years { gap: 6px; }
+.chips.years button { min-height: 38px; padding: 0 12px; }
+.chips.years button { display: inline-flex; align-items: center; gap: 4px; }
+.chips.years button svg { width: 14px; height: 14px; flex: none; }
 </style>
 <script src="qrcode.js"></script>
 </head>
@@ -450,6 +479,7 @@ const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
 const TX = {
   en: {
     help: '❓ Help',
+    homeLabel: 'Ka-Block home',
     display: 'Text size, contrast and language',
     addHome: 'Add to Home Screen',
     gotIt: 'Got it! 👍',
@@ -578,6 +608,31 @@ const TX = {
     delHH: 'Delete household',
     delAsk: (n) => `Delete ${n}? This removes their card, checklist and dues.`,
     hhDeleted: 'Household deleted',
+    ovAll: 'All blocks',
+    ovYear: 'Year',
+    ovAllYears: 'All years',
+    ovByBlockY: (y) => `Paid in full for ${y}, per block`,
+    ovTapHH: 'Tap a household to open its card.',
+    ovPerHHY: (b, y) => `Block ${b}: unpaid months in ${y}`,
+    ovMonthlyY: (y) => `Paid per month in ${y}`,
+    ovFull: 'paid in full',
+    ovFullCap: 'Paid in full',
+    ovMissing: 'with unpaid months',
+    ovUnpaidN: (n) => `${n} unpaid ${n === 1 ? 'month' : 'months'}`,
+    ovCollected: 'collected',
+    ovUnpaid: 'unpaid',
+    addYear: (y) => `Add ${y}`,
+    yearAdded: (y) => `${y} added for all households ✓`,
+    ovPer: 'Per block',
+    ovByBlock: 'Up to date per block',
+    ovTipBlock: (b, ok, n, label) => `Block ${b}: ${ok} of ${n} ${label}`,
+    ovTapBlock: 'Tap a block to see each household.',
+    ovPerHH: (b) => `Block ${b}: months behind`,
+    ovMonthly: 'Paid per month (last 12 months)',
+    ovTipMonth: (m, n, tot, pct) => `${m}: ${n} of ${tot} paid (${pct}%)`,
+    blkNo: (b) => `Blk ${b}`,
+    lotNo: (l) => `Lot ${l}`,
+    moShort: (n) => `${n} mo`,
     duesSettingsH: 'Dues settings',
     duesStart: 'Dues start (month)',
     duesRate: 'Default monthly dues (₱)',
@@ -738,6 +793,7 @@ const TX = {
   },
   tl: {
     help: '❓ Tulong',
+    homeLabel: 'Ka-Block home',
     display: 'Laki ng text, contrast at wika',
     addHome: 'I-add sa Home Screen',
     gotIt: 'Gets ko na! 👍',
@@ -866,6 +922,31 @@ const TX = {
     delHH: 'I-delete ang household',
     delAsk: (n) => `I-delete si ${n}? Mawawala ang card, checklist at dues nila.`,
     hhDeleted: 'Na-delete ang household',
+    ovAll: 'Lahat ng block',
+    ovYear: 'Taon',
+    ovAllYears: 'Lahat ng taon',
+    ovByBlockY: (y) => `Buong bayad sa ${y}, bawat block`,
+    ovTapHH: 'I-tap ang household para buksan ang card.',
+    ovPerHHY: (b, y) => `Block ${b}: hindi bayad na buwan sa ${y}`,
+    ovMonthlyY: (y) => `Nagbayad bawat buwan sa ${y}`,
+    ovFull: 'buong bayad',
+    ovFullCap: 'Buong bayad',
+    ovMissing: 'may kulang',
+    ovUnpaidN: (n) => `${n} buwang hindi bayad`,
+    ovCollected: 'nakolekta',
+    ovUnpaid: 'hindi pa bayad',
+    addYear: (y) => `Idagdag ang ${y}`,
+    yearAdded: (y) => `Naidagdag ang ${y} sa lahat ng household ✓`,
+    ovPer: 'Bawat block',
+    ovByBlock: 'Updated bawat block',
+    ovTipBlock: (b, ok, n, label) => `Block ${b}: ${ok} sa ${n} ${label}`,
+    ovTapBlock: 'I-tap ang block para makita ang bawat household.',
+    ovPerHH: (b) => `Block ${b}: ilang buwan ang kulang`,
+    ovMonthly: 'Nagbayad bawat buwan (huling 12 buwan)',
+    ovTipMonth: (m, n, tot, pct) => `${m}: ${n} sa ${tot} ang nagbayad (${pct}%)`,
+    blkNo: (b) => `Blk ${b}`,
+    lotNo: (l) => `Lot ${l}`,
+    moShort: (n) => `${n} buwan`,
     duesSettingsH: 'Dues settings',
     duesStart: 'Simula ng dues (buwan)',
     duesRate: 'Default na monthly dues (₱)',
@@ -1030,7 +1111,7 @@ function t(k, ...a) {
   return typeof v === 'function' ? v(...a) : v;
 }
 
-const state = { list: null, hh: [], user: null, admin: false, owner: false, loaded: false, error: null, q: '', confirm: null, adding: false, openRow: null, view: null, viewList: null, viewErr: false, online: navigator.onLine, myLists: null, myListsFor: null, hhLoaded: false };
+const state = { duesYear: Number(store.get('duesYear')) || 0, duesScope: Number(store.get('duesScope')) || 0, list: null, hh: [], user: null, admin: false, owner: false, loaded: false, error: null, q: '', confirm: null, adding: false, openRow: null, view: null, viewList: null, viewErr: false, online: navigator.onLine, myLists: null, myListsFor: null, hhLoaded: false };
 const $app = document.getElementById('app');
 const I = {
   check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
@@ -1068,6 +1149,7 @@ const ymOk = (ym) => /^\d{4}-\d{2}$/.test(String(ym || ''));
 const ymAdd = (ym, n) => { const [y, m] = ym.split('-').map(Number); const v = y * 12 + (m - 1) + n; return `${Math.floor(v / 12)}-${pad2((v % 12) + 1)}`; };
 const fmtYm = (ym) => (ymOk(ym) ? `${t('months')[Number(ym.slice(5)) - 1]} ${ym.slice(0, 4)}` : '');
 const peso = (n) => Number(n || 0).toLocaleString('en-PH', { maximumFractionDigits: 2 });
+const pesoShort = (n) => (n >= 1e6 ? `${(n / 1e6).toFixed(n >= 1e7 ? 0 : 1).replace(/\.0$/, '')}M` : n >= 1e4 ? `${(n / 1e3).toFixed(n >= 1e5 ? 0 : 1).replace(/\.0$/, '')}K` : peso(n));
 const fmtDate = (ms) => new Date(ms).toLocaleDateString('en-PH', { month: 'long', day: 'numeric', year: 'numeric' });
 const lotSort = (lot) => { const m = String(lot || '').match(/\d+/); return m ? Number(m[0]) : 9999; };
 const cmpHH = (a, b) => (a.block - b.block) || (lotSort(a.lot) - lotSort(b.lot)) || String(a.lot).localeCompare(String(b.lot), undefined, { numeric: true });
@@ -1225,6 +1307,7 @@ const reqs = () => (state.list && state.list.requirements) || [];
 const hhById = (id) => state.hh.find((h) => h.id === id);
 const duesStart = () => (state.list && ymOk(state.list.duesStart) ? state.list.duesStart : '2021-01');
 const rateOf = (h) => Number(h.rate) || Number(state.list && state.list.duesRate) || 0;
+const lastYear = () => Math.max(Number(ymNow().slice(0, 4)), Number(state.list && state.list.duesEndYear) || 0, ...state.hh.flatMap((h) => Object.keys(h.paid || {}).filter((k) => h.paid[k] && ymOk(k)).map((k) => Number(k.slice(0, 4)))));
 const viewUrl = (token) => location.origin + location.pathname + '?d=' + token;
 const isDev = () => !!(state.user && String(state.user.email || '').toLowerCase() === DEV_EMAIL);
 
@@ -1239,12 +1322,12 @@ function duesCalc(paid, rate, start) {
   return { behind, until, ok: behind === 0, balance: behind * (Number(rate) || 0) };
 }
 
-function duesGrid(paid, start, editable) {
+function duesGrid(paid, start, editable, endYear) {
   const P = paid || {};
   const now = ymNow();
   const y0 = Number(start.slice(0, 4));
   const paidYears = Object.keys(P).filter((k) => P[k] && ymOk(k)).map((k) => Number(k.slice(0, 4)));
-  const y1 = Math.max(Number(now.slice(0, 4)), ...paidYears);
+  const y1 = Math.max(Number(now.slice(0, 4)), Number(endYear) || 0, ...paidYears);
   const years = [];
   for (let y = y0; y <= y1; y++) years.push(y);
   const M = t('months');
@@ -1268,9 +1351,10 @@ function statusHtml(c, big) {
   return `<div class="bigstat ${cls}"><b>${c.ok ? t('stOk') : t('stBehind', c.behind)}</b><span>${esc(t('paidUntil', fmtYm(c.until)))}${!c.ok && c.balance ? `. ${esc(t('balance', peso(c.balance)))}` : ''}</span></div>`;
 }
 
+const homeHref = () => (cid ? `?c=${encodeURIComponent(cid)}#blocks` : duesToken ? `?d=${encodeURIComponent(duesToken)}` : '?home=1');
 function topBar() {
   return `<header class="top">
-    <span class="logo"><img src="icon-192.png" alt="">Ka-Block</span>
+    <a class="logo" href="${homeHref()}" data-act="home" aria-label="${esc(t('homeLabel'))}"><img src="icon-192.png" alt="">Ka-Block</a>
     <span class="top-actions">
       ${deferredInstall && !isStandalone() ? `<button class="pill icon sun" data-act="install" aria-label="${esc(t('addHome'))}">${I.down}</button>` : ''}
       <button class="pill icon" data-act="display" aria-label="${esc(t('display'))}">Aa</button>
@@ -1386,7 +1470,7 @@ function renderDuesPage() {
     <section class="sticker hcard">
       <h2>🗓️ ${t('myDuesH')}</h2>
       ${statusHtml(c)}
-      ${duesGrid(v.paid, start, false)}
+      ${duesGrid(v.paid, start, false, v.endYear)}
       <p class="sub small">${t('lastUpdated', ago(v.updatedAt))}</p>
     </section>
     <p class="tip"><span>🔒</span><span>${t('privateNote')} ${t('askOrg')}</span></p>
@@ -1536,7 +1620,8 @@ function cardHtml(h) {
       <label class="ic-label" for="f-upto">${t('upTo')}</label>
       <div class="row"><input id="f-upto" class="field grow" type="month" min="${start}" max="${ymAdd(ymNow(), 24)}" value="${esc(c.until)}"><button class="btn small alt" data-act="payUpTo" data-v="${h.id}">${t('upToBtn')}</button></div>
       <p class="sub small">${t('gridTip')}</p>
-      <div data-h="${h.id}">${duesGrid(h.paid, start, true)}</div>
+      <div data-h="${h.id}">${duesGrid(h.paid, start, true, state.list.duesEndYear)}</div>
+      <button class="btn small alt" data-act="addYear">${I.plus}${t('addYear', lastYear() + 1)}</button>
     </div>
 
     <div class="ic-sec">
@@ -1558,16 +1643,112 @@ function smsHref(phone, body) {
   return `sms:${String(phone).replace(/[^\d+]/g, '')}?&body=${encodeURIComponent(body)}`;
 }
 
+function periodCalc(paid, rate, months) {
+  const P = paid || {};
+  let got = 0;
+  months.forEach((m) => { if (P[m]) got += 1; });
+  const miss = months.length - got;
+  return { got, miss, ok: miss === 0, owe: miss * (Number(rate) || 0), collected: got * (Number(rate) || 0) };
+}
+
 function duesTabHtml() {
   const L = state.list;
   const start = duesStart();
-  const rows = state.hh.map((h) => ({ h, c: duesCalc(h.paid, rateOf(h), start) }));
+  const now = ymNow();
+  const nB = Math.max(Number(L.blocks) || 1, ...state.hh.map((x) => x.block || 0));
+  const scope = state.duesScope && state.duesScope <= nB ? state.duesScope : 0;
+  const y0 = Number(start.slice(0, 4));
+  const yN = lastYear();
+  const year = state.duesYear >= y0 && state.duesYear <= yN ? state.duesYear : 0;
+  const pool = scope ? state.hh.filter((h) => h.block === scope) : state.hh;
+
+  const yearMonths = [];
+  if (year) for (let i = 1; i <= 12; i++) { const m = `${year}-${pad2(i)}`; if (m >= start && m <= now) yearMonths.push(m); }
+  const stat = (h) => {
+    if (!year) { const c = duesCalc(h.paid, rateOf(h), start); return { ok: c.ok, n: c.behind, owe: c.balance }; }
+    const c = periodCalc(h.paid, rateOf(h), yearMonths);
+    return { ok: c.ok, n: c.miss, owe: c.owe, collected: c.collected };
+  };
+  const rows = pool.map((h) => ({ h, c: stat(h) }));
   const ok = rows.filter((x) => x.c.ok).length;
-  const behind = rows.filter((x) => !x.c.ok).sort((a, b) => b.c.behind - a.c.behind || cmpHH(a.h, b.h));
-  const total = behind.reduce((a, x) => a + x.c.balance, 0);
+  const owe = rows.reduce((a, x) => a + x.c.owe, 0);
+  const collected = rows.reduce((a, x) => a + (x.c.collected || 0), 0);
+  const okLabel = year ? t('ovFull') : t('upToDate');
+  const badLabel = year ? t('ovMissing') : t('behind');
+
+  let chart1 = '';
+  if (!scope) {
+    const per = [];
+    for (let b = 1; b <= nB; b++) {
+      const hs = rows.filter((x) => x.h.block === b);
+      if (!hs.length) continue;
+      const okN = hs.filter((x) => x.c.ok).length;
+      per.push({ b, n: hs.length, okN, bad: hs.length - okN });
+    }
+    const max = Math.max(1, ...per.map((x) => x.n));
+    const tip = (x) => t('ovTipBlock', x.b, x.okN, x.n, okLabel);
+    chart1 = `<div class="chart-card">
+      <h3>${year ? t('ovByBlockY', year) : t('ovByBlock')}</h3>
+      <div class="legend"><span><i style="background:var(--volt)"></i>${okLabel}</span><span><i style="background:var(--pink)"></i>${badLabel}</span></div>
+      <div class="hbars">${per.map((x) => `<button class="hbar" data-act="duesScope" data-v="${x.b}" data-tip="${esc(tip(x))}" aria-label="${esc(tip(x))}">
+        <span class="hb-l">${t('blkNo', x.b)}</span>
+        <span class="hb-track"><span class="hb-fill" style="width:${(x.n / max) * 100}%">${x.okN ? `<i class="ok" style="flex:${x.okN}"></i>` : ''}${x.bad ? `<i class="warn" style="flex:${x.bad}"></i>` : ''}</span></span>
+        <span class="hb-v">${x.okN}/${x.n}</span>
+      </button>`).join('')}</div>
+      <p class="readout" aria-live="polite">${t('ovTapBlock')}</p>
+    </div>`;
+  } else {
+    const list = rows.slice().sort((a, b) => cmpHH(a.h, b.h));
+    const max = Math.max(1, ...list.map((x) => x.c.n));
+    const tip = (h, c) => `${t('blkShort', h.block, h.lot)}: ${h.name || t('blank')}. ${c.ok ? (year ? t('ovFullCap') : t('stOk')) : year ? t('ovUnpaidN', c.n) : t('stBehind', c.n)}${c.owe ? `, ₱${peso(c.owe)}` : ''}`;
+    chart1 = `<div class="chart-card">
+      <h3>${year ? t('ovPerHHY', scope, year) : t('ovPerHH', scope)}</h3>
+      ${list.length ? `<div class="hbars">${list.map(({ h, c }) => `<button class="hbar" data-act="openHH" data-v="${h.id}" data-tip="${esc(tip(h, c))}" aria-label="${esc(tip(h, c))}">
+        <span class="hb-l">${t('lotNo', h.lot)}<small>${esc(h.name || t('blank'))}</small></span>
+        <span class="hb-track">${c.ok ? `<span class="hb-okchip">${year ? t('ovFullCap') : t('stOk')}</span>` : `<span class="hb-fill" style="width:${Math.max(4, (c.n / max) * 100)}%"><i class="warn" style="flex:1"></i></span>`}</span>
+        <span class="hb-v">${c.ok ? '' : t('moShort', c.n)}</span>
+      </button>`).join('')}</div>
+      <p class="readout" aria-live="polite">${t('ovTapHH')}</p>` : `<p class="sub small">${t('noHH')}</p>`}
+    </div>`;
+  }
+
+  const months = [];
+  if (year) for (let i = 1; i <= 12; i++) months.push(`${year}-${pad2(i)}`);
+  else for (let i = 11; i >= 0; i--) { const m = ymAdd(now, -i); if (m >= start) months.push(m); }
+  const cols = months.map((m) => {
+    const n = pool.filter((h) => (h.paid || {})[m]).length;
+    return { m, n, pct: pool.length ? Math.round((n / pool.length) * 100) : 0, off: m < start || m > now };
+  });
+  const shown = cols.filter((x) => !x.off);
+  const last = shown[shown.length - 1] || cols[cols.length - 1];
+  const colTip = (x) => (x.off && !x.n ? `${fmtYm(x.m)}: ${t('lgFut')}` : t('ovTipMonth', fmtYm(x.m), x.n, pool.length, x.pct));
+  const chart2 = pool.length && cols.length ? `<div class="chart-card">
+    <h3>${year ? t('ovMonthlyY', year) : t('ovMonthly')}</h3>
+    <div class="cols" style="grid-template-columns:repeat(${cols.length},minmax(0,1fr))">${cols.map((x) => `<button class="col ${x.off ? 'off' : ''}" data-tip="${esc(colTip(x))}" aria-label="${esc(colTip(x))}"><span class="col-bar" style="height:${Math.max(x.n ? 4 : 0, x.pct)}%"></span><span class="col-x">${t('months')[Number(x.m.slice(5)) - 1].slice(0, 1)}</span></button>`).join('')}</div>
+    <p class="readout" aria-live="polite">${esc(colTip(last))}</p>
+  </div>` : '';
+
+  const years = [];
+  for (let y = y0; y <= yN; y++) years.push(y);
+  const behind = pool.map((h) => ({ h, c: duesCalc(h.paid, rateOf(h), start) })).filter((x) => !x.c.ok).sort((a, b) => b.c.behind - a.c.behind || cmpHH(a.h, b.h));
+  const money = year
+    ? `<div class="sticker"><b>${ok}/${rows.length}</b><span>${okLabel}</span></div><div class="sticker" title="₱${peso(collected)}"><b>₱${pesoShort(collected)}</b><span>${t('ovCollected')}</span></div><div class="sticker" title="₱${peso(owe)}"><b>₱${pesoShort(owe)}</b><span>${t('ovUnpaid')}</span></div>`
+    : `<div class="sticker"><b>${ok}/${rows.length}</b><span>${okLabel}</span></div><div class="sticker"><b>${rows.length - ok}</b><span>${badLabel}</span></div><div class="sticker" title="₱${peso(owe)}"><b>₱${pesoShort(owe)}</b><span>${t('toCollect')}</span></div>`;
+
   return `<section class="sticker" style="padding:18px;display:grid;gap:18px">
     <h2>💰 ${t('duesH')}</h2>
-    <div class="money"><div class="sticker"><b>${ok}/${rows.length}</b><span>${t('upToDate')}</span></div><div class="sticker"><b>${behind.length}</b><span>${t('behind')}</span></div><div class="sticker"><b>₱${peso(total)}</b><span>${t('toCollect')}</span></div></div>
+    <div class="row">
+      <div class="seg" role="group" style="flex:1 1 230px"><button data-act="duesScope" data-v="0" aria-pressed="${!scope}">${t('ovAll')}</button><button data-act="duesScope" data-v="${scope || 1}" aria-pressed="${!!scope}">${t('ovPer')}</button></div>
+      ${scope ? `<select id="ov-blk" class="field" style="flex:1 1 120px;width:auto" aria-label="${esc(t('printWhich'))}">${Array.from({ length: nB }, (_, i) => `<option value="${i + 1}" ${i + 1 === scope ? 'selected' : ''}>${t('blockN', i + 1)}</option>`).join('')}</select>` : ''}
+    </div>
+    <div class="chips wrap years" role="group" aria-label="${esc(t('ovYear'))}"><button data-act="duesYear" data-v="0" aria-pressed="${!year}">${t('ovAllYears')}</button>${years.map((y) => `<button data-act="duesYear" data-v="${y}" aria-pressed="${year === y}">${y}</button>`).join('')}<button data-act="addYear" aria-label="${esc(t('addYear', yN + 1))}">${I.plus}${yN + 1}</button></div>
+    <div class="money">${money}</div>
+    ${chart1}
+    ${chart2}
+    <div class="admin-sec">
+      <h3>${t('behindList')} (${behind.length})</h3>
+      ${behind.length ? `<div class="stack">${behind.map(({ h, c }) => `<div class="row" style="flex-wrap:nowrap">${lotRow(h, false).replace('class="lotbtn"', 'class="lotbtn" style="flex:1"')}${h.phone ? `<a class="btn small alt" href="${esc(smsHref(h.phone, t('remindText', h.name || '', c.behind, c.balance ? peso(c.balance) : '')))}">${t('remind')}</a>` : ''}</div>`).join('')}</div>` : `<p class="sub small">${t('allGood')}</p>`}
+    </div>
     <div class="admin-sec">
       <h3>${t('duesSettingsH')}</h3>
       <div class="info">
@@ -1575,10 +1756,6 @@ function duesTabHtml() {
         <label>${t('duesRate')}<input id="d-rate" class="field" inputmode="decimal" value="${esc(L.duesRate || '')}" placeholder="100"></label>
       </div>
       <button class="btn small alt" data-act="saveDuesSettings">${t('save')}</button>
-    </div>
-    <div class="admin-sec">
-      <h3>${t('behindList')} (${behind.length})</h3>
-      ${behind.length ? `<div class="stack">${behind.map(({ h, c }) => `<div class="row" style="flex-wrap:nowrap">${lotRow(h, false).replace('class="lotbtn"', 'class="lotbtn" style="flex:1"')}${h.phone ? `<a class="btn small alt" href="${esc(smsHref(h.phone, t('remindText', h.name || '', c.behind, c.balance ? peso(c.balance) : '')))}">${t('remind')}</a>` : ''}</div>`).join('')}</div>` : `<p class="sub small">${t('allGood')}</p>`}
     </div>
   </section>`;
 }
@@ -1698,7 +1875,7 @@ function parseCsv(text) {
 }
 
 function viewData(h) {
-  return { cid, name: h.name || '', block: h.block, lot: h.lot || '', paid: h.paid || {}, rate: rateOf(h), start: duesStart(), title: state.list.title || '', updatedAt: serverTimestamp() };
+  return { cid, name: h.name || '', block: h.block, lot: h.lot || '', paid: h.paid || {}, rate: rateOf(h), start: duesStart(), title: state.list.title || '', endYear: Number(state.list.duesEndYear) || 0, updatedAt: serverTimestamp() };
 }
 
 async function importRows(rows) {
@@ -2069,6 +2246,24 @@ const ACTIONS = {
     await syncAllViews();
     toast(t('duesSaved'));
   }),
+  home: (el, e) => {
+    e.preventDefault();
+    closeSheet();
+    state.q = '';
+    if (cid && state.admin) go('blocks');
+    else if (!cid && !duesToken && !inbox) render(true);
+    else if (inbox || (cid && !state.list)) { location.href = el.getAttribute('href'); return; }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  },
+  duesYear: (el) => { state.duesYear = Number(el.dataset.v) || 0; store.set('duesYear', state.duesYear ? String(state.duesYear) : ''); render(true); },
+  addYear: safe(async () => {
+    const y = lastYear() + 1;
+    await updateDoc(listRef(), { duesEndYear: y, updatedAt: serverTimestamp() });
+    state.list = { ...state.list, duesEndYear: y };
+    toast(t('yearAdded', y));
+    await syncAllViews();
+  }),
+  duesScope: (el) => { state.duesScope = Number(el.dataset.v) || 0; store.set('duesScope', state.duesScope ? String(state.duesScope) : ''); render(true); },
   openRow: (el) => { state.openRow = el.dataset.v; state.confirm = null; render(true); },
   closeRow: () => { state.openRow = null; state.confirm = null; blurAll(); render(true); },
   addReq: safe(async () => {
@@ -2194,6 +2389,17 @@ document.addEventListener('input', (e) => {
   if (again) { again.focus({ preventScroll: true }); try { again.setSelectionRange(pos, pos); } catch {} }
 });
 
+function showTip(e) {
+  const el = e.target.closest && e.target.closest('[data-tip]');
+  if (!el) return;
+  const box = el.closest('.chart-card');
+  const out = box && box.querySelector('.readout');
+  if (out) out.textContent = el.dataset.tip;
+  if (box) box.querySelectorAll('[data-tip]').forEach((x) => x.classList.toggle('on', x === el));
+}
+document.addEventListener('mouseover', showTip);
+document.addEventListener('focusin', showTip);
+
 document.addEventListener('keydown', (e) => {
   if (e.key !== 'Enter' || !e.target.dataset || !e.target.dataset.enter) return;
   e.preventDefault();
@@ -2203,6 +2409,7 @@ document.addEventListener('keydown', (e) => {
 
 document.addEventListener('change', async (e) => {
   const tg = e.target;
+  if (tg.id === 'ov-blk') { state.duesScope = Number(tg.value) || 0; store.set('duesScope', String(state.duesScope)); tg.blur(); render(true); return; }
   if (!tg.dataset || !tg.dataset.rename) return;
   const name = tg.value.trim();
   if (!name) { render(true); return; }
