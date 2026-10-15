@@ -428,6 +428,63 @@ button.cell:active { transform: scale(0.92); }
 .chips.years button { min-height: 38px; padding: 0 12px; }
 .chips.years button { display: inline-flex; align-items: center; gap: 4px; }
 .chips.years button svg { width: 14px; height: 14px; flex: none; }
+.paper { position: relative; width: 816px; height: 1056px; background: #FFFFFF; color: #000000; font-family: Calibri, Carlito, "Segoe UI", Arial, sans-serif; font-size: 14.5px; line-height: 1.4; letter-spacing: 0; text-align: left; overflow: hidden; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.paper:focus { outline: none; }
+.paper h1, .paper b { font-family: inherit; letter-spacing: 0; color: inherit; }
+.paper p { margin: 0 0 16px; }
+.pp-side { position: absolute; left: 22px; top: 63px; width: 206px; height: 897px; border: 1px solid #000000; padding: 70px 8px 10px; font-family: Arial, "Liberation Sans", sans-serif; }
+.pp-bot { font-family: Calibri, Carlito, Arial, sans-serif; font-weight: 700; font-size: 18px; text-align: center; }
+.pp-bod { font-size: 11.5px; text-align: center; margin: 2px 0 12px; }
+.pp-role { font-size: 11.5px; margin: 9px 0 1px 38px; }
+.pp-nm { font-weight: 700; font-size: 9.5px; margin-left: 42px; line-height: 1.6; }
+.pp-com { text-align: left; margin: 24px 0 8px 14px; }
+.pp-cname { font-weight: 700; font-size: 11px; margin: 14px 0 6px 6px; }
+.pp-main { position: absolute; left: 239px; top: 30px; width: 476px; }
+.pp-head { text-align: center; }
+.pp-logo { display: block; width: 105px; height: 105px; object-fit: contain; margin: 0 auto 22px; }
+.pp-hoa { font-family: Arial, "Liberation Sans", sans-serif; font-size: 17px; letter-spacing: 0.4px; line-height: 1.25; padding: 0 24px; }
+.pp-addr { font-family: Arial, "Liberation Sans", sans-serif; font-size: 11.5px; margin-top: 4px; }
+.pp-title { font-size: 23px; font-weight: 700; text-align: center; margin: 56px 0 46px; color: #222222; }
+.pp-body.dbl { line-height: 2.1; }
+.pp-body .ind { text-indent: 48px; }
+.pp-sigs { margin-top: 56px; display: grid; gap: 48px; font-size: 13.5px; }
+.pp-line { width: 112px; border-top: 1px solid #000000; margin-bottom: 4px; }
+.pp-it, .paper i { font-style: italic; }
+.rc-items { display: grid; gap: 7px; margin: 0 0 24px 4px; }
+.rc-item { display: grid; grid-template-columns: 22px minmax(0, 1fr) 80px; gap: 10px; align-items: center; }
+.rc-box { width: 21px; height: 21px; border: 1.5px solid #4A9A3A; display: grid; place-items: center; font-weight: 700; font-size: 15px; line-height: 1; }
+.rc-amt { text-align: right; }
+.rc-sigs { margin-top: 60px; display: grid; gap: 40px; font-size: 13.5px; }
+.rc-sig { display: grid; grid-template-columns: 92px minmax(0, 1fr); align-items: start; }
+.rc-k { padding-top: 5px; }
+.rc-sig .pp-line { width: 190px; }
+.paper.land { width: 1056px; height: 816px; font-family: "Times New Roman", Times, "Liberation Serif", serif; }
+.pp-border { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; }
+.mb-in { position: absolute; left: 13%; right: 13%; top: 14%; bottom: 14%; text-align: center; }
+.mb-title { font-size: 40px; margin-top: 22px; }
+.mb-sub { font-size: 17px; margin-top: 18px; }
+.mb-name { border: 1.5px solid #000000; font-size: 50px; padding: 4px 10px; margin: 26px -3% 0; text-transform: uppercase; line-height: 1.2; }
+.mb-para { font-size: 16px; margin-top: 22px; text-transform: uppercase; line-height: 1.35; }
+.mb-sigs { position: absolute; bottom: 36px; left: 0; right: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 0 3%; }
+.mb-sigs b { display: block; font-size: 16px; }
+.mb-sigs i { display: block; font-size: 13px; }
+.mb-line { border-top: 1.5px solid #000000; margin-bottom: 6px; }
+.paper-wrap { overflow: auto hidden; border-radius: 12px; border: 2px solid var(--edge); background: #FFFFFF; }
+.paper-scale { overflow: hidden; }
+.paper-scale [data-f] { background: #FFF3B0; border-radius: 3px; }
+.cert-ed { gap: 14px; }
+.cert-btns { display: grid; gap: 8px; }
+.rowbtn small { display: block; color: var(--sub); font-weight: 600; font-size: 12px; }
+.rc-pick { display: grid; grid-template-columns: minmax(0, 1fr) 100px; gap: 8px; align-items: center; }
+.rc-chk { display: flex; gap: 10px; align-items: center; font-weight: 700; font-size: 14px; }
+.rc-chk input { width: 22px; height: 22px; flex: none; accent-color: var(--grape); }
+.rc-total { font-weight: 800; }
+.ofl-logo { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.ofl-logo img { width: 64px; height: 64px; object-fit: contain; border-radius: 50%; background: #FFFFFF; border: 2px solid var(--edge); }
+@media print { #print .paper { margin: 0; } }
+.cert-acts { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+.cert-acts .btn { width: 100%; }
+.paper-scale { margin: 0; }
 </style>
 <script src="qrcode.js"></script>
 </head>
@@ -512,7 +569,7 @@ const TX = {
     off: 'Off',
     zaps: ['Bzzzt! ⚡ Everyone deserves their own poste.', 'Don’t touch the wires! ⚡😅', 'Poste: present! 🙋', 'More power to you! 💡'],
     defTitle: 'Our Homeowners Association',
-    certs: [['💧', 'Water connection'], ['⚡', 'Meralco application'], ['🪪', 'Membership'], ['🏗️', 'Construction permit']],
+    certs: [['💧', 'Water connection'], ['⚡', 'Meralco application'], ['🪪', 'Membership'], ['🏗️', 'Construction permit'], ['📄', 'Certificate of No Objection']],
     months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     landingH: 'Your HOA records, in one place',
     landingP: 'Blocks, lots, households, certifications and monthly dues. Organized, private and easy to update.',
@@ -609,6 +666,52 @@ const TX = {
     delAsk: (n) => `Delete ${n}? This removes their card, checklist and dues.`,
     hhDeleted: 'Household deleted',
     ovAll: 'All blocks',
+    certPrintH: 'Print a certificate',
+    cert_water: 'Water Connection Certificate',
+    cert_meralco: 'Meralco New Meter Certificate',
+    cert_noobj: 'Certificate of No Objection',
+    cert_membership: 'HOA Membership Certification',
+    cert_receipt: 'Acknowledgement Receipt',
+    certShort_water: 'Water',
+    certShort_meralco: 'Meralco',
+    certShort_noobj: 'No Objection',
+    certShort_membership: 'Membership',
+    certShort_receipt: 'Receipt',
+    fee_water: 'Water Certification Fee',
+    fee_membership: 'Membership Fee',
+    fee_meralco: 'Application of New Electric Meter Base',
+    fee_noobj: 'Certificate of No Objection',
+    fee_construction: 'Construction Certificate Fee',
+    cfHon: 'Mr./Ms.',
+    cfNone: '(none)',
+    cfDate: 'Date',
+    cfStoreys: 'No. of storeys',
+    cfPayFor: 'Payment for:',
+    cfPayor: 'Payor',
+    cfWitness: 'Witness (HOA officer)',
+    cfTip: 'Change the boxes above, or tap any text on the certificate below to edit it. Changes are only for this copy.',
+    cfPrint: 'Print or save as PDF',
+    cfReset: 'Start over',
+    cfIssued: (d) => `Last printed ${d}`,
+    cfIssuedShort: (d) => `Printed ${d}`,
+    cfMarked: 'Opening print… Marked as given on the card ✓',
+    cfSetupH: 'Add the officers and logo first',
+    cfSetupP: 'So the names, signatures and logo show on the certificate.',
+    tOfficers: 'Officers & certificates',
+    tOfficersSub: 'Names, logo and fees',
+    ofTip: 'These show on every certificate and receipt. Update them after each election.',
+    ofSeedH: 'Your officers and logo are ready',
+    ofSeedP: 'Type the same password you used for the households.',
+    ofSeedBtn: 'Load officers and logo',
+    ofNoLogo: 'No logo yet',
+    ofLogo: 'Change logo',
+    ofHoaName: 'Association name (on certificates)',
+    ofHoaAddr: 'Association address',
+    ofResAddr: 'Resident address after Blk/Lot',
+    ofOffice: 'Given at (office)',
+    ofWitness: 'Default witness (receipt)',
+    ofCommittees: 'Committees (one per line: Committee: Name, Name)',
+    ofFees: 'Fees (₱)',
     ovYear: 'Year',
     ovAllYears: 'All years',
     ovByBlockY: (y) => `Paid in full for ${y}, per block`,
@@ -826,7 +929,7 @@ const TX = {
     off: 'Off',
     zaps: ['Bzzzt! ⚡ Sana lahat may sariling poste.', 'Huwag hawakan ang wire! ⚡😅', 'Poste: present! 🙋', 'Meralco pa more! 💡'],
     defTitle: 'Ating Homeowners Association',
-    certs: [['💧', 'Water connection'], ['⚡', 'Meralco application'], ['🪪', 'Membership'], ['🏗️', 'Construction permit']],
+    certs: [['💧', 'Water connection'], ['⚡', 'Meralco application'], ['🪪', 'Membership'], ['🏗️', 'Construction permit'], ['📄', 'Certificate of No Objection']],
     months: ['Ene', 'Peb', 'Mar', 'Abr', 'May', 'Hun', 'Hul', 'Ago', 'Set', 'Okt', 'Nob', 'Dis'],
     landingH: 'Lahat ng HOA records, nasa isang lugar',
     landingP: 'Blocks, lots, households, certifications at monthly dues. Maayos, private at madaling i-update.',
@@ -923,6 +1026,52 @@ const TX = {
     delAsk: (n) => `I-delete si ${n}? Mawawala ang card, checklist at dues nila.`,
     hhDeleted: 'Na-delete ang household',
     ovAll: 'Lahat ng block',
+    certPrintH: 'Mag-print ng certificate',
+    cert_water: 'Water Connection Certificate',
+    cert_meralco: 'Meralco New Meter Certificate',
+    cert_noobj: 'Certificate of No Objection',
+    cert_membership: 'HOA Membership Certification',
+    cert_receipt: 'Acknowledgement Receipt',
+    certShort_water: 'Water',
+    certShort_meralco: 'Meralco',
+    certShort_noobj: 'No Objection',
+    certShort_membership: 'Membership',
+    certShort_receipt: 'Resibo',
+    fee_water: 'Water Certification Fee',
+    fee_membership: 'Membership Fee',
+    fee_meralco: 'Application of New Electric Meter Base',
+    fee_noobj: 'Certificate of No Objection',
+    fee_construction: 'Construction Certificate Fee',
+    cfHon: 'Mr./Ms.',
+    cfNone: '(wala)',
+    cfDate: 'Petsa',
+    cfStoreys: 'Ilang palapag',
+    cfPayFor: 'Bayad para sa:',
+    cfPayor: 'Nagbayad',
+    cfWitness: 'Saksi (HOA officer)',
+    cfTip: 'Baguhin ang mga box sa taas, o i-tap ang kahit anong text sa certificate sa baba para i-edit. Para lang sa kopyang ito ang pagbabago.',
+    cfPrint: 'I-print o i-save as PDF',
+    cfReset: 'Ulitin',
+    cfIssued: (d) => `Huling na-print ${d}`,
+    cfIssuedShort: (d) => `Na-print ${d}`,
+    cfMarked: 'Binubuksan ang print… Naka-mark na sa card ✓',
+    cfSetupH: 'Ilagay muna ang officers at logo',
+    cfSetupP: 'Para lumabas ang mga pangalan, pirma at logo sa certificate.',
+    tOfficers: 'Officers at certificates',
+    tOfficersSub: 'Pangalan, logo at fees',
+    ofTip: 'Lalabas ’to sa bawat certificate at resibo. I-update pagkatapos ng eleksyon.',
+    ofSeedH: 'Handa na ang officers at logo niyo',
+    ofSeedP: 'I-type ang parehong password na ginamit sa households.',
+    ofSeedBtn: 'I-load ang officers at logo',
+    ofNoLogo: 'Wala pang logo',
+    ofLogo: 'Palitan ang logo',
+    ofHoaName: 'Pangalan ng association (sa certificate)',
+    ofHoaAddr: 'Address ng association',
+    ofResAddr: 'Address ng residente pagkatapos ng Blk/Lot',
+    ofOffice: 'Ibinigay sa (opisina)',
+    ofWitness: 'Default na saksi (resibo)',
+    ofCommittees: 'Committees (isa bawat linya: Committee: Pangalan, Pangalan)',
+    ofFees: 'Fees (₱)',
     ovYear: 'Taon',
     ovAllYears: 'Lahat ng taon',
     ovByBlockY: (y) => `Buong bayad sa ${y}, bawat block`,
@@ -1368,7 +1517,7 @@ const foot = () => `<footer class="foot"><span class="live"><i></i>Ka-Block</spa
 let pending = false;
 function typing() {
   const a = document.activeElement;
-  return !!a && (a.tagName === 'INPUT' || a.tagName === 'TEXTAREA' || a.tagName === 'SELECT') && $app.contains(a);
+  return !!a && (a.tagName === 'INPUT' || a.tagName === 'TEXTAREA' || a.tagName === 'SELECT' || a.isContentEditable) && $app.contains(a);
 }
 document.addEventListener('focusout', () => setTimeout(() => { if (pending && !typing()) render(); }, 0));
 
@@ -1489,27 +1638,31 @@ function route() {
   if (h.startsWith('tools/')) return { tab: 'tools', sub: h.slice(6) };
   if (h.startsWith('b/')) return { tab: 'blocks', block: Number(h.slice(2)) || null };
   if (h.startsWith('h/')) return { tab: 'blocks', hid: h.slice(2) };
+  if (h.startsWith('cert/')) { const [, hid, type] = h.split('/'); return { tab: 'blocks', cert: { hid, type } }; }
   return { tab: 'blocks' };
 }
 function go(h) {
   if (location.hash.slice(1) === h) { render(true); return; }
   location.hash = h;
 }
-window.addEventListener('hashchange', () => { state.confirm = null; state.adding = false; state.openRow = null; render(true); if (!wideMq.matches) window.scrollTo(0, 0); });
+window.addEventListener('hashchange', () => { if (!location.hash.startsWith('#cert/')) state.certDraft = null; state.confirm = null; state.adding = false; state.openRow = null; render(true); if (!wideMq.matches) window.scrollTo(0, 0); });
 
 function renderAdmin() {
   const r = route();
   let body = '';
-  if (r.tab === 'blocks') body = blocksHtml(r);
+  const certH = r.cert ? hhById(r.cert.hid) : null;
+  if (r.cert) body = certH ? certEditorHtml(certH, r.cert.type) : `<div class="placeholder">${state.hhLoaded ? t('noMatch') : '…'}</div>`;
+  else if (r.tab === 'blocks') body = blocksHtml(r);
   else if (r.tab === 'dues') body = duesTabHtml();
   else body = toolsHtml(r.sub);
-  if (r.tab === 'blocks') $app.classList.add('wide');
+  if (r.tab === 'blocks' && !r.cert) $app.classList.add('wide');
   $app.innerHTML = `${topBar()}
     ${state.online ? '' : `<div class="offline" role="status">${t('offline')}</div>`}
     ${body}`;
   const nav = [['blocks', '🏘️', t('navBlocks')], ['dues', '💰', t('navDues')], ['tools', '🧰', t('navTools')]];
   document.getElementById('fabSlot').innerHTML = `<nav class="nav" aria-label="${esc(t('navLabel'))}"><div class="nav-in">${nav.map(([k, ic, label]) => `<button data-act="nav" data-v="${k}" ${r.tab === k ? 'aria-current="page"' : ''}><span class="ic" aria-hidden="true">${ic}</span>${esc(label)}</button>`).join('')}</div></nav>`;
   scrollGrids();
+  if (r.cert) mountCert();
 }
 
 function blockStats() {
@@ -1610,6 +1763,11 @@ function cardHtml(h) {
     <div class="ic-sec">
       <h3>📋 ${t('certH')} <span class="sub small">${R.length ? t('certOf', haveN, R.length) : ''}</span></h3>
       ${R.length ? `<div class="cert">${ordered.map(({ r, i }) => `<button class="certrow ${certs[r.id] ? 'have' : 'miss'}" data-act="cert" data-h="${h.id}" data-v="${r.id}" aria-pressed="${!!certs[r.id]}"><span class="no">${i + 1}</span><span>${esc(r.name)}</span><span class="st">${certs[r.id] ? t('have') : t('missing')}</span></button>`).join('')}</div>` : `<p class="sub small">${t('noCerts')}</p>`}
+    </div>
+
+    <div class="ic-sec">
+      <h3>🖨️ ${t('certPrintH')}</h3>
+      <div class="cert-btns">${CERT_TYPES.map((x) => `<button class="rowbtn" data-act="nav" data-v="cert/${h.id}/${x.k}"><span aria-hidden="true">${x.ic}</span><span class="grow"><b>${esc(t('cert_' + x.k))}</b>${(h.issued || {})[x.k] ? `<small>${esc(t('cfIssuedShort', longDate(h.issued[x.k])))}</small>` : ''}</span><span class="chev" aria-hidden="true">›</span></button>`).join('')}</div>
     </div>
 
     <div class="ic-sec">
@@ -1771,6 +1929,7 @@ function toolsHtml(sub) {
     ['settings', '🏘️', t('tSettings'), t('tSettingsSub')],
     ['import', '📥', t('tImport'), t('tImportSub')],
     ['reports', '🖨️', t('tReports'), t('tReportsSub')],
+    ['officers', '🧑‍💼', t('tOfficers'), t('tOfficersSub')],
     ['team', '👥', t('tTeam'), t('tTeamSub', editors.length)],
     ['lists', '🗂️', t('tLists'), t('tListsSub')],
   ];
@@ -1828,6 +1987,7 @@ function toolsHtml(sub) {
       ${editors.length ? editors.map((e) => `<div class="item"><div class="grow">${esc(e)}</div>${state.owner ? `<button class="iconbtn del" data-act="removeEditor" data-v="${esc(e)}" aria-label="${esc(t('del'))} ${esc(e)}">${I.trash}</button>` : ''}</div>`).join('') : `<p class="sub small">${t('noTeam')}</p>`}
       ${state.owner ? `<div class="row"><input id="edIn" class="field grow" type="email" placeholder="${esc(t('emailPh'))}" aria-label="${esc(t('emailPh'))}" data-enter="addEditor"><button class="btn small" data-act="addEditor">${I.plus}${t('add')}</button></div>` : ''}`;
   }
+  if (sub === 'officers') S.officers = officersToolHtml();
   if (sub === 'lists') {
     S.lists = `<h3>🗂️ ${t('tLists')}</h3>${tip(t('listsTip'))}<div class="row"><a class="btn small alt" href="?home=1">${t('listsBtn')}</a></div>`;
   }
@@ -2099,6 +2259,366 @@ function openDisplay() {
     <button class="btn" data-act="closeSheet">${t('done')}</button>`);
 }
 
+const CERT_TYPES = [
+  { k: 'water', ic: '💧', re: /water/i },
+  { k: 'meralco', ic: '⚡', re: /meralco|electric/i },
+  { k: 'noobj', ic: '🏗️', re: /objection/i },
+  { k: 'membership', ic: '🪪', re: /member/i },
+  { k: 'receipt', ic: '🧾', re: null },
+];
+const FEE_KEYS = ['water', 'membership', 'meralco', 'noobj', 'construction'];
+const HONORIFICS = ['Mr./Ms.', 'Mr.', 'Ms.', 'Mrs.', ''];
+
+function certCfg() {
+  const c = (state.list && state.list.cert) || {};
+  const title = (state.list && state.list.title) || t('defTitle');
+  return {
+    hoaName: c.hoaName || title.toUpperCase(),
+    hoaAddr: c.hoaAddr || '',
+    resAddr: c.resAddr || '',
+    office: c.office || `${title} Office`,
+    president: c.president || '',
+    vp: c.vp || '',
+    secretary: c.secretary || '',
+    treasurer: c.treasurer || '',
+    auditor: c.auditor || '',
+    committees: c.committees || '',
+    witness: c.witness || '',
+    fees: { water: 0, membership: 0, meralco: 0, noobj: 0, construction: 0, ...(c.fees || {}) },
+  };
+}
+
+const titleCase = (s) => String(s || '').toLowerCase().replace(/(^|[\s.\-'’])([a-zñ])/g, (m, a, b) => a + b.toUpperCase());
+const ordinal = (n) => { const v = n % 100; return n + ((v >= 11 && v <= 13) ? 'th' : ({ 1: 'st', 2: 'nd', 3: 'rd' }[n % 10] || 'th')); };
+const MONTHS_EN = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const todayIso = () => { const d = new Date(); return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`; };
+const isoParts = (iso) => { const [y, m, d] = String(iso || todayIso()).split('-').map(Number); return { y, m, d }; };
+const longDate = (iso) => { const p = isoParts(iso); return `${MONTHS_EN[p.m - 1]} ${p.d}, ${p.y}`; };
+
+function numWords(n) {
+  const ones = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+  const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+  const under1000 = (x) => {
+    const out = [];
+    if (x >= 100) { out.push(ones[Math.floor(x / 100)], 'Hundred'); x %= 100; }
+    if (x >= 20) { out.push(tens[Math.floor(x / 10)] + (x % 10 ? '-' + ones[x % 10] : '')); } else if (x) out.push(ones[x]);
+    return out.join(' ');
+  };
+  n = Math.floor(Math.abs(n));
+  if (!n) return 'Zero';
+  const parts = [];
+  [[1e9, 'Billion'], [1e6, 'Million'], [1e3, 'Thousand'], [1, '']].forEach(([v, w]) => {
+    const c = Math.floor(n / v);
+    if (c) { parts.push(under1000(c) + (w ? ' ' + w : '')); n %= v; }
+  });
+  return parts.join(' ');
+}
+function pesoWords(amount) {
+  const whole = Math.floor(amount);
+  const cents = Math.round((amount - whole) * 100);
+  return `${numWords(whole)} Pesos${cents ? ` and ${numWords(cents)} Centavos` : ''} only (P${Number(amount).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })})`;
+}
+const storeyWords = (n) => `(${n}) ${numWords(n).toUpperCase()}`;
+
+function certDefaults(h, type) {
+  const C = certCfg();
+  const items = {};
+  FEE_KEYS.forEach((k) => { items[k] = { on: false, amt: Number(C.fees[k]) || 0 }; });
+  return { hon: 'Mr./Ms.', name: h.name || '', block: String(h.block || ''), lot: String(h.lot || ''), date: todayIso(), storeys: 2, items, payor: h.name || '', witness: C.witness };
+}
+
+function certFieldValues(f) {
+  const p = isoParts(f.date);
+  const total = FEE_KEYS.reduce((a, k) => a + (f.items[k].on ? Number(f.items[k].amt) || 0 : 0), 0);
+  return {
+    who: `${f.hon ? f.hon + ' ' : ''}${f.name || '________________'}`,
+    name: f.name || 'FIRST NAME, LAST NAME',
+    block: f.block || '__',
+    lot: f.lot || '__',
+    day: `${ordinal(p.d).replace(/(\d+)(\D+)/, '$1<sup>$2</sup>')}`,
+    month: MONTHS_EN[p.m - 1],
+    year: String(p.y),
+    longdate: longDate(f.date),
+    storeys: storeyWords(Math.max(1, Number(f.storeys) || 1)),
+    amount: pesoWords(total),
+    payor: f.payor || '',
+    witness: f.witness || '',
+    items: FEE_KEYS.filter((k) => f.items[k].on).map((k) => `<div class="rc-item"><span class="rc-box">✓</span><span class="rc-lbl">${esc(t('fee_' + k))}</span><span class="rc-amt">${peso(Number(f.items[k].amt) || 0)}</span></div>`).join('') || `<div class="rc-item"><span class="rc-lbl">________________</span></div>`,
+  };
+}
+
+function boardHtml(C) {
+  const off = [['President', C.president], ['Vice President', C.vp], ['Secretary', C.secretary], ['Treasurer', C.treasurer], ['Auditor', C.auditor]].filter(([, n]) => n);
+  const coms = String(C.committees || '').split('\n').map((l) => l.trim()).filter(Boolean).map((l) => {
+    const i = l.indexOf(':');
+    return i < 0 ? { name: l, people: [] } : { name: l.slice(0, i).trim(), people: l.slice(i + 1).split(',').map((x) => x.trim()).filter(Boolean) };
+  });
+  return `<aside class="pp-side">
+    <div class="pp-bot">BOARD OF TRUSTEES</div>
+    <div class="pp-bod">BOARD OF DIRECTORS</div>
+    ${off.map(([r, n]) => `<div class="pp-role">${esc(r)}</div><div class="pp-nm">${esc(n)}</div>`).join('')}
+    ${coms.length ? `<div class="pp-bod pp-com">COMMITTEE</div>${coms.map((c) => `<div class="pp-cname">${esc(c.name)}</div>${c.people.map((x) => `<div class="pp-nm">${esc(x)}</div>`).join('')}`).join('')}` : ''}
+  </aside>`;
+}
+
+function letterHead(C) {
+  const logo = state.list && state.list.certLogo;
+  return `<header class="pp-head">${logo ? `<img class="pp-logo" src="${logo}" alt="">` : ''}<div class="pp-hoa">${esc(C.hoaName)}</div>${C.hoaAddr ? `<div class="pp-addr">${esc(C.hoaAddr)}</div>` : ''}</header>`;
+}
+
+const sig = (name, role) => `<div class="pp-sig"><div class="pp-line"></div><div>${esc(name)}</div><div class="pp-it">${esc(role)}</div></div>`;
+const F = (k) => `<span data-f="${k}"></span>`;
+
+function paperHtml(type) {
+  const C = certCfg();
+  const treas = titleCase(C.treasurer);
+  const res = C.resAddr ? `, ${esc(C.resAddr)}` : '';
+  const given = `<p>Given on this ${F('day')} day of ${F('month')} ${F('year')} at ${esc(C.office)}.</p>`;
+  if (type === 'membership') {
+    return `<div class="paper land"><img class="pp-border" src="cert-border.jpg" alt="">
+      <div class="mb-in">
+        <div class="mb-title">HOA MEMBERSHIP CERTIFICATION</div>
+        <div class="mb-sub">THIS IS TO CERTIFY THAT</div>
+        <div class="mb-name" data-f="name"></div>
+        <div class="mb-para">AFTER FULFILLING THE REQUIREMENTS SET FORTH BY THE BOARD OF TRUSTEES, IS HEREBY CONFIRMED AS A MEMBER OF THE ${esc(C.hoaName)}</div>
+        <div class="mb-sigs">
+          <div><div class="mb-line"></div><b>${esc(C.president)}</b><i>HOA PRESIDENT</i></div>
+          <div><div class="mb-line"></div><b data-f="longdate"></b><i>DATE</i></div>
+        </div>
+      </div>
+    </div>`;
+  }
+  let body = '';
+  if (type === 'water' || type === 'meralco') {
+    const title = type === 'water' ? 'WATER CONNECTION CERTIFICATE' : 'MERALCO NEW METER CERTIFICATE';
+    const purpose = type === 'water' ? 'acquiring a new water meter' : 'acquiring a new electric meter base';
+    body = `<h1 class="pp-title">${title}</h1>
+      <div class="pp-body dbl">
+        <p class="ind">This is to certify that <b data-f="who"></b> is a bonafide resident of Blk. ${F('block')}, Lot ${F('lot')}${res}.</p>
+        <p>This Certification is issued upon his/her request for the purpose of ${purpose}.</p>
+        ${given}
+      </div>
+      <div class="pp-sigs">${sig(treas, 'HOA Treasurer')}${sig(C.president, 'HOA President')}</div>`;
+  } else if (type === 'noobj') {
+    body = `<h1 class="pp-title">CERTIFICATE OF NO OBJECTION</h1>
+      <div class="pp-body">
+        <p>TO WHOM IT MAY CONCERN,</p>
+        <p>This is to certify that <b data-f="who"></b> presently residing at ${esc(C.resAddr || '________________')}. That he/she would like to apply a permit for the construction of <span data-f="storeys"></span> storey residential building at Block ${F('block')}, Lot ${F('lot')}${res}.</p>
+        <p>Clearance is hereby granted for the construction and this office issued this <b>Certificate of No Objection</b> in conformity with the provisions of existing HOA rules and regulations being enforced in this association and welfare of the member’s subject specifically for the issuance of corresponding Mayor’s Permit.</p>
+        <p>This certification is being issued upon the request of the said party for <b>BUILDING PERMIT APPLICATION</b> requirement purposes.</p>
+        ${given}
+      </div>
+      <div class="pp-sigs">${sig(C.president, 'HOA President')}</div>`;
+  } else {
+    body = `<h1 class="pp-title">ACKNOWLEDGEMENT RECEIPT</h1>
+      <div class="pp-body">
+        <p data-f="longdate"></p>
+        <p class="ind">This is to acknowledge that I, ${esc(treas)}, HOA Treasurer received the amount of <span data-f="amount"></span> as payment for:</p>
+        <div class="rc-items" data-f="items" data-html="1"></div>
+        <p class="ind">Received from <b data-f="who"></b> a resident of Blk. ${F('block')}, Lot ${F('lot')}${res}.</p>
+      </div>
+      <div class="rc-sigs">
+        <div class="rc-sig"><span class="rc-k">Received by:</span><div><div class="pp-line"></div>${esc(treas)} / <i>HOA Treasurer</i></div></div>
+        <div class="rc-sig"><span class="rc-k">Payor:</span><div><div class="pp-line"></div><span data-f="payor"></span></div></div>
+        <div class="rc-sig"><span class="rc-k">Witness:</span><div><div class="pp-line"></div><span data-f="witness"></span><br><i>HOA Officer</i></div></div>
+      </div>`;
+  }
+  return `<div class="paper">${boardHtml(C)}<main class="pp-main">${letterHead(C)}${body}</main></div>`;
+}
+
+function applyCertFields(root, f) {
+  const v = certFieldValues(f);
+  root.querySelectorAll('[data-f]').forEach((el) => {
+    const k = el.dataset.f;
+    if (!(k in v)) return;
+    if (k === 'day' || k === 'items') el.innerHTML = v[k];
+    else el.textContent = v[k];
+  });
+}
+
+function certKey(hid, type) { return hid + '/' + type; }
+
+function certEditorHtml(h, type) {
+  const T = CERT_TYPES.find((x) => x.k === type) || CERT_TYPES[0];
+  const key = certKey(h.id, T.k);
+  if (!state.certDraft || state.certDraft.key !== key) state.certDraft = { key, f: certDefaults(h, T.k), html: null };
+  const f = state.certDraft.f;
+  const C = certCfg();
+  const missing = !C.president || !(state.list && state.list.certLogo);
+  const issued = (h.issued || {})[T.k];
+  const fields = [];
+  if (T.k !== 'membership') fields.push(`<label>${t('cfHon')}<select class="field" data-cf="hon">${HONORIFICS.map((x) => `<option value="${esc(x)}" ${x === f.hon ? 'selected' : ''}>${esc(x || t('cfNone'))}</option>`).join('')}</select></label>`);
+  fields.push(`<label class="${T.k === 'membership' ? 'full' : ''}">${t('fName')}<input class="field" data-cf="name" value="${esc(f.name)}" maxlength="80"></label>`);
+  if (T.k !== 'membership') fields.push(`<label>${t('fBlock')}<input class="field" data-cf="block" value="${esc(f.block)}" maxlength="10"></label><label>${t('fLot')}<input class="field" data-cf="lot" value="${esc(f.lot)}" maxlength="20"></label>`);
+  fields.push(`<label class="${T.k === 'noobj' ? '' : 'full'}">${t('cfDate')}<input class="field" type="date" data-cf="date" value="${esc(f.date)}"></label>`);
+  if (T.k === 'noobj') fields.push(`<label>${t('cfStoreys')}<input class="field" type="number" min="1" max="20" inputmode="numeric" data-cf="storeys" value="${esc(f.storeys)}"></label>`);
+  let items = '';
+  if (T.k === 'receipt') {
+    items = `<p class="ic-label">${t('cfPayFor')}</p><div class="stack">${FEE_KEYS.map((k) => `<div class="rc-pick"><label class="rc-chk"><input type="checkbox" data-ci="${k}" ${f.items[k].on ? 'checked' : ''}><span>${esc(t('fee_' + k))}</span></label><input class="field" inputmode="decimal" data-ca="${k}" value="${esc(f.items[k].amt)}" aria-label="${esc(t('fee_' + k))} ₱"></div>`).join('')}</div>
+      <p class="rc-total" data-cf-total>${esc(certFieldValues(f).amount)}</p>
+      <div class="info"><label>${t('cfPayor')}<input class="field" data-cf="payor" value="${esc(f.payor)}" maxlength="80"></label><label>${t('cfWitness')}<input class="field" data-cf="witness" value="${esc(f.witness)}" maxlength="80"></label></div>`;
+  }
+  return `<section class="sticker hcard cert-ed">
+    <button class="back" data-act="nav" data-v="h/${h.id}">← ${esc(t('blkShort', h.block, h.lot))}</button>
+    <h2>🖨️ ${t('cert_' + T.k)}</h2>
+    <div class="chips wrap" role="group">${CERT_TYPES.map((x) => `<button data-act="certType" data-v="${x.k}" aria-pressed="${x.k === T.k}">${x.ic} ${esc(t('certShort_' + x.k))}</button>`).join('')}</div>
+    ${missing ? `<div class="notice" role="note"><b>${t('cfSetupH')}</b><span>${t('cfSetupP')}</span><button class="btn small alt" data-act="nav" data-v="tools/officers">${t('tOfficers')}</button></div>` : ''}
+    <div class="info">${fields.join('')}</div>
+    ${items}
+    <p class="tip"><span>✏️</span><span>${t('cfTip')}</span></p>
+    <div class="acts cert-acts">
+      <button class="btn" data-act="certPrint" data-h="${h.id}" data-v="${T.k}">🖨️ ${t('cfPrint')}</button>
+      <button class="btn small alt" data-act="certReset">↺ ${t('cfReset')}</button>
+    </div>
+    ${issued ? `<p class="sub small">${esc(t('cfIssued', longDate(issued)))}</p>` : ''}
+    <div class="paper-wrap"><div class="paper-scale" id="certPaper" data-type="${T.k}"></div></div>
+  </section>`;
+}
+
+function mountCert() {
+  const host = document.getElementById('certPaper');
+  if (!host || !state.certDraft) return;
+  const d = state.certDraft;
+  if (d.html) host.innerHTML = d.html;
+  else { host.innerHTML = paperHtml(host.dataset.type); applyCertFields(host, d.f); }
+  const paper = host.querySelector('.paper');
+  if (paper) {
+    paper.setAttribute('contenteditable', 'true');
+    paper.setAttribute('spellcheck', 'false');
+  }
+  fitCert();
+}
+
+function fitCert() {
+  const host = document.getElementById('certPaper');
+  const paper = host && host.querySelector('.paper');
+  if (!paper) return;
+  const wrap = host.parentElement;
+  const s = Math.max(0.6, Math.min(1, wrap.clientWidth / paper.offsetWidth));
+  paper.style.transform = `scale(${s})`;
+  paper.style.transformOrigin = 'top left';
+  host.style.width = Math.floor(paper.offsetWidth * s) + 'px';
+  host.style.height = Math.ceil(paper.offsetHeight * s) + 'px';
+}
+window.addEventListener('resize', () => fitCert());
+
+function saveCertHtml() {
+  const host = document.getElementById('certPaper');
+  if (host && state.certDraft) state.certDraft.html = host.innerHTML;
+}
+
+document.addEventListener('input', (e) => {
+  const tg = e.target;
+  if (tg.closest && tg.closest('#certPaper')) { saveCertHtml(); return; }
+  if (!state.certDraft || !tg.closest || !tg.closest('.cert-ed')) return;
+  const f = state.certDraft.f;
+  if (tg.dataset.cf) f[tg.dataset.cf] = tg.value;
+  else if (tg.dataset.ci) f.items[tg.dataset.ci].on = tg.checked;
+  else if (tg.dataset.ca) f.items[tg.dataset.ca].amt = Number(String(tg.value).replace(/[^\d.]/g, '')) || 0;
+  else return;
+  const host = document.getElementById('certPaper');
+  if (host) { applyCertFields(host, f); saveCertHtml(); }
+  const tot = document.querySelector('[data-cf-total]');
+  if (tot) tot.textContent = certFieldValues(f).amount;
+});
+document.addEventListener('change', (e) => {
+  const tg = e.target;
+  if (tg.dataset && (tg.dataset.ci || tg.dataset.cf === 'hon' || tg.dataset.cf === 'date')) tg.dispatchEvent(new Event('input', { bubbles: true }));
+});
+
+function printCert(type) {
+  const host = document.getElementById('certPaper');
+  const paper = host && host.querySelector('.paper');
+  if (!paper) return;
+  const copy = paper.cloneNode(true);
+  copy.removeAttribute('contenteditable');
+  copy.style.transform = '';
+  copy.style.transformOrigin = '';
+  let st = document.getElementById('pageCss');
+  if (!st) { st = document.createElement('style'); st.id = 'pageCss'; document.head.appendChild(st); }
+  st.textContent = `@media print { @page { size: letter ${type === 'membership' ? 'landscape' : 'portrait'}; margin: 0; } #print { padding: 0 !important; } }`;
+  const out = document.getElementById('print');
+  out.innerHTML = '';
+  out.appendChild(copy);
+  const done = () => { st.textContent = ''; window.removeEventListener('afterprint', done); };
+  window.addEventListener('afterprint', done);
+  const imgs = [...copy.querySelectorAll('img')];
+  Promise.all(imgs.map((im) => (im.complete ? 0 : new Promise((r) => { im.onload = im.onerror = r; })))).then(() => setTimeout(() => window.print(), 60));
+}
+
+function resizeLogo(file) {
+  return new Promise((res, rej) => {
+    const img = new Image();
+    img.onload = () => {
+      const s = Math.min(1, 320 / Math.max(img.width, img.height));
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.width * s);
+      c.height = Math.round(img.height * s);
+      const g = c.getContext('2d');
+      g.fillStyle = '#fff';
+      g.fillRect(0, 0, c.width, c.height);
+      g.drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(img.src);
+      res(c.toDataURL('image/jpeg', 0.88));
+    };
+    img.onerror = rej;
+    img.src = URL.createObjectURL(file);
+  });
+}
+
+function officersToolHtml() {
+  const C = certCfg();
+  const L = state.list;
+  const inp = (id, label, v, full) => `<label class="${full ? 'full' : ''}">${label}<input id="${id}" class="field" value="${esc(v)}" maxlength="120"></label>`;
+  return `<h3>🧑‍💼 ${t('tOfficers')}</h3>
+    <p class="tip"><span>💡</span><span>${t('ofTip')}</span></p>
+    ${seed && seed.v >= 2 && !L.certLogo ? `<div class="rowopen" style="border-color:var(--edge);background:var(--card)">
+      <b>${t('ofSeedH')}</b><p class="sub small">${t('ofSeedP')}</p>
+      <input id="certPw" class="field" type="password" placeholder="${esc(t('pwPh'))}" autocomplete="off" data-enter="loadCertSeed">
+      <button class="btn small" data-act="loadCertSeed">${t('ofSeedBtn')}</button>
+    </div>` : ''}
+    <div class="ofl-logo">${L.certLogo ? `<img src="${L.certLogo}" alt="">` : `<span class="sub small">${t('ofNoLogo')}</span>`}<label class="btn small alt">${t('ofLogo')}<input id="of-logo" type="file" accept="image/*" hidden></label></div>
+    <div class="info">
+      ${inp('of-hoaName', t('ofHoaName'), C.hoaName, true)}
+      ${inp('of-hoaAddr', t('ofHoaAddr'), C.hoaAddr, true)}
+      ${inp('of-resAddr', t('ofResAddr'), C.resAddr, true)}
+      ${inp('of-office', t('ofOffice'), C.office, true)}
+      ${inp('of-president', 'President', C.president)}
+      ${inp('of-vp', 'Vice President', C.vp)}
+      ${inp('of-secretary', 'Secretary', C.secretary)}
+      ${inp('of-treasurer', 'Treasurer', C.treasurer)}
+      ${inp('of-auditor', 'Auditor', C.auditor)}
+      ${inp('of-witness', t('ofWitness'), C.witness)}
+      <label class="full">${t('ofCommittees')}<textarea id="of-committees" class="field" style="min-height:120px;padding-top:10px" placeholder="Grievance Committee: Name, Name">${esc(C.committees)}</textarea></label>
+    </div>
+    <p class="ic-label">${t('ofFees')}</p>
+    <div class="info">${FEE_KEYS.map((k) => `<label>${esc(t('fee_' + k))}<input id="of-fee-${k}" class="field" inputmode="decimal" value="${esc(C.fees[k] || '')}"></label>`).join('')}</div>
+    <button class="btn small" data-act="saveOfficers">${t('save')}</button>`;
+}
+
+async function applySeedCert(x) {
+  if (!x || Array.isArray(x) || !x.cert) return false;
+  const patch = { updatedAt: serverTimestamp() };
+  if (!state.list.cert) patch.cert = x.cert;
+  if (!state.list.certLogo && x.logo) patch.certLogo = x.logo;
+  if (Object.keys(patch).length === 1) return false;
+  await updateDoc(listRef(), patch);
+  return true;
+}
+
+async function markIssued(hid, type) {
+  const h = hhById(hid);
+  if (!h) return;
+  const T = CERT_TYPES.find((x) => x.k === type);
+  const issued = { ...(h.issued || {}), [type]: todayIso() };
+  const patch = { issued };
+  if (T && T.re) {
+    const r = reqs().find((x) => T.re.test(x.name));
+    if (r && !(h.certs || {})[r.id]) patch.certs = { ...(h.certs || {}), [r.id]: true };
+  }
+  try { await saveHH(h, patch, false); } catch { toast(t('notSaved')); }
+}
+
 const ACTIONS = {
   closeSheet: (el, e) => { if (el.classList.contains('sheet-bg') && e.target !== el) return; closeSheet(); },
   help: () => openGuide(state.admin || !duesToken ? 'org' : 'fam'),
@@ -2255,6 +2775,29 @@ const ACTIONS = {
     else if (inbox || (cid && !state.list)) { location.href = el.getAttribute('href'); return; }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   },
+  certType: (el) => { const r = route(); if (r.cert) go(`cert/${r.cert.hid}/${el.dataset.v}`); },
+  certReset: () => { state.certDraft = null; render(true); },
+  certPrint: (el) => {
+    printCert(el.dataset.v);
+    markIssued(el.dataset.h, el.dataset.v);
+    toast(t('cfMarked'));
+  },
+  loadCertSeed: async () => {
+    const pw = val('certPw');
+    if (!pw || !seed) return;
+    let raw;
+    try { raw = await openSeed(pw); } catch { toast(t('badPw')); return; }
+    try { await applySeedCert(raw); toast(t('settingsSaved')); } catch { toast(t('notSaved')); }
+  },
+  saveOfficers: safe(async () => {
+    const g = (k) => val('of-' + k);
+    const fees = {};
+    FEE_KEYS.forEach((k) => { fees[k] = Number(g('fee-' + k).replace(/[^\d.]/g, '')) || 0; });
+    const cert = { hoaName: g('hoaName'), hoaAddr: g('hoaAddr'), resAddr: g('resAddr'), office: g('office'), president: g('president'), vp: g('vp'), secretary: g('secretary'), treasurer: g('treasurer'), auditor: g('auditor'), witness: g('witness'), committees: (document.getElementById('of-committees') || {}).value || '', fees };
+    blurAll();
+    await updateDoc(listRef(), { cert, updatedAt: serverTimestamp() });
+    toast(t('settingsSaved'));
+  }),
   duesYear: (el) => { state.duesYear = Number(el.dataset.v) || 0; store.set('duesYear', state.duesYear ? String(state.duesYear) : ''); render(true); },
   addYear: safe(async () => {
     const y = lastYear() + 1;
@@ -2313,8 +2856,10 @@ const ACTIONS = {
     const btn = document.querySelector('[data-act="loadSeed"]');
     if (btn) { btn.disabled = true; btn.textContent = t('importing'); }
     let rows;
+    let raw;
     try {
-      rows = await openSeed(pw);
+      raw = await openSeed(pw);
+      rows = Array.isArray(raw) ? raw : raw.h;
     } catch {
       if (btn) { btn.disabled = false; btn.textContent = t('loadBtn'); }
       toast(t('badPw'));
@@ -2322,6 +2867,7 @@ const ACTIONS = {
     }
     try {
       const res = await importRows(rows.map(([block, lot, name]) => ({ block, lot, name })));
+      await applySeedCert(raw);
       toast(t('imported', res.n, res.skip));
       confetti(window.innerWidth / 2, 200, 40);
       go('blocks');
@@ -2409,6 +2955,10 @@ document.addEventListener('keydown', (e) => {
 
 document.addEventListener('change', async (e) => {
   const tg = e.target;
+  if (tg.id === 'of-logo' && tg.files && tg.files[0]) {
+    try { const url = await resizeLogo(tg.files[0]); await updateDoc(listRef(), { certLogo: url, updatedAt: serverTimestamp() }); toast(t('settingsSaved')); } catch { toast(t('notSaved')); }
+    return;
+  }
   if (tg.id === 'ov-blk') { state.duesScope = Number(tg.value) || 0; store.set('duesScope', String(state.duesScope)); tg.blur(); render(true); return; }
   if (!tg.dataset || !tg.dataset.rename) return;
   const name = tg.value.trim();
