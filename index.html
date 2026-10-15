@@ -485,6 +485,7 @@ button.cell:active { transform: scale(0.92); }
 .cert-acts { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
 .cert-acts .btn { width: 100%; }
 .paper-scale { margin: 0; }
+.rc-item.unpaid .rc-amt { color: #9A9A9A; }
 </style>
 <script src="qrcode.js"></script>
 </head>
@@ -2343,7 +2344,7 @@ function certFieldValues(f) {
     amount: pesoWords(total),
     payor: f.payor || '',
     witness: f.witness || '',
-    items: FEE_KEYS.filter((k) => f.items[k].on).map((k) => `<div class="rc-item"><span class="rc-box">✓</span><span class="rc-lbl">${esc(t('fee_' + k))}</span><span class="rc-amt">${peso(Number(f.items[k].amt) || 0)}</span></div>`).join('') || `<div class="rc-item"><span class="rc-lbl">________________</span></div>`,
+    items: FEE_KEYS.map((k) => `<div class="rc-item ${f.items[k].on ? '' : 'unpaid'}"><span class="rc-box">${f.items[k].on ? '✓' : ''}</span><span class="rc-lbl">${esc(t('fee_' + k))}</span><span class="rc-amt">${peso(Number(f.items[k].amt) || 0)}</span></div>`).join(''),
   };
 }
 
