@@ -486,6 +486,20 @@ button.cell:active { transform: scale(0.92); }
 .cert-acts .btn { width: 100%; }
 .paper-scale { margin: 0; }
 .rc-item.unpaid .rc-amt { color: #9A9A9A; }
+.crumbs { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.crumbs .back { padding: 0 14px; flex: none; }
+.crumbs ol { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 4px; list-style: none; margin: 0; padding: 0; min-width: 0; font-size: 14px; }
+.crumbs li { display: inline-flex; align-items: center; gap: 4px; min-width: 0; }
+.crumbs li > span { color: var(--sub); font-weight: 800; }
+.crumbs li button { font-weight: 700; color: var(--sub); text-decoration: underline; text-underline-offset: 3px; padding: 6px 2px; min-height: 32px; }
+.crumbs li b { font-weight: 800; }
+#tour { position: fixed; inset: 0; z-index: 60; }
+.tour-hole { position: fixed; border-radius: 16px; box-shadow: 0 0 0 9999px rgba(10, 8, 25, 0.62); border: 3px solid var(--volt, #D4FF3A); pointer-events: none; transition: all 0.25s; }
+.tour-tip { position: fixed; background: var(--card); color: var(--ink); border: 2.5px solid var(--edge); border-radius: 18px; box-shadow: 4px 4px 0 var(--drop); padding: 14px 16px; display: grid; gap: 6px; }
+.tour-tip small { color: var(--sub); font-weight: 800; font-size: 12px; }
+.tour-tip b { font-size: 17px; }
+.tour-tip p { margin: 0; font-size: 15px; line-height: 1.45; }
+.tour-acts { display: flex; justify-content: flex-end; align-items: center; gap: 14px; margin-top: 6px; }
 </style>
 <script src="qrcode.js"></script>
 </head>
@@ -541,6 +555,19 @@ const TX = {
     display: 'Text size, contrast and language',
     addHome: 'Add to Home Screen',
     gotIt: 'Got it! 👍',
+    crumbs: 'You are here',
+    tourNext: 'Next →',
+    tourSkip: 'Skip',
+    tourDone: 'Start using Ka-Block 🎉',
+    tourAgain: '🧭 Show me around again',
+    tourOf: (i, n) => `${i} of ${n}`,
+    tourSteps: [
+      ['#q', '🔎 Looking for someone?', 'Type a name or a lot here, like <b>Tenoria</b> or <b>B5 L12</b>, to jump straight to their index card.'],
+      ['.blk', '🏘️ Blocks', 'Or tap a block to see its lots, then tap a lot to open its index card.'],
+      ['.nav button[data-v="dues"]', '💰 Dues', 'See who’s behind on dues and send a polite reminder.'],
+      ['.nav button[data-v="tools"]', '🧰 Tools', 'Certificates, household links, printing, settings and your team are all here.'],
+      ['[data-act="help"]', '❓ Help', 'Lost? Tap Help anytime for the step-by-step guide.'],
+    ],
     done: 'Done',
     keep: 'Keep it',
     del: 'Delete',
@@ -607,7 +634,7 @@ const TX = {
     behindCount: (n) => `${n} behind`,
     addBlock: '➕ Add a block',
     blockAdded: (n) => `Block ${n} added`,
-    searchAll: 'Search a name or lot',
+    searchAll: 'Name or B5 L12',
     noMatch: 'No household matches. Check the spelling?',
     lotsOf: (n) => `Block ${n}`,
     addHH: '➕ Add household',
@@ -901,6 +928,19 @@ const TX = {
     display: 'Laki ng text, contrast at wika',
     addHome: 'I-add sa Home Screen',
     gotIt: 'Gets ko na! 👍',
+    crumbs: 'Nasaan ka',
+    tourNext: 'Sunod →',
+    tourSkip: 'Laktawan',
+    tourDone: 'Simulan na ang Ka-Block 🎉',
+    tourAgain: '🧭 Ipakita ulit ang tour',
+    tourOf: (i, n) => `${i} sa ${n}`,
+    tourSteps: [
+      ['#q', '🔎 May hinahanap?', 'I-type dito ang pangalan o lot, gaya ng <b>Tenoria</b> o <b>B5 L12</b>, para diretso sa index card nila.'],
+      ['.blk', '🏘️ Blocks', 'O pindutin ang block para makita ang lots, tapos pindutin ang lot para buksan ang index card.'],
+      ['.nav button[data-v="dues"]', '💰 Dues', 'Tingnan kung sino ang may utang sa dues at magpadala ng magalang na paalala.'],
+      ['.nav button[data-v="tools"]', '🧰 Tools', 'Nandito ang certificates, household links, printing, settings at ang team mo.'],
+      ['[data-act="help"]', '❓ Tulong', 'Naligaw? Pindutin ang Tulong anumang oras para sa step-by-step na gabay.'],
+    ],
     done: 'Tapos na',
     keep: 'Huwag pala',
     del: 'I-delete',
@@ -967,7 +1007,7 @@ const TX = {
     behindCount: (n) => `${n} may kulang`,
     addBlock: '➕ Mag-add ng block',
     blockAdded: (n) => `Na-add ang Block ${n}`,
-    searchAll: 'Hanapin ang pangalan o lot',
+    searchAll: 'Pangalan o B5 L12',
     noMatch: 'Walang tugma. Check ang spelling?',
     lotsOf: (n) => `Block ${n}`,
     addHH: '➕ Mag-add ng household',
@@ -1648,6 +1688,27 @@ function go(h) {
 }
 window.addEventListener('hashchange', () => { if (!location.hash.startsWith('#cert/')) state.certDraft = null; state.confirm = null; state.adding = false; state.openRow = null; render(true); if (!wideMq.matches) window.scrollTo(0, 0); });
 
+function searchHH(q) {
+  const words = norm(q).split(/\s+/).filter(Boolean);
+  if (!words.length) return [];
+  const m = norm(q).trim().match(/^(?:b|blk|block)?\.?\s*(\d+)\s*(?:[-/,.]|\s|l|lot)+\s*(\d+[a-z]?)$/);
+  if (m) {
+    const exact = state.hh.filter((x) => String(x.block) === String(Number(m[1])) && norm(x.lot) === norm(m[2]).replace(/^0+(?=\d)/, ''));
+    if (exact.length) return exact;
+  }
+  return state.hh.filter((x) => {
+    const hay = norm(`${x.name} blk ${x.block} lot ${x.lot} block ${x.block} ${x.block} ${x.lot} b${x.block} l${x.lot} blk${x.block} lot${x.lot} b${x.block}l${x.lot} ${x.block}-${x.lot} ${x.address || ''}`);
+    return words.every((w) => hay.includes(w));
+  });
+}
+
+function crumbs(parent, items, wideHide) {
+  return `<nav class="crumbs${wideHide ? ' pane-back' : ''}" aria-label="${esc(t('crumbs'))}">
+    <button class="back" data-act="nav" data-v="${parent}" aria-label="←">←</button>
+    <ol>${items.map(([label, to], i) => `<li>${i ? '<span aria-hidden="true">›</span>' : ''}${to ? `<button data-act="nav" data-v="${to}">${esc(label)}</button>` : `<b aria-current="page">${esc(label)}</b>`}</li>`).join('')}</ol>
+  </nav>`;
+}
+
 function renderAdmin() {
   const r = route();
   let body = '';
@@ -1697,9 +1758,9 @@ function blocksHtml(r) {
 
   const blocksPane = `<div class="pane">
     <div class="pane-h"><h2>🏘️ ${t('blocksH')}</h2><span class="sub small">${t('hhCount', state.hh.length)}</span></div>
-    <label class="search" style="position:relative;top:0">${I.search}<input id="q" class="field" type="search" placeholder="${esc(t('searchAll'))}" value="${esc(state.q)}" aria-label="${esc(t('searchAll'))}" autocomplete="off"></label>
+    <label class="search" style="position:relative;top:0">${I.search}<input id="q" class="field" type="search" placeholder="${esc(t('searchAll'))}" value="${esc(state.q)}" aria-label="${esc(t('searchAll'))}" autocomplete="off" data-enter="qGo"></label>
     ${words.length ? (() => {
-      const found = state.hh.filter((x) => { const hay = norm(`${x.name} blk ${x.block} lot ${x.lot} ${x.block} ${x.lot} ${x.address || ''}`); return words.every((w) => hay.includes(w)); });
+      const found = searchHH(state.q);
       return found.length ? found.slice(0, 60).map((x) => `<button class="lotbtn" data-act="openHH" data-v="${x.id}"><span class="lotno">${esc(x.block)}·${esc(x.lot)}</span><span class="lotname">${x.name ? esc(x.name) : t('blank')}<small>${esc(t('blkShort', x.block, x.lot))}</small></span><span></span></button>`).join('') : `<p class="sub small">${t('noMatch')}</p>`;
     })() : `<div class="tiles" style="grid-template-columns:repeat(auto-fill,minmax(${wide ? 160 : 140}px,1fr))">${Array.from({ length: nB }, (_, i) => i + 1).map((b) => {
       const s = stats[b] || { n: 0, behind: 0 };
@@ -1712,7 +1773,7 @@ function blocksHtml(r) {
   if (blk) {
     const lots = state.hh.filter((x) => x.block === blk);
     lotsPane = `<div class="pane">
-      <button class="back pane-back" data-act="nav" data-v="blocks">← ${t('blocksH')}</button>
+      ${crumbs('blocks', [['🏘️ ' + t('blocksH'), 'blocks'], [t('blockN', blk)]], true)}
       <div class="pane-h"><h2>${t('lotsOf', blk)}</h2><span class="sub small">${t('hhCount', lots.length)}</span></div>
       ${state.adding ? `<div class="rowopen" style="border-color:var(--edge);background:var(--card)">
         <b>${t('addHH')}</b>
@@ -1744,7 +1805,7 @@ function cardHtml(h) {
   const url = viewUrl(h.token);
   const del = state.confirm === 'h:' + h.id;
   return `<section class="sticker hcard">
-    <button class="back pane-back" data-act="nav" data-v="b/${h.block}">← ${t('blockN', h.block)}</button>
+    ${crumbs('b/' + h.block, [['🏘️ ' + t('blocksH'), 'blocks'], [t('blockN', h.block), 'b/' + h.block], ['Lot ' + h.lot]], true)}
     <div class="hcard-h">
       <div><span class="tag y">${esc(t('blkShort', h.block, h.lot))}</span><h2 style="margin-top:8px">${h.name ? esc(h.name) : t('blank')}</h2></div>
       <span class="badge ${c.ok ? 'ok' : 'warn'}">${c.ok ? t('stOk') : esc(t('stBehind', c.behind))}</span>
@@ -1995,7 +2056,8 @@ function toolsHtml(sub) {
   if (sub === 'inbox') {
     S.inbox = `<div class="row"><a class="btn small" href="?inbox=1">📬 ${t('tInbox')}</a></div>`;
   }
-  const body = sub && S[sub] ? `<button class="back" data-act="nav" data-v="tools">← ${t('backTools')}</button><div class="admin-sec">${S[sub]}</div>`
+  const subTile = tiles.find((x) => x[0] === sub);
+  const body = sub && S[sub] ? `${crumbs('tools', [['🧰 ' + t('toolsH'), 'tools'], [subTile ? subTile[2] : sub]])}<div class="admin-sec">${S[sub]}</div>`
     : `<div class="tiles">${tiles.map(([k, ic, label, s2]) => `<button class="tile" data-act="nav" data-v="tools/${k}"><span class="ti" aria-hidden="true">${ic}</span><b>${esc(label)}</b><small>${esc(s2)}</small></button>`).join('')}</div>`;
   return `<section class="sticker admin" aria-label="${esc(t('toolsH'))}">
     <div class="admin-h"><h2>🧰 ${t('toolsH')}</h2><p>${esc(t('toolsSub', state.user.email || ''))}</p></div>
@@ -2245,6 +2307,7 @@ function openGuide(tab) {
   openSheet(`<h2>${t('guideH')}</h2>
     <div class="tabs" role="group"><button data-act="guideTab" data-v="fam" aria-pressed="${tab === 'fam'}">${t('tabFam')}</button><button data-act="guideTab" data-v="org" aria-pressed="${tab === 'org'}">${t('tabOrg')}</button></div>
     ${body}
+    ${tab === 'org' && state.admin ? `<button class="btn alt" data-act="tourAgain">${t('tourAgain')}</button>` : ''}
     <button class="btn alt" data-act="feedback">${t('fbLink')}</button>
     <button class="btn" data-act="closeSheet">${t('gotIt')}</button>`);
   store.set('seenGuide5', '1');
@@ -2460,7 +2523,7 @@ function certEditorHtml(h, type) {
       <div class="info"><label>${t('cfPayor')}<input class="field" data-cf="payor" value="${esc(f.payor)}" maxlength="80"></label><label>${t('cfWitness')}<input class="field" data-cf="witness" value="${esc(f.witness)}" maxlength="80"></label></div>`;
   }
   return `<section class="sticker hcard cert-ed">
-    <button class="back" data-act="nav" data-v="h/${h.id}">← ${esc(t('blkShort', h.block, h.lot))}</button>
+    ${crumbs('h/' + h.id, [['🏘️ ' + t('blocksH'), 'blocks'], [t('blockN', h.block), 'b/' + h.block], ['Lot ' + h.lot, 'h/' + h.id], [t('certShort_' + T.k)]])}
     <h2>🖨️ ${t('cert_' + T.k)}</h2>
     <div class="chips wrap" role="group">${CERT_TYPES.map((x) => `<button data-act="certType" data-v="${x.k}" aria-pressed="${x.k === T.k}">${x.ic} ${esc(t('certShort_' + x.k))}</button>`).join('')}</div>
     ${missing ? `<div class="notice" role="note"><b>${t('cfSetupH')}</b><span>${t('cfSetupP')}</span><button class="btn small alt" data-act="nav" data-v="tools/officers">${t('tOfficers')}</button></div>` : ''}
@@ -2657,6 +2720,10 @@ const ACTIONS = {
     }
   },
   nav: (el) => { state.q = ''; go(el.dataset.v); },
+  tourAgain: () => { closeSheet(); state.q = ''; if (location.hash.slice(1) && location.hash.slice(1) !== 'blocks') location.hash = 'blocks'; setTimeout(() => startTour(), 450); },
+  tourNext: () => tourStep(tour.i + 1),
+  qGo: () => { const f = searchHH(state.q); if (f.length) { state.q = ''; go('h/' + f[0].id); } },
+  tourSkip: () => endTour(),
   openBlock: (el) => go('b/' + el.dataset.v),
   openHH: (el) => go('h/' + el.dataset.v),
   addBlock: safe(async () => {
@@ -2972,12 +3039,66 @@ document.addEventListener('change', async (e) => {
   }
 });
 
+const tour = { i: -1, el: null };
+function tourTargets() {
+  return t('tourSteps').map(([sel, h, p]) => ({ el: [...document.querySelectorAll(sel)].find((x) => x.offsetParent !== null), h, p })).filter((x) => x.el);
+}
+function startTour() {
+  if (!state.admin || sheetOpen()) return;
+  if (!tourTargets().length) return;
+  tour.i = -1;
+  tourStep(0);
+}
+function endTour() {
+  tour.i = -1;
+  const el = document.getElementById('tour');
+  if (el) el.remove();
+  store.set('seenTour1', '1');
+  store.set('seenGuide5', '1');
+}
+function tourStep(i) {
+  const steps = tourTargets();
+  if (i >= steps.length) { endTour(); return; }
+  tour.i = i;
+  const st = steps[i];
+  st.el.scrollIntoView({ block: 'center', behavior: 'instant' });
+  let box = document.getElementById('tour');
+  if (!box) { box = document.createElement('div'); box.id = 'tour'; document.body.appendChild(box); }
+  const last = i === steps.length - 1;
+  box.innerHTML = `<div class="tour-hole"></div><div class="tour-tip" role="dialog" aria-live="polite">
+    <small>${esc(t('tourOf', i + 1, steps.length))}</small><b>${st.h}</b><p>${st.p}</p>
+    <div class="tour-acts">${last ? '' : `<button class="linkbtn" data-act="tourSkip">${t('tourSkip')}</button>`}<button class="btn small" data-act="tourNext">${last ? t('tourDone') : t('tourNext')}</button></div></div>`;
+  placeTour();
+}
+function placeTour() {
+  const box = document.getElementById('tour');
+  if (!box || tour.i < 0) return;
+  const st = tourTargets()[tour.i];
+  if (!st) return;
+  const r = st.el.getBoundingClientRect();
+  const pad = 6;
+  const hole = box.querySelector('.tour-hole');
+  Object.assign(hole.style, { left: r.left - pad + 'px', top: r.top - pad + 'px', width: r.width + pad * 2 + 'px', height: r.height + pad * 2 + 'px' });
+  const tip = box.querySelector('.tour-tip');
+  const w = Math.min(340, innerWidth - 24);
+  tip.style.width = w + 'px';
+  tip.style.left = Math.max(12, Math.min(innerWidth - w - 12, r.left + r.width / 2 - w / 2)) + 'px';
+  const below = r.bottom + 14;
+  const th = tip.offsetHeight;
+  tip.style.top = (below + th < innerHeight - 8 ? below : Math.max(8, r.top - th - 14)) + 'px';
+}
+window.addEventListener('resize', placeTour);
+window.addEventListener('scroll', placeTour, { passive: true });
+
 const firstLook = setInterval(() => {
   if (!state.loaded || document.querySelector('#app .loading')) return;
   clearInterval(firstLook);
   setTimeout(() => {
     if (sheetOpen() || inbox) return;
-    if (!store.get('seenGuide5') && (duesToken || state.admin)) openGuide(duesToken ? 'fam' : 'org');
+    if (duesToken) { if (!store.get('seenGuide5')) openGuide('fam'); return; }
+    const r = state.admin ? route() : null;
+    if (r && !store.get('seenTour1') && r.tab === 'blocks' && !r.block && !r.hid && !r.cert) startTour();
+    else if (state.admin && !store.get('seenGuide5')) openGuide('org');
   }, 900);
 }, 300);
 
