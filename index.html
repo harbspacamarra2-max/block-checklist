@@ -698,11 +698,13 @@ const TX = {
     cert_water: 'Water Connection Certificate',
     cert_meralco: 'Meralco New Meter Certificate',
     cert_noobj: 'Certificate of No Objection',
+    cert_construction: 'Construction Certificate',
     cert_membership: 'HOA Membership Certification',
     cert_receipt: 'Acknowledgement Receipt',
     certShort_water: 'Water',
     certShort_meralco: 'Meralco',
     certShort_noobj: 'No Objection',
+    certShort_construction: 'Construction',
     certShort_membership: 'Membership',
     certShort_receipt: 'Receipt',
     fee_water: 'Water Certification Fee',
@@ -1071,11 +1073,13 @@ const TX = {
     cert_water: 'Water Connection Certificate',
     cert_meralco: 'Meralco New Meter Certificate',
     cert_noobj: 'Certificate of No Objection',
+    cert_construction: 'Construction Certificate',
     cert_membership: 'HOA Membership Certification',
     cert_receipt: 'Acknowledgement Receipt',
     certShort_water: 'Water',
     certShort_meralco: 'Meralco',
     certShort_noobj: 'No Objection',
+    certShort_construction: 'Construction',
     certShort_membership: 'Membership',
     certShort_receipt: 'Resibo',
     fee_water: 'Water Certification Fee',
@@ -2326,7 +2330,8 @@ function openDisplay() {
 const CERT_TYPES = [
   { k: 'water', ic: '💧', re: /water/i },
   { k: 'meralco', ic: '⚡', re: /meralco|electric/i },
-  { k: 'noobj', ic: '🏗️', re: /objection/i },
+  { k: 'noobj', ic: '📄', re: /objection/i },
+  { k: 'construction', ic: '🏗️', re: /construction/i },
   { k: 'membership', ic: '🪪', re: /member/i },
   { k: 'receipt', ic: '🧾', re: null },
 ];
@@ -2460,6 +2465,15 @@ function paperHtml(type) {
       <div class="pp-body dbl">
         <p class="ind">This is to certify that <b data-f="who"></b> is a bonafide resident of Blk. ${F('block')}, Lot ${F('lot')}${res}.</p>
         <p>This Certification is issued upon his/her request for the purpose of ${purpose}.</p>
+        ${given}
+      </div>
+      <div class="pp-sigs">${sig(treas, 'HOA Treasurer')}${sig(C.president, 'HOA President')}</div>`;
+  } else if (type === 'construction') {
+    const at = C.resAddr ? esc(C.resAddr) : '________________';
+    body = `<h1 class="pp-title">CONSTRUCTION CERTIFICATE</h1>
+      <div class="pp-body dbl">
+        <p class="ind">This is to certify that <b data-f="who"></b> a resident of ${at}.</p>
+        <p>This Certification is issued upon his/her request for the purpose of building a structure or modification located at Blk. ${F('block')}, Lot ${F('lot')}${res}.</p>
         ${given}
       </div>
       <div class="pp-sigs">${sig(treas, 'HOA Treasurer')}${sig(C.president, 'HOA President')}</div>`;
