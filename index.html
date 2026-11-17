@@ -716,6 +716,8 @@ const TX = {
     cfNone: '(none)',
     cfDate: 'Date',
     cfStoreys: 'No. of storeys',
+    cfAddr: 'Where they live now',
+    cfAddrPh: 'e.g. Villa Merciana, Mulawin, Tanza, Cavite',
     cfPayFor: 'Payment for:',
     cfPayor: 'Payor',
     cfWitness: 'Witness (HOA officer)',
@@ -1091,6 +1093,8 @@ const TX = {
     cfNone: '(wala)',
     cfDate: 'Petsa',
     cfStoreys: 'Ilang palapag',
+    cfAddr: 'Kung saan sila nakatira ngayon',
+    cfAddrPh: 'hal. Villa Merciana, Mulawin, Tanza, Cavite',
     cfPayFor: 'Bayad para sa:',
     cfPayor: 'Nagbayad',
     cfWitness: 'Saksi (HOA officer)',
@@ -2393,7 +2397,7 @@ function certDefaults(h, type) {
   const C = certCfg();
   const items = {};
   FEE_KEYS.forEach((k) => { items[k] = { on: false, amt: Number(C.fees[k]) || 0 }; });
-  return { hon: 'Mr./Ms.', name: h.name || '', block: String(h.block || ''), lot: String(h.lot || ''), date: todayIso(), storeys: 2, items, payor: h.name || '', witness: C.witness };
+  return { hon: 'Mr./Ms.', name: h.name || '', block: String(h.block || ''), lot: String(h.lot || ''), date: todayIso(), storeys: 2, addr: h.address || '', items, payor: h.name || '', witness: C.witness };
 }
 
 function certFieldValues(f) {
@@ -2409,6 +2413,7 @@ function certFieldValues(f) {
     year: String(p.y),
     longdate: longDate(f.date),
     storeys: storeyWords(Math.max(1, Number(f.storeys) || 1)),
+    addr: (f.addr || '').trim() || '________________',
     amount: pesoWords(total),
     payor: f.payor || '',
     witness: f.witness || '',
@@ -2469,10 +2474,11 @@ function paperHtml(type) {
       </div>
       <div class="pp-sigs">${sig(treas, 'HOA Treasurer')}${sig(C.president, 'HOA President')}</div>`;
   } else if (type === 'construction') {
-    const at = C.resAddr ? esc(C.resAddr) : '________________';
+    // Two addresses: where the person lives now (typed per certificate), and the Blk/Lot in this
+    // subdivision where they will build, which always ends with the association's own address.
     body = `<h1 class="pp-title">CONSTRUCTION CERTIFICATE</h1>
       <div class="pp-body dbl">
-        <p class="ind">This is to certify that <b data-f="who"></b> a resident of ${at}.</p>
+        <p class="ind">This is to certify that <b data-f="who"></b> a resident of ${F('addr')}.</p>
         <p>This Certification is issued upon his/her request for the purpose of building a structure or modification located at Blk. ${F('block')}, Lot ${F('lot')}${res}.</p>
         ${given}
       </div>
@@ -2481,7 +2487,7 @@ function paperHtml(type) {
     body = `<h1 class="pp-title">CERTIFICATE OF NO OBJECTION</h1>
       <div class="pp-body">
         <p>TO WHOM IT MAY CONCERN,</p>
-        <p>This is to certify that <b data-f="who"></b> presently residing at ${esc(C.resAddr || '________________')}. That he/she would like to apply a permit for the construction of <span data-f="storeys"></span> storey residential building at Block ${F('block')}, Lot ${F('lot')}${res}.</p>
+        <p>This is to certify that <b data-f="who"></b> presently residing at ${F('addr')}. That he/she would like to apply a permit for the construction of <span data-f="storeys"></span> storey residential building at Block ${F('block')}, Lot ${F('lot')}${res}.</p>
         <p>Clearance is hereby granted for the construction and this office issued this <b>Certificate of No Objection</b> in conformity with the provisions of existing HOA rules and regulations being enforced in this association and welfare of the member’s subject specifically for the issuance of corresponding Mayor’s Permit.</p>
         <p>This certification is being issued upon the request of the said party for <b>BUILDING PERMIT APPLICATION</b> requirement purposes.</p>
         ${given}
@@ -2529,6 +2535,7 @@ function certEditorHtml(h, type) {
   fields.push(`<label class="${T.k === 'membership' ? 'full' : ''}">${t('fName')}<input class="field" data-cf="name" value="${esc(f.name)}" maxlength="80"></label>`);
   if (T.k !== 'membership') fields.push(`<label>${t('fBlock')}<input class="field" data-cf="block" value="${esc(f.block)}" maxlength="10"></label><label>${t('fLot')}<input class="field" data-cf="lot" value="${esc(f.lot)}" maxlength="20"></label>`);
   fields.push(`<label class="${T.k === 'noobj' ? '' : 'full'}">${t('cfDate')}<input class="field" type="date" data-cf="date" value="${esc(f.date)}"></label>`);
+  if (T.k === 'construction' || T.k === 'noobj') fields.push(`<label class="full">${t('cfAddr')}<input class="field" data-cf="addr" value="${esc(f.addr)}" maxlength="120" placeholder="${esc(t('cfAddrPh'))}"></label>`);
   if (T.k === 'noobj') fields.push(`<label>${t('cfStoreys')}<input class="field" type="number" min="1" max="20" inputmode="numeric" data-cf="storeys" value="${esc(f.storeys)}"></label>`);
   let items = '';
   if (T.k === 'receipt') {
