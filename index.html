@@ -2596,7 +2596,7 @@ function certFieldValues(f) {
     amount: pesoWords(total),
     payor: f.payor || '',
     witness: f.witness || '',
-    purpose: don.on ? (paidAny ? 'payment and in-kind donation for' : 'in-kind donation for') : 'payment for',
+    purpose: don.on ? (paidAny ? 'payment and an in-kind donation for' : 'an in-kind donation for') : 'payment for',
     items: FEE_KEYS.map((k) => `<div class="rc-item ${f.items[k].on ? '' : 'unpaid'}"><span class="rc-box">${f.items[k].on ? '✓' : ''}</span><span class="rc-lbl">${esc(t('fee_' + k))}</span><span class="rc-amt">${peso(Number(f.items[k].amt) || 0)}</span></div>`).join('')
       + `<div class="rc-item ${don.on ? '' : 'unpaid'}"><span class="rc-box">${don.on ? '✓' : ''}</span><span class="rc-lbl">${esc(t('fee_donation'))}${don.on && String(don.what || '').trim() ? `: ${esc(String(don.what).trim())}` : ''}</span><span class="rc-amt">${peso(don.on ? Number(don.amt) || 0 : 0)}</span></div>`,
   };
