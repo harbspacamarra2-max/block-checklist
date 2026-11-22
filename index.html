@@ -485,6 +485,10 @@ button.cell:active { transform: scale(0.92); }
 .cert-ed { gap: 14px; }
 .cert-btns { display: grid; gap: 8px; }
 .rowbtn small { display: block; color: var(--sub); font-weight: 600; font-size: 12px; }
+.rc-don { margin-top: 14px; padding: 12px 14px; border-radius: var(--r-md); border: 2.5px dashed var(--edge); background: var(--soft); display: grid; gap: 8px; }
+.rc-don.on { border-style: solid; background: var(--card); }
+.rc-don .ic-label { margin: 0; }
+.rc-don-f[hidden] { display: none; }
 .rc-pick { display: grid; grid-template-columns: minmax(0, 1fr) 100px; gap: 8px; align-items: center; }
 .rc-chk { display: flex; gap: 10px; align-items: center; font-weight: 700; font-size: 14px; }
 .rc-chk input { width: 22px; height: 22px; flex: none; accent-color: var(--grape); }
@@ -752,6 +756,12 @@ const TX = {
     fee_meralco: 'Application of New Electric Meter Base',
     fee_noobj: 'Certificate of No Objection',
     fee_construction: 'Construction Certificate Fee',
+    fee_donation: 'In-kind Donation',
+    cfDonH: 'In-kind donation (optional)',
+    cfDonYes: 'Yes, they are donating',
+    cfDonWhat: 'What was donated',
+    cfDonWhatPh: 'e.g. 2 bags of cement, snacks for the meeting',
+    cfDonAmt: 'Value (₱)',
     cfHon: 'Mr./Ms.',
     cfNone: '(none)',
     cfDate: 'Date',
@@ -1159,6 +1169,12 @@ const TX = {
     fee_meralco: 'Application of New Electric Meter Base',
     fee_noobj: 'Certificate of No Objection',
     fee_construction: 'Construction Certificate Fee',
+    fee_donation: 'In-kind Donation',
+    cfDonH: 'In-kind donation (kung gusto lang)',
+    cfDonYes: 'Oo, magdo-donate sila',
+    cfDonWhat: 'Ano ang dinonate',
+    cfDonWhatPh: 'e.g. 2 sakong semento, merienda sa meeting',
+    cfDonAmt: 'Halaga (₱)',
     cfHon: 'Mr./Ms.',
     cfNone: '(wala)',
     cfDate: 'Petsa',
@@ -2557,12 +2573,15 @@ function certDefaults(h, type) {
   const C = certCfg();
   const items = {};
   FEE_KEYS.forEach((k) => { items[k] = { on: false, amt: Number(C.fees[k]) || 0 }; });
+  items.donation = { on: false, amt: 0, what: '' };
   return { hon: 'Mr./Ms.', name: h.name || '', block: String(h.block || ''), lot: String(h.lot || ''), date: todayIso(), storeys: 2, addr: h.address || '', items, payor: h.name || '', witness: C.witness };
 }
 
 function certFieldValues(f) {
   const p = isoParts(f.date);
-  const total = FEE_KEYS.reduce((a, k) => a + (f.items[k].on ? Number(f.items[k].amt) || 0 : 0), 0);
+  const don = f.items.donation || { on: false, amt: 0, what: '' };
+  const paidAny = FEE_KEYS.some((k) => f.items[k].on);
+  const total = FEE_KEYS.reduce((a, k) => a + (f.items[k].on ? Number(f.items[k].amt) || 0 : 0), 0) + (don.on ? Number(don.amt) || 0 : 0);
   return {
     who: `${f.hon ? f.hon + ' ' : ''}${f.name || '________________'}`,
     name: f.name || 'FIRST NAME, LAST NAME',
@@ -2577,7 +2596,9 @@ function certFieldValues(f) {
     amount: pesoWords(total),
     payor: f.payor || '',
     witness: f.witness || '',
-    items: FEE_KEYS.map((k) => `<div class="rc-item ${f.items[k].on ? '' : 'unpaid'}"><span class="rc-box">${f.items[k].on ? '✓' : ''}</span><span class="rc-lbl">${esc(t('fee_' + k))}</span><span class="rc-amt">${peso(Number(f.items[k].amt) || 0)}</span></div>`).join(''),
+    purpose: don.on ? (paidAny ? 'payment and in-kind donation for' : 'in-kind donation for') : 'payment for',
+    items: FEE_KEYS.map((k) => `<div class="rc-item ${f.items[k].on ? '' : 'unpaid'}"><span class="rc-box">${f.items[k].on ? '✓' : ''}</span><span class="rc-lbl">${esc(t('fee_' + k))}</span><span class="rc-amt">${peso(Number(f.items[k].amt) || 0)}</span></div>`).join('')
+      + `<div class="rc-item ${don.on ? '' : 'unpaid'}"><span class="rc-box">${don.on ? '✓' : ''}</span><span class="rc-lbl">${esc(t('fee_donation'))}${don.on && String(don.what || '').trim() ? `: ${esc(String(don.what).trim())}` : ''}</span><span class="rc-amt">${peso(don.on ? Number(don.amt) || 0 : 0)}</span></div>`,
   };
 }
 
@@ -2657,7 +2678,7 @@ function paperHtml(type) {
     body = `<h1 class="pp-title">ACKNOWLEDGEMENT RECEIPT</h1>
       <div class="pp-body">
         <p data-f="longdate"></p>
-        <p class="ind">This is to acknowledge that I, ${esc(treas)}, HOA Treasurer received the amount of <span data-f="amount"></span> as payment for:</p>
+        <p class="ind">This is to acknowledge that I, ${esc(treas)}, HOA Treasurer received the amount of <span data-f="amount"></span> as <span data-f="purpose"></span>:</p>
         <div class="rc-items" data-f="items" data-html="1"></div>
         <p class="ind">Received from <b data-f="who"></b> a resident of Blk. ${F('block')}, Lot ${F('lot')}${res}.</p>
       </div>
@@ -2704,7 +2725,17 @@ function certEditorHtml(h, type) {
   if (T.k === 'noobj') fields.push(`<label>${t('cfStoreys')}<input class="field" type="number" min="1" max="20" inputmode="numeric" data-cf="storeys" value="${esc(f.storeys)}"></label>`);
   let items = '';
   if (T.k === 'receipt') {
+    if (!f.items.donation) f.items.donation = { on: false, amt: 0, what: '' };
+    const dn = f.items.donation;
     items = `<p class="ic-label">${t('cfPayFor')}</p><div class="stack">${FEE_KEYS.map((k) => `<div class="rc-pick"><label class="rc-chk"><input type="checkbox" data-ci="${k}" ${f.items[k].on ? 'checked' : ''}><span>${esc(t('fee_' + k))}</span></label><input class="field" inputmode="decimal" data-ca="${k}" value="${esc(f.items[k].amt)}" aria-label="${esc(t('fee_' + k))} ₱"></div>`).join('')}</div>
+      <div class="rc-don ${dn.on ? 'on' : ''}">
+        <p class="ic-label">🎁 ${t('cfDonH')}</p>
+        <label class="rc-chk"><input type="checkbox" data-ci="donation" ${dn.on ? 'checked' : ''}><span>${t('cfDonYes')}</span></label>
+        <div class="info rc-don-f" ${dn.on ? '' : 'hidden'}>
+          <label class="full">${t('cfDonWhat')}<input class="field" data-cw="donation" value="${esc(dn.what || '')}" maxlength="80" placeholder="${esc(t('cfDonWhatPh'))}"></label>
+          <label>${t('cfDonAmt')}<input class="field" inputmode="decimal" data-ca="donation" value="${esc(dn.amt || '')}" placeholder="0"></label>
+        </div>
+      </div>
       <p class="rc-total" data-cf-total>${esc(certFieldValues(f).amount)}</p>
       <div class="info"><label>${t('cfPayor')}<input class="field" data-cf="payor" value="${esc(f.payor)}" maxlength="80"></label><label>${t('cfWitness')}<input class="field" data-cf="witness" value="${esc(f.witness)}" maxlength="80"></label></div>`;
   }
@@ -2764,7 +2795,11 @@ document.addEventListener('input', (e) => {
   if (!state.certDraft || !tg.closest || !tg.closest('.cert-ed')) return;
   const f = state.certDraft.f;
   if (tg.dataset.cf) f[tg.dataset.cf] = tg.value;
-  else if (tg.dataset.ci) f.items[tg.dataset.ci].on = tg.checked;
+  else if (tg.dataset.ci) {
+    f.items[tg.dataset.ci].on = tg.checked;
+    if (tg.dataset.ci === 'donation') { const box = tg.closest('.rc-don'); if (box) { box.classList.toggle('on', tg.checked); const fl = box.querySelector('.rc-don-f'); if (fl) fl.hidden = !tg.checked; } }
+  }
+  else if (tg.dataset.cw) f.items[tg.dataset.cw].what = tg.value;
   else if (tg.dataset.ca) f.items[tg.dataset.ca].amt = Number(String(tg.value).replace(/[^\d.]/g, '')) || 0;
   else return;
   const host = document.getElementById('certPaper');
