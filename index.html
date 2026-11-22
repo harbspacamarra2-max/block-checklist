@@ -231,6 +231,16 @@ html.big .hero-top { grid-template-columns: minmax(0, 1fr); }
 .tile b { font-family: var(--display); font-size: 17px; line-height: 1.15; }
 .tile small { color: var(--sub); font-weight: 600; font-size: 13px; line-height: 1.3; }
 .back { justify-self: start; display: inline-flex; align-items: center; gap: 6px; min-height: 42px; padding: 0 16px 0 12px; border-radius: 999px; border: 2px solid var(--edge); background: var(--soft); font-weight: 800; }
+.mem-list { display: grid; gap: 8px; margin: 8px 0 12px; }
+.mem-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 10px 12px; border-radius: var(--r-md); border: 2px solid var(--edge); background: var(--card); }
+.mem-row.editing { display: block; }
+.mem-main { flex: 1 1 180px; min-width: 0; display: grid; gap: 4px; }
+.mem-main b { overflow-wrap: anywhere; }
+.mem-main small { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; opacity: .85; }
+.mem-btns { display: flex; gap: 6px; }
+.mem-btns .btn { min-width: 44px; min-height: 44px; padding: 0 10px; }
+.mem-ask { flex: 1 1 100%; }
+.mem-form { margin-top: 10px; }
 .rowbtn { width: 100%; display: flex; align-items: center; gap: 10px; text-align: left; padding: 12px 14px; border-radius: var(--r-md); border: 2px solid var(--edge); background: var(--card); min-height: 56px; }
 .rowbtn .grow { display: grid; gap: 2px; }
 .rowbtn .chev { font-size: 18px; color: var(--sub); flex: none; }
@@ -657,6 +667,35 @@ const TX = {
     fNotes: 'Notes',
     fNotesPh: 'e.g. New owner. Renting out. With boarder.',
     saveInfo: 'Save details',
+    memH: 'Household members',
+    memNone: 'No members listed yet. Add everyone living in this household.',
+    mName: 'Full name',
+    mDob: 'Date of birth',
+    mRel: 'Relationship',
+    mAdd: 'Add member',
+    mSave: 'Save member',
+    mCancel: 'Cancel',
+    mEdit: 'Edit',
+    mNeedName: 'Type a name first',
+    mAdded: 'Member added ✓',
+    mSaved: 'Member saved ✓',
+    mRemoved: 'Member removed',
+    mDelAsk: (n) => `Remove ${n} from this household?`,
+    mAge: (n) => `${n} yrs old`,
+    mCount: (n) => `${n} ${n === 1 ? 'person' : 'people'}`,
+    mIndHint: 'Updates on its own from the members list',
+    rel_head: 'Head of family',
+    rel_spouse: 'Spouse',
+    rel_child: 'Son / Daughter',
+    rel_parent: 'Parent',
+    rel_sibling: 'Brother / Sister',
+    rel_grandchild: 'Grandchild',
+    rel_inlaw: 'In-law',
+    rel_relative: 'Other relative',
+    rel_helper: 'Helper / Kasambahay',
+    rel_boarder: 'Boarder / Tenant',
+    rel_other: 'Other',
+    rpMembers: 'Members',
     infoSaved: 'Saved ✓',
     certH: 'Certifications',
     certOf: (a, b) => `${a} of ${b}`,
@@ -1034,6 +1073,35 @@ const TX = {
     fNotes: 'Notes',
     fNotesPh: 'e.g. Bagong may-ari. Pinapaupahan. May boarder.',
     saveInfo: 'I-save ang details',
+    memH: 'Mga miyembro ng household',
+    memNone: 'Wala pang nakalistang miyembro. Idagdag lahat ng nakatira dito.',
+    mName: 'Buong pangalan',
+    mDob: 'Petsa ng kapanganakan',
+    mRel: 'Relasyon',
+    mAdd: 'Idagdag',
+    mSave: 'I-save',
+    mCancel: 'Huwag na',
+    mEdit: 'I-edit',
+    mNeedName: 'Ilagay muna ang pangalan',
+    mAdded: 'Naidagdag ✓',
+    mSaved: 'Na-save ✓',
+    mRemoved: 'Natanggal na',
+    mDelAsk: (n) => `Tanggalin si ${n} sa household?`,
+    mAge: (n) => `${n} taong gulang`,
+    mCount: (n) => `${n} katao`,
+    mIndHint: 'Kusang nag-a-update mula sa listahan ng miyembro',
+    rel_head: 'Padre / Madre de pamilya',
+    rel_spouse: 'Asawa',
+    rel_child: 'Anak',
+    rel_parent: 'Magulang',
+    rel_sibling: 'Kapatid',
+    rel_grandchild: 'Apo',
+    rel_inlaw: 'Biyenan / Manugang / Bayaw',
+    rel_relative: 'Ibang kamag-anak',
+    rel_helper: 'Kasambahay',
+    rel_boarder: 'Boarder / Umuupa',
+    rel_other: 'Iba pa',
+    rpMembers: 'Mga miyembro',
     infoSaved: 'Na-save ✓',
     certH: 'Mga certification',
     certOf: (a, b) => `${a} of ${b}`,
@@ -1309,7 +1377,7 @@ function t(k, ...a) {
   return typeof v === 'function' ? v(...a) : v;
 }
 
-const state = { duesYear: Number(store.get('duesYear')) || 0, duesScope: Number(store.get('duesScope')) || 0, list: null, hh: [], user: null, admin: false, owner: false, loaded: false, error: null, q: '', confirm: null, adding: false, openRow: null, view: null, viewList: null, viewErr: false, online: navigator.onLine, myLists: null, myListsFor: null, hhLoaded: false };
+const state = { duesYear: Number(store.get('duesYear')) || 0, duesScope: Number(store.get('duesScope')) || 0, list: null, hh: [], user: null, admin: false, owner: false, loaded: false, error: null, q: '', confirm: null, editMem: null, adding: false, openRow: null, view: null, viewList: null, viewErr: false, online: navigator.onLine, myLists: null, myListsFor: null, hhLoaded: false };
 const $app = document.getElementById('app');
 const I = {
   check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
@@ -1694,7 +1762,7 @@ function go(h) {
   if (location.hash.slice(1) === h) { render(true); return; }
   location.hash = h;
 }
-window.addEventListener('hashchange', () => { if (!location.hash.startsWith('#cert/')) state.certDraft = null; state.confirm = null; state.adding = false; state.openRow = null; render(true); if (!wideMq.matches) window.scrollTo(0, 0); });
+window.addEventListener('hashchange', () => { if (!location.hash.startsWith('#cert/')) state.certDraft = null; state.confirm = null; state.adding = false; state.openRow = null; state.editMem = null; render(true); if (!wideMq.matches) window.scrollTo(0, 0); });
 
 function searchHH(q) {
   const words = norm(q).split(/\s+/).filter(Boolean);
@@ -1801,6 +1869,43 @@ function blocksHtml(r) {
   return blocksPane;
 }
 
+const REL = ['head', 'spouse', 'child', 'parent', 'sibling', 'grandchild', 'inlaw', 'relative', 'helper', 'boarder', 'other'];
+function ageOf(dob) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(dob || '')) return null;
+  const [y, m, d] = dob.split('-').map(Number);
+  const n = new Date();
+  let a = n.getFullYear() - y;
+  if (n.getMonth() + 1 < m || (n.getMonth() + 1 === m && n.getDate() < d)) a--;
+  return a >= 0 ? a : null;
+}
+function memberForm(h, m) {
+  const rel = m ? m.rel : ((h.members || []).length ? 'child' : 'head');
+  return `<div class="info mem-form">
+      <label class="full">${t('mName')}<input id="m-name" class="field" maxlength="80" autocomplete="off" value="${esc(m ? m.name : '')}"></label>
+      <label>${t('mDob')}<input id="m-dob" class="field" type="date" min="1900-01-01" max="${todayIso()}" value="${esc(m ? m.dob : '')}"></label>
+      <label>${t('mRel')}<select id="m-rel" class="field">${REL.map((r) => `<option value="${r}" ${rel === r ? 'selected' : ''}>${esc(t('rel_' + r))}</option>`).join('')}</select></label>
+    </div>
+    <div class="acts"><button class="btn small" data-act="saveMem" data-h="${h.id}" data-v="${m ? m.id : ''}">${I.plus}${m ? t('mSave') : t('mAdd')}</button>${m ? `<button class="btn small alt" data-act="cancelMem">${t('mCancel')}</button>` : ''}</div>`;
+}
+function membersHtml(h) {
+  const M = h.members || [];
+  const editing = M.find((m) => m.id === state.editMem);
+  return `<div class="ic-sec">
+      <h3>👨‍👩‍👧 ${t('memH')} <span class="sub small">${M.length ? esc(t('mCount', M.length)) : ''}</span></h3>
+      ${M.length ? `<div class="mem-list">${M.map((m) => {
+        const age = ageOf(m.dob);
+        if (editing && editing.id === m.id) return `<div class="mem-row editing">${memberForm(h, m)}</div>`;
+        const ask = state.confirm === 'm:' + m.id;
+        return `<div class="mem-row">
+          <div class="mem-main"><b>${esc(m.name)}</b><small><span class="tag">${esc(t('rel_' + (REL.includes(m.rel) ? m.rel : 'other')))}</span>${m.dob ? ` ${esc(longDate(m.dob))}` : ''}${age !== null ? ` · ${esc(t('mAge', age))}` : ''}</small></div>
+          ${ask ? `<div class="mem-ask"><p class="sub small">${esc(t('mDelAsk', m.name))}</p><div class="acts"><button class="btn small danger" data-act="delMem" data-h="${h.id}" data-v="${m.id}">${t('del')}</button><button class="btn small alt" data-act="cancelConfirm">${t('keep')}</button></div></div>`
+            : `<div class="mem-btns"><button class="btn small alt" data-act="editMem" data-v="${m.id}" aria-label="${esc(t('mEdit') + ' ' + m.name)}">✏️</button><button class="btn small danger" data-act="askDelMem" data-v="${m.id}" aria-label="${esc(t('del') + ' ' + m.name)}">${I.trash}</button></div>`}
+        </div>`;
+      }).join('')}</div>` : `<p class="sub small">${t('memNone')}</p>`}
+      ${editing ? '' : memberForm(h, null)}
+    </div>`;
+}
+
 function cardHtml(h) {
   const R = reqs();
   const nB = Math.max(Number(state.list.blocks) || 1, h.block || 1);
@@ -1822,13 +1927,15 @@ function cardHtml(h) {
       <label class="full">${t('fName')}<input id="f-name" class="field" maxlength="80" value="${esc(h.name || '')}"></label>
       <label class="full">${t('fAddr')}<input id="f-addr" class="field" maxlength="120" value="${esc(h.address || '')}" placeholder="${esc(t('fAddrPh'))}"></label>
       <label>${t('fFam')}<input id="f-fam" class="field" type="number" min="0" inputmode="numeric" value="${esc(h.fam ?? '')}"></label>
-      <label>${t('fInd')}<input id="f-ind" class="field" type="number" min="0" inputmode="numeric" value="${esc(h.indiv ?? '')}"></label>
+      <label>${t('fInd')}<input id="f-ind" class="field" type="number" min="0" inputmode="numeric" value="${esc(h.indiv ?? '')}" ${(h.members || []).length ? `readonly title="${esc(t('mIndHint'))}"` : ''}></label>
       <label>${t('fBlock')}<select id="f-blk" class="field">${Array.from({ length: nB }, (_, i) => i + 1).map((b) => `<option value="${b}" ${b === h.block ? 'selected' : ''}>${b}</option>`).join('')}</select></label>
       <label>${t('fLot')}<input id="f-lot" class="field" maxlength="20" value="${esc(h.lot || '')}"></label>
       <label class="full">${t('fPhone')}<input id="f-phone" class="field" type="tel" maxlength="20" value="${esc(h.phone || '')}" placeholder="0917 123 4567"></label>
       <label class="full">${t('fNotes')}<textarea id="f-notes" class="field" maxlength="500" style="min-height:70px;padding-top:10px" placeholder="${esc(t('fNotesPh'))}">${esc(h.notes || '')}</textarea></label>
     </div>
     <button class="btn small" data-act="saveInfo" data-v="${h.id}">${t('saveInfo')}</button>
+
+    ${membersHtml(h)}
 
     <div class="ic-sec">
       <h3>📋 ${t('certH')} <span class="sub small">${R.length ? t('certOf', haveN, R.length) : ''}</span></h3>
@@ -2206,10 +2313,10 @@ function downloadCsv() {
   const R = reqs();
   const start = duesStart();
   const cell = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
-  const rows = [[t('rpBlock'), t('rpLot'), t('rpName'), t('rpAddr'), t('rpFam'), t('rpInd'), t('rpPhone'), ...R.map((r) => r.name), t('rpPaidUntil'), t('rpBehind'), t('rpBalance'), t('rpNotes'), t('rpLink')]];
+  const rows = [[t('rpBlock'), t('rpLot'), t('rpName'), t('rpAddr'), t('rpFam'), t('rpInd'), t('rpMembers'), t('rpPhone'), ...R.map((r) => r.name), t('rpPaidUntil'), t('rpBehind'), t('rpBalance'), t('rpNotes'), t('rpLink')]];
   state.hh.forEach((h) => {
     const c = duesCalc(h.paid, rateOf(h), start);
-    rows.push([h.block, h.lot, h.name, h.address || '', h.fam ?? '', h.indiv ?? '', h.phone || '', ...R.map((r) => ((h.certs || {})[r.id] ? t('yes') : '')), c.until, c.behind, c.balance, h.notes || '', viewUrl(h.token)]);
+    rows.push([h.block, h.lot, h.name, h.address || '', h.fam ?? '', h.indiv ?? '', (h.members || []).map((m) => `${m.name} (${t('rel_' + m.rel)}${m.dob ? ', ' + m.dob : ''})`).join('; '), h.phone || '', ...R.map((r) => ((h.certs || {})[r.id] ? t('yes') : '')), c.until, c.behind, c.balance, h.notes || '', viewUrl(h.token)]);
   });
   const csv = '﻿' + rows.map((r) => r.map(cell).join(',')).join('\r\n');
   const a = document.createElement('a');
@@ -2833,6 +2940,36 @@ const ACTIONS = {
   }),
   copyView: (el) => { const h = hhById(el.dataset.v); if (h) copyText(viewUrl(h.token), t('linkCopied')); },
   qrView: (el) => { const h = hhById(el.dataset.v); if (h) openSheet(`<h2>${esc(t('blkShort', h.block, h.lot))}</h2><div class="qr-prev">${qrSvg(viewUrl(h.token))}<span>${esc(h.name || '')}</span></div><p class="sub small">${t('linkTip')}</p><button class="btn" data-act="closeSheet">${t('done')}</button>`); },
+  saveMem: safe(async (el) => {
+    const h = hhById(el.dataset.h);
+    if (!h) return;
+    const name = val('m-name').replace(/\s+/g, ' ').slice(0, 80);
+    if (!name) { toast(t('mNeedName')); document.getElementById('m-name')?.focus(); return; }
+    let dob = val('m-dob');
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(dob) || dob > todayIso()) dob = '';
+    const rel = REL.includes(val('m-rel')) ? val('m-rel') : 'other';
+    const M = (h.members || []).slice();
+    const id = el.dataset.v;
+    if (id) { const i = M.findIndex((m) => m.id === id); if (i < 0) return; M[i] = { ...M[i], name, dob, rel }; }
+    else M.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), name, dob, rel });
+    blurAll();
+    state.editMem = null;
+    await saveHH(h, { members: M, indiv: M.length }, false);
+    toast(t(id ? 'mSaved' : 'mAdded'));
+    render(true);
+  }),
+  editMem: (el) => { state.editMem = el.dataset.v; state.confirm = null; render(true); setTimeout(() => document.getElementById('m-name')?.focus(), 30); },
+  cancelMem: () => { state.editMem = null; render(true); },
+  askDelMem: (el) => { state.confirm = 'm:' + el.dataset.v; state.editMem = null; render(true); },
+  delMem: safe(async (el) => {
+    const h = hhById(el.dataset.h);
+    if (!h) return;
+    const M = (h.members || []).filter((m) => m.id !== el.dataset.v);
+    state.confirm = null;
+    await saveHH(h, { members: M, indiv: M.length || null }, false);
+    toast(t('mRemoved'));
+    render(true);
+  }),
   askDelHH: (el) => { state.confirm = 'h:' + el.dataset.v; render(true); },
   cancelConfirm: () => { state.confirm = null; render(true); },
   delHH: safe(async (el) => {
