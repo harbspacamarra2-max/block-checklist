@@ -667,6 +667,7 @@ const TX = {
     fNotes: 'Notes',
     fNotesPh: 'e.g. New owner. Renting out. With boarder.',
     saveInfo: 'Save details',
+    draftBack: 'Brought back what you were typing ✍️',
     memH: 'Household members',
     memNone: 'No members listed yet. Add everyone living in this household.',
     mName: 'Full name',
@@ -1073,6 +1074,7 @@ const TX = {
     fNotes: 'Notes',
     fNotesPh: 'e.g. Bagong may-ari. Pinapaupahan. May boarder.',
     saveInfo: 'I-save ang details',
+    draftBack: 'Ibinalik ang tina-type mo kanina ✍️',
     memH: 'Mga miyembro ng household',
     memNone: 'Wala pang nakalistang miyembro. Idagdag lahat ng nakatira dito.',
     mName: 'Buong pangalan',
@@ -1638,6 +1640,55 @@ function typing() {
 }
 document.addEventListener('focusout', () => setTimeout(() => { if (pending && !typing()) render(); }, 0));
 
+// Drafts: anything typed is kept in this browser until it is saved, so closing the page by accident loses nothing.
+const draftKey = () => 'kb-draft:' + (cid || '-') + ':' + (location.hash || '#');
+function readDraft() { try { return JSON.parse(store.get(draftKey()) || '{}') || {}; } catch { return {}; } }
+function writeDraft(d) { store.set(draftKey(), Object.keys(d).length ? JSON.stringify(d) : ''); }
+function draftable(el) {
+  return !!el && !!el.id && /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName) && $app.contains(el) && !el.readOnly
+    && !['password', 'file', 'search', 'checkbox', 'radio', 'hidden'].includes(el.type) && !(el.closest && el.closest('.cert-ed'));
+}
+function initialOf(el) {
+  if (el.tagName === 'SELECT') { const o = [...el.options].find((x) => x.defaultSelected) || el.options[0]; return o ? o.value : ''; }
+  return el.defaultValue;
+}
+function clearDraft(...ids) {
+  const d = readDraft();
+  ids.forEach((id) => { delete d[id]; if (id === 'm-name') delete d._editMem; if (id === 'newLot') delete d._adding; });
+  writeDraft(d);
+}
+function noteDraft(el) {
+  if (!draftable(el)) return;
+  const d = readDraft();
+  if (el.value === initialOf(el)) delete d[el.id]; else d[el.id] = el.value;
+  if (el.id.startsWith('m-')) { if (Object.keys(d).some((k) => k.startsWith('m-'))) d._editMem = state.editMem || ''; else delete d._editMem; }
+  if (el.id === 'newLot' || el.id === 'newName') { if (d.newLot || d.newName) d._adding = 1; else delete d._adding; }
+  writeDraft(d);
+}
+function draftUiState() {
+  const d = readDraft();
+  if (d._editMem && state.editMem == null) state.editMem = d._editMem;
+  if (d._adding) state.adding = true;
+}
+let draftToasted = false;
+function restoreDraft() {
+  const d = readDraft();
+  let n = 0, changed = false;
+  Object.keys(d).forEach((id) => {
+    if (id[0] === '_') return;
+    const el = document.getElementById(id);
+    if (!draftable(el)) return;
+    if (d[id] === initialOf(el)) { delete d[id]; changed = true; return; }
+    if (el.value !== d[id]) { el.value = d[id]; n++; }
+  });
+  if (changed) writeDraft(d);
+  if (n && !draftToasted) { draftToasted = true; toast(t('draftBack')); }
+}
+document.addEventListener('input', (e) => noteDraft(e.target));
+document.addEventListener('change', (e) => noteDraft(e.target));
+const certStoreKey = (key) => 'kb-cert:' + (cid || '-') + ':' + key;
+function persistCert() { if (state.certDraft) store.set(certStoreKey(state.certDraft.key), JSON.stringify(state.certDraft)); }
+
 function render(force) {
   if (!state.loaded) return;
   if (!force && typing()) { pending = true; return; }
@@ -1647,10 +1698,12 @@ function render(force) {
   if (inbox) { renderInbox(); return; }
   if (duesToken) { renderDuesPage(); return; }
   if (state.error) { $app.innerHTML = `${topBar()}<div class="sticker empty"><div class="icon">📶</div><h2>${esc(t(state.error))}</h2></div>`; return; }
-  if (!cid) { renderLanding(); return; }
+  if (!cid) { renderLanding(); restoreDraft(); return; }
   if (!state.list) { renderNotFound(); return; }
   if (!state.admin) { renderGate(); return; }
+  draftUiState();
   renderAdmin();
+  restoreDraft();
 }
 
 function renderNotFound() {
@@ -2632,7 +2685,12 @@ function certKey(hid, type) { return hid + '/' + type; }
 function certEditorHtml(h, type) {
   const T = CERT_TYPES.find((x) => x.k === type) || CERT_TYPES[0];
   const key = certKey(h.id, T.k);
-  if (!state.certDraft || state.certDraft.key !== key) state.certDraft = { key, f: certDefaults(h, T.k), html: null };
+  if (!state.certDraft || state.certDraft.key !== key) {
+    let saved = null;
+    try { saved = JSON.parse(store.get(certStoreKey(key)) || 'null'); } catch {}
+    state.certDraft = saved && saved.key === key && saved.f ? saved : { key, f: certDefaults(h, T.k), html: null };
+    if (saved && saved.f && !draftToasted) { draftToasted = true; setTimeout(() => toast(t('draftBack')), 300); }
+  }
   const f = state.certDraft.f;
   const C = certCfg();
   const missing = !C.president || !(state.list && state.list.certLogo);
@@ -2697,6 +2755,7 @@ window.addEventListener('resize', () => fitCert());
 function saveCertHtml() {
   const host = document.getElementById('certPaper');
   if (host && state.certDraft) state.certDraft.html = host.innerHTML;
+  persistCert();
 }
 
 document.addEventListener('input', (e) => {
@@ -2709,7 +2768,7 @@ document.addEventListener('input', (e) => {
   else if (tg.dataset.ca) f.items[tg.dataset.ca].amt = Number(String(tg.value).replace(/[^\d.]/g, '')) || 0;
   else return;
   const host = document.getElementById('certPaper');
-  if (host) { applyCertFields(host, f); saveCertHtml(); }
+  if (host) { applyCertFields(host, f); saveCertHtml(); } else persistCert();
   const tot = document.querySelector('[data-cf-total]');
   if (tot) tot.textContent = certFieldValues(f).amount;
 });
@@ -2838,6 +2897,7 @@ const ACTIONS = {
   create: async () => {
     if (!state.user) { await signIn(); return; }
     const title = val('newTitle') || t('defTitle');
+    clearDraft('newTitle');
     const ref = doc(collection(db, 'checklists'));
     try {
       await setDoc(ref, { title, ownerUid: state.user.uid, editors: [], requirements: TX.en.certs.map(([, n]) => ({ id: rid(), name: n, note: '' })), blocks: 1, duesStart: '2021-01', duesRate: 0, announcement: '', createdAt: serverTimestamp(), updatedAt: serverTimestamp() });
@@ -2860,7 +2920,7 @@ const ACTIONS = {
     toast(t('blockAdded', n));
   }),
   startAdd: () => { state.adding = true; render(true); const el = document.getElementById('newLot'); if (el) el.focus(); },
-  cancelAdd: () => { state.adding = false; blurAll(); render(true); },
+  cancelAdd: () => { clearDraft('newLot', 'newName'); state.adding = false; blurAll(); render(true); },
   saveNewHH: safe(async () => {
     const r = route();
     const blk = r.block || (r.hid && hhById(r.hid) ? hhById(r.hid).block : null);
@@ -2875,6 +2935,7 @@ const ACTIONS = {
     state.adding = false;
     blurAll();
     await batch.commit();
+    clearDraft('newLot', 'newName');
     toast(t('hhAdded', name || t('blkShort', blk, lot)));
     go('h/' + ref.id);
   }),
@@ -2885,6 +2946,7 @@ const ACTIONS = {
     const patch = { name: val('f-name').slice(0, 80), address: val('f-addr').slice(0, 120), fam: num('f-fam'), indiv: num('f-ind'), block: Number(val('f-blk')) || h.block, lot: val('f-lot').slice(0, 20) || h.lot, phone: val('f-phone').slice(0, 20), notes: val('f-notes').slice(0, 500) };
     blurAll();
     await saveHH(h, patch, true);
+    clearDraft('f-name', 'f-addr', 'f-fam', 'f-ind', 'f-blk', 'f-lot', 'f-phone', 'f-notes');
     toast(t('infoSaved'));
   }),
   cert: safe(async (el) => {
@@ -2928,6 +2990,7 @@ const ACTIONS = {
     for (let m = duesStart(), i = 0; m <= to && i < 1200; m = ymAdd(m, 1), i++) paid[m] = true;
     blurAll();
     await saveHH(h, { paid }, true);
+    clearDraft('f-upto');
     toast(t('upToDone', fmtYm(to)));
   }),
   saveRate: safe(async (el) => {
@@ -2936,6 +2999,7 @@ const ACTIONS = {
     const v = Number(val('f-rate').replace(/[^\d.]/g, '')) || null;
     blurAll();
     await saveHH(h, { rate: v }, true);
+    clearDraft('f-rate');
     toast(t('rateSaved'));
   }),
   copyView: (el) => { const h = hhById(el.dataset.v); if (h) copyText(viewUrl(h.token), t('linkCopied')); },
@@ -2955,11 +3019,12 @@ const ACTIONS = {
     blurAll();
     state.editMem = null;
     await saveHH(h, { members: M, indiv: M.length }, false);
+    clearDraft('m-name', 'm-dob', 'm-rel');
     toast(t(id ? 'mSaved' : 'mAdded'));
     render(true);
   }),
-  editMem: (el) => { state.editMem = el.dataset.v; state.confirm = null; render(true); setTimeout(() => document.getElementById('m-name')?.focus(), 30); },
-  cancelMem: () => { state.editMem = null; render(true); },
+  editMem: (el) => { clearDraft('m-name', 'm-dob', 'm-rel'); state.editMem = el.dataset.v; state.confirm = null; render(true); setTimeout(() => document.getElementById('m-name')?.focus(), 30); },
+  cancelMem: () => { clearDraft('m-name', 'm-dob', 'm-rel'); state.editMem = null; render(true); },
   askDelMem: (el) => { state.confirm = 'm:' + el.dataset.v; state.editMem = null; render(true); },
   delMem: safe(async (el) => {
     const h = hhById(el.dataset.h);
@@ -3002,9 +3067,10 @@ const ACTIONS = {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   },
   certType: (el) => { const r = route(); if (r.cert) go(`cert/${r.cert.hid}/${el.dataset.v}`); },
-  certReset: () => { state.certDraft = null; render(true); },
+  certReset: () => { if (state.certDraft) store.set(certStoreKey(state.certDraft.key), ''); state.certDraft = null; render(true); },
   certPrint: (el) => {
     printCert(el.dataset.v);
+    if (state.certDraft) store.set(certStoreKey(state.certDraft.key), '');
     markIssued(el.dataset.h, el.dataset.v);
     toast(t('cfMarked'));
   },
@@ -3040,6 +3106,7 @@ const ACTIONS = {
     const name = el.value.trim();
     if (!name) { el.focus(); return; }
     el.value = '';
+    clearDraft('newReq');
     blurAll();
     await saveReqs([...reqs(), { id: rid(), name, note: '' }]);
     toast(t('reqAdded'));
@@ -3121,6 +3188,7 @@ const ACTIONS = {
     const data = (hasHead ? rows.slice(1) : rows).map((r) => ({ block: r[cB], lot: r[cL], name: cN >= 0 ? r[cN] : '', address: cA >= 0 ? r[cA] : '', fam: cF >= 0 ? r[cF] : '', indiv: cI >= 0 ? r[cI] : '', phone: cP >= 0 ? r[cP] : '' }));
     const res = await importRows(data);
     if (!res.n && !res.skip) { toast(t('importNone')); return; }
+    clearDraft('csvText');
     toast(t('imported', res.n, res.skip));
     go('blocks');
   }),
@@ -3136,6 +3204,7 @@ const ACTIONS = {
     const editors = [...new Set([...(state.list.editors || []), email])];
     blurAll();
     await updateDoc(listRef(), { editors, updatedAt: serverTimestamp() });
+    clearDraft('edIn');
     toast(t('teamAdded'));
   }),
   removeEditor: safe(async (el) => {
