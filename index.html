@@ -2368,6 +2368,8 @@ function qrSvg(text) {
 }
 
 function printWith(html) {
+  const st = document.getElementById('pageCss');
+  if (st) st.textContent = '';
   document.getElementById('print').innerHTML = html;
   setTimeout(() => window.print(), 60);
 }
@@ -2857,8 +2859,9 @@ function printCert(type) {
   const out = document.getElementById('print');
   out.innerHTML = '';
   out.appendChild(copy);
-  const done = () => { st.textContent = ''; window.removeEventListener('afterprint', done); };
-  window.addEventListener('afterprint', done);
+  // Keep the zero-margin page rule until the next non-certificate print. Phones and tablets prepare the
+  // print after window.print() returns (afterprint fires early there), so clearing it on afterprint let
+  // the browser's date and page title header sneak back onto certificates.
   const imgs = [...copy.querySelectorAll('img')];
   Promise.all(imgs.map((im) => (im.complete ? 0 : new Promise((r) => { im.onload = im.onerror = r; })))).then(() => setTimeout(() => window.print(), 60));
 }
